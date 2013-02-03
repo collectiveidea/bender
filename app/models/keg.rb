@@ -1,6 +1,14 @@
 class Keg < ActiveRecord::Base
   attr_accessible :name, :description, :capacity
 
+  # Capacity is stored in fluid ounces
+  KEG_CAPACITIES = [
+    ['1/2 Barrel', 1980],
+    ['1/4 Barrel', 984],
+    ['1/6 Barrel', 636],
+    ['Home Brew', 636]
+  ]
+
   belongs_to :beer_tap
 
   has_many :pours

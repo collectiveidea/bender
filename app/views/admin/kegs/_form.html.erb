@@ -3,3 +3,6 @@
 
 <%= f.label :description %>
 <%= f.text_area :description %>
+
+<%= f.label :capacity %>
+<%= f.select :capacity, Keg::KEG_CAPACITIES, :include_blank => true %>
