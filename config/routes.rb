@@ -9,4 +9,6 @@ Bender::Application.routes.draw do
     end
   end
 
+  root :to => 'homepage#index'
+
 end

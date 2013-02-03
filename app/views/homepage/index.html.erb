@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="span1"></div>
+  <div class="span7">
+    <% @beer_taps.each do |tap| %>
+      <div class="hero-unit">
+        <h2><%= link_to 'Beer Me', '#', class: 'btn btn-primary btn-large pull-right' if tap.active_keg %><%= tap.name %>: <%= tap.active_keg.try(:name) || 'Offline' %></h2>
+        <% if keg = tap.active_keg %>
+          <div class="row">
+            <div class="span4 well">
+              <h4>Highlight here</h4>
+            </div>
+            <div class="span4 well">
+              <h4>Highlight here</h4>
+            </div>
+            <div class="span4 well">
+              <h4>Highlight here</h4>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="span3">
+    <div class="well">
+      Someone did something
+    </div>
+    <div class="well">
+      Someone did something
+    </div>
+    <div class="well">
+      Someone did something
+    </div>
+    <div class="well">
+      Someone did something
+    </div>
+  </div>
+  <div class="span1"></div>
+</div>
