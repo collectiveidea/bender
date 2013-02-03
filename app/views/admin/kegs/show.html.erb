@@ -1,6 +1,11 @@
 <div class="page-header">
   <div class="pull-right">
-    <%= link_to 'Edit', [:edit, :admin, @keg], :class => 'btn' %>
+    <% if @keg.active? %>
+    <%= link_to 'Untap Keg', [:admin, @keg, :tap], method: :delete, class: 'btn btn-danger' %>
+    <% else %>
+    <%= link_to 'Tap Keg', [:admin, @keg, :tap], class: 'btn btn-primary' %>
+    <% end %>
+    <%= link_to 'Edit', [:edit, :admin, @keg], class: 'btn' %>
   </div>
   <h1>Admin Keg: <%= @keg.name %></h1>
 </div>

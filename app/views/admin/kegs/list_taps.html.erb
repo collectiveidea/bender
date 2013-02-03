@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h1>Tap Keg: <%= @keg.name %></h1>
+</div>
+
+<%= errors_for(@keg) %>
+
+<%= form_for @keg, url: admin_keg_tap_path(@keg), method: 'put' do |f| %>
+  <%= f.label :beer_tap_id, 'What tap are we using?' %>
+  <%= f.select :beer_tap_id, @beer_taps %>
+
+  <div class="form-actions">
+    <%= f.submit 'Tap that keg', :class => 'btn btn-primary' %>
+    <%= link_to 'Never mind', [:admin, @keg], :class => 'btn' %>
+  </div>
+<% end %>

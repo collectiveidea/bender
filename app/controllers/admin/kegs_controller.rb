@@ -32,5 +32,26 @@ class Admin::KegsController < ApplicationController
       render :edit
     end
   end
-  
+
+  def list_taps
+    @keg = Keg.find(params[:keg_id])
+    @beer_taps = BeerTap.for_select
+  end
+
+  def tap_keg
+    @keg = Keg.find(params[:keg_id])
+    if @keg.tap_it(params[:keg].try(:[], :beer_tap_id))
+      redirect_to [:admin, @keg]
+    else
+      @beer_taps = BeerTap.for_select
+      render :list_taps
+    end
+  end
+
+  def untap_keg
+    @keg = Keg.find(params[:keg_id])
+    @keg.untap_it
+    redirect_to [:admin, @keg]
+  end
+
 end

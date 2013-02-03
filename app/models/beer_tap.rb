@@ -3,4 +3,8 @@ class BeerTap < ActiveRecord::Base
 
   has_many :kegs
   has_one :active_keg, class_name: 'Keg', conditions: {active: true}
+
+  def self.for_select
+    all.map {|tap| [tap.name, tap.id] }
+  end
 end

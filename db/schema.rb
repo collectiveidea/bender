@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203192459) do
+ActiveRecord::Schema.define(:version => 20130203212003) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20130203192459) do
     t.integer  "capacity"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.datetime "started_at"
+    t.datetime "finished_at"
   end
 
   add_index "kegs", ["beer_tap_id"], :name => "index_kegs_on_beer_tap_id"
