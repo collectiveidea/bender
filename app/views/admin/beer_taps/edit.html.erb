@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1>Edit Tap: <%= @beer_tap.name %></h1>
+</div>
+
+<%= errors_for(@beer_tap) %>
+
+<%= form_for [:admin, @beer_tap] do |f| %>
+  <%= render 'form', {f: f} %>
+
+  <div class="form-actions">
+    <%= f.submit 'Update', :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', [:admin, @beer_tap], :class => 'btn' %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1>New Tap</h1>
+</div>
+
+<%= errors_for(@beer_tap) %>
+
+<%= form_for [:admin, @beer_tap] do |f| %>
+  <%= render 'form', {f: f} %>
+
+  <div class="form-actions">
+    <%= f.submit 'Create', :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', admin_beer_taps_path, :class => 'btn' %>
+  </div>
+<% end %>

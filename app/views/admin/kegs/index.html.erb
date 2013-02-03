@@ -1,0 +1,12 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'New', new_admin_keg_path, :class => 'btn' %>
+  </div>
+  <h1>Admin Kegs</h1>
+</div>
+
+<ul class="unstyled">
+  <% @kegs.each do |keg| %>
+    <li><%= link_to keg.name, [:admin, keg] %>
+  <% end %>
+</ul>
