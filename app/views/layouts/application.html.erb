@@ -1,14 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bender</title>
+  <title>[i] Kegerator</title>
+  <meta charset="utf-8">
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <%= link_to '[i] Kegerator', root_path, class: 'brand' %>
+        <div class="nav-collapse collapse">
+          <p class="navbar-text pull-right">
+            Logged in as <a href="#" class="navbar-link">Username</a>
+          </p>
+          <ul class="nav">
+            <li><%= link_to 'Kegs', '#' %></li>
+            <li><%= link_to 'Stats', '#' %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" id="main">
+    <div class="row-fluid">
+      <div class="span12">
+        <%= yield %>
+      </div>
+    </div>
+
+    <footer>
+      <%= image_tag 'negative-mi.png', alt: 'Made in Michigan' %>
+      <span>Lovingly crafted in Michigan.<br>&copy; <%= Time.now.year %> <%= link_to '[i] Collecitve Idea', 'http://collectiveidea.com/' %>.</span>
+    </footer>
+  </div>
 
 </body>
 </html>
