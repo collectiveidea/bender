@@ -5,7 +5,7 @@ namespace :bender do
       temp_sensor = TemperatureSensor.where(code: id).first
       temp_sensor ||= TemperatureSensor.create(name: id, code: id)
       begin
-        temp_sensor.temperature_readings.create(reading: sensor.c)
+        temp_sensor.temperature_readings.create(temp_c: sensor.c)
       rescue Temp::ReadingFailed => e
         puts "Could not read temperature on #{id}\n#{e.message}"
       end
