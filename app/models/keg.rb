@@ -14,6 +14,14 @@ class Keg < ActiveRecord::Base
   has_many :pours
   has_one :active_pour, class_name: 'Pour', conditions: {finished_at: nil}
 
+  def poured
+    @poured ||= pours.sum(:volume)
+  end
+
+  def remaining
+    self.capacity - poured
+  end
+
   def tap_it(tap_id)
     if tap_id.blank?
       self.errors.add(:beer_tap_id, 'needs to be seleced')

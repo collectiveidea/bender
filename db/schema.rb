@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203212003) do
+ActiveRecord::Schema.define(:version => 20130203212110) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
@@ -33,5 +33,17 @@ ActiveRecord::Schema.define(:version => 20130203212003) do
   end
 
   add_index "kegs", ["beer_tap_id"], :name => "index_kegs_on_beer_tap_id"
+
+  create_table "pours", :force => true do |t|
+    t.integer  "keg_id"
+    t.integer  "sensor_ticks"
+    t.decimal  "volume",       :precision => 6, :scale => 2
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  add_index "pours", ["keg_id"], :name => "index_pours_on_keg_id"
 
 end
