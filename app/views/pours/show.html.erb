@@ -1,0 +1,26 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'Return', root_path, :class => 'btn' %>
+  </div>
+  <h1>Pour Started</h1>
+</div>
+
+<div id="in-progress-pour">
+  <% if @pour.volume %>
+  You have poured <span><%= '%0.2f' % @pour.volume %> oz.
+  <% end %>
+</div>
+
+<%= link_to 'Finished', root_path, :class => 'btn btn-primary' %>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+  setInterval(function() {
+    $.ajax({
+      url: "<%= pour_volume_path(@pour)%>"
+    }).success(function(data, status, xhr) {
+      $('#in-progress-pour').html(data)
+    })
+  }, 2000);
+})
+</script>

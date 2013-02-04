@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204001804) do
+ActiveRecord::Schema.define(:version => 20130204023219) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130204001804) do
     t.datetime "finished_at"
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
+    t.integer  "user_id"
   end
 
   add_index "pours", ["keg_id"], :name => "index_pours_on_keg_id"
@@ -58,6 +59,12 @@ ActiveRecord::Schema.define(:version => 20130204001804) do
   create_table "temperature_sensors", :force => true do |t|
     t.string   "name"
     t.string   "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

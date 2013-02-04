@@ -4,7 +4,7 @@
       <div class="hero-unit">
         <h2><%= tap.name %>: <%= tap.active_keg.try(:name) || 'Offline' %></h2>
         <% if keg = tap.active_keg %>
-          <div class="row">
+          <div class="row-fluid">
             <div class="span3 well">
               <h4><%= '%0.1f' % keg.poured %> oz</h4>
               <small>Poured</small>
@@ -16,10 +16,10 @@
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
             <div class="span3 well">
               <h4><%= '%0.1f' % reading.temp_f %>&deg;F</h4>
-              Temperature
+              <small>Temperature</small>
             </div>
             <% end %>
-            <%= link_to '#', class: 'span3 well alert-info' do %>
+            <%= link_to new_pour_path(beer_tap_id: tap.id), class: 'span3 well alert-info' do %>
               <h2>Beer Me!</h2>
             <% end %>
           </div>

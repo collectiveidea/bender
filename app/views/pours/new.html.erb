@@ -1,0 +1,14 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'Return', root_path, :class => 'btn' %>
+  </div>
+  <h1>Who are you?</h1>
+</div>
+
+<ul class="unstyled">
+  <li><%= link_to 'Guest', pours_path(user_id: 0), method: 'post' %></li>
+  <li><%= link_to 'New User', new_user_path %></li>
+  <% @users.each do |user| %>
+    <li><%= link_to user.name, pours_path(beer_tap_id: params[:beer_tap_id], user_id: user.id), method: 'post' %></li>
+  <% end %>
+</ul>

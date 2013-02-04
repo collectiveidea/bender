@@ -22,6 +22,13 @@ class Keg < ActiveRecord::Base
     self.capacity - poured
   end
 
+  def start_pour(user)
+    pour = active_pour || pours.new
+    pour.user = user
+    pour.save
+    pour
+  end
+
   def tap_it(tap_id)
     if tap_id.blank?
       self.errors.add(:beer_tap_id, 'needs to be seleced')

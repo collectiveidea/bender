@@ -9,6 +9,11 @@ Bender::Application.routes.draw do
     end
   end
 
+  resources :pours do
+    get 'volume' => 'pours#volume'
+  end
+  resources :users
+
   root :to => 'homepage#index'
 
 end
