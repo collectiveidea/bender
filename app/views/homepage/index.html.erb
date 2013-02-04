@@ -1,12 +1,11 @@
-<div class="row">
-  <div class="span1"></div>
-  <div class="span7">
+<div class="row-fluid">
+  <div class="span9">
     <% @beer_taps.each do |tap| %>
       <div class="hero-unit">
-        <h2><%= link_to 'Beer Me', '#', class: 'btn btn-primary btn-large pull-right' if tap.active_keg %><%= tap.name %>: <%= tap.active_keg.try(:name) || 'Offline' %></h2>
+        <h2><%= tap.name %>: <%= tap.active_keg.try(:name) || 'Offline' %></h2>
         <% if keg = tap.active_keg %>
           <div class="row">
-            <div class="span3 offset1 well">
+            <div class="span3 well">
               <h4><%= '%0.1f' % keg.poured %> oz</h4>
               <small>Poured</small>
             </div>
@@ -14,9 +13,15 @@
               <h4><%= keg.remaining.round %> oz</h4>
               <small>Remaining</small>
             </div>
+            <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
             <div class="span3 well">
-              <h4>Highlight here</h4>
+              <h4><%= '%0.1f' % reading.temp_f %>&deg;F</h4>
+              Temperature
             </div>
+            <% end %>
+            <%= link_to '#', class: 'span3 well alert-info' do %>
+              <h2>Beer Me!</h2>
+            <% end %>
           </div>
         <% end %>
       </div>

@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203212110) do
+ActiveRecord::Schema.define(:version => 20130204001804) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
     t.integer  "gpio_pin"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.integer  "temperature_sensor_id"
   end
 
   create_table "kegs", :force => true do |t|
@@ -45,5 +46,20 @@ ActiveRecord::Schema.define(:version => 20130203212110) do
   end
 
   add_index "pours", ["keg_id"], :name => "index_pours_on_keg_id"
+
+  create_table "temperature_readings", :force => true do |t|
+    t.integer  "temperature_sensor_id"
+    t.decimal  "reading",               :precision => 5, :scale => 2
+    t.datetime "created_at"
+  end
+
+  add_index "temperature_readings", ["temperature_sensor_id"], :name => "index_temperature_readings_on_temperature_sensor_id"
+
+  create_table "temperature_sensors", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

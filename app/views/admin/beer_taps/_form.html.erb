@@ -3,3 +3,6 @@
 
 <%= f.label :gpio_pin, 'GPIO Pin' %>
 <%= f.text_field :gpio_pin %>
+
+<%= f.label :temperature_sensor_id %>
+<%= f.select :temperature_sensor_id, TemperatureSensor.for_select, include_blank: true %>
