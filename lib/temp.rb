@@ -20,8 +20,10 @@ class Temp
     @sensors || discover
   end
 
+  class ReadingFailed < StandardError; end
+
   class Sensor
-    TEMP_REGEX = /^t=([0-9]+)$/
+    TEMP_REGEX = /^t=(\-?[0-9]+)$/
     attr_reader :name, :id
 
     def initialize(path)
@@ -49,16 +51,28 @@ class Temp
     end
 
     def read
-      output = File.read(@path)
-      parts = output.split
-      if parts.include?('YES')
-        if parts.detect {|p| TEMP_REGEX =~ p }
-          @value = $1.to_i / 1000.0
+      @tries = 0
+      begin
+        output = File.read(@path)
+        parts = output.split
+        if parts.include?('YES')
+          if parts.detect {|p| TEMP_REGEX =~ p }
+            @value = $1.to_i / 1000.0
+          else
+            raise ReadingFailed, "No temp found #{Time.now} #{@id}\n#{output}\n\n"
+          end
         else
-          puts "No temp found #{Time.now} #{@id}\n#{output}\n\n"
+          raise ReadingFailed, "CRC Failed #{Time.now} #{@id}"
         end
-      else
-        puts "CRC Failed #{Time.now} #{@id}"
+      rescue ReadingFailed => error
+        @tries += 1
+
+        if @tries <= 5 && /^CRC/ =~ error.message
+          sleep 1
+          retry
+        else
+          raise
+        end
       end
     end
   end

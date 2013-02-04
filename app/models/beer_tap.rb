@@ -9,4 +9,50 @@ class BeerTap < ActiveRecord::Base
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }
   end
+
+  def self.monitor
+    all.each do |tap|
+      tap.monitor
+    end
+    while true; sleep 60; end
+  end
+
+  def monitor
+    return unless active_keg
+
+    Thread.new do
+      @ticks = 0
+      @first_tick = Time.now
+      @last_tick = Time.now
+
+      GPIO.watch(:pin => gpio_pin) do |pin|
+        if pin.value == 1
+          @ticks += 1
+          @last_tick = Time.now
+          @first_tick = Time.now if @ticks == 1
+        end
+      end
+
+      loop do
+        # Waiting for a pour to begin
+        while @ticks == 0
+          sleep 1
+        end
+
+        pour = active_keg.pours.create(sensor_ticks: @ticks, volume: @ticks * floz_per_tick, started_at: @first_tick)
+
+        # Waiting for pour to finish
+        while @last_tick > (Time.now - 10)
+          sleep 1
+          pour.update_attributes(sensor_ticks: @ticks, volume: @ticks * floz_per_tick)
+        end
+
+        ticks = @ticks
+        last_tick = @last_tick
+        @ticks = 0
+
+        pour.update_attributes(sensor_ticks: ticks, volume: ticks * floz_per_tick, finished_at: last_tick)
+      end
+    end
+  end
 end
