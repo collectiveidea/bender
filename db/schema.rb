@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204184410) do
+ActiveRecord::Schema.define(:version => 20130204185417) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130204184410) do
     t.integer  "temperature_sensor_id"
     t.decimal  "temp_c",                :precision => 6, :scale => 3
     t.datetime "created_at"
+    t.decimal  "temp_f",                :precision => 6, :scale => 3
   end
 
   add_index "temperature_readings", ["temperature_sensor_id"], :name => "index_temperature_readings_on_temperature_sensor_id"

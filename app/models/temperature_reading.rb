@@ -3,7 +3,9 @@ class TemperatureReading < ActiveRecord::Base
 
   belongs_to :temperature_sensor
 
-  def temp_f
-    (temp_c * 9 / 5) + 32
+  def temp_c=(val)
+    super
+    self.temp_f = (temp_c * 9 / 5) + 32
+    val
   end
 end
