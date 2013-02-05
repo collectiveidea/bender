@@ -1,0 +1,12 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'Return', root_path, :class => 'btn' %>
+  </div>
+  <h1><%= @keg.name %></h1>
+</div>
+
+<div id="temp-chart"></div>
+
+<script type="text/javascript" charset="utf-8">
+  $.temp_chart(<%= @keg.temp_data.html_safe %>);
+</script>

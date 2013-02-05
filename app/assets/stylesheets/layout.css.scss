@@ -19,3 +19,26 @@ body {
     vertical-align: top;
   }
 }
+
+svg {
+  .axis path {
+    fill: none;
+    shape-rendering: crispEdges;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .y.axis line {
+    stroke-opacity: .2;
+  }
+}

@@ -2,7 +2,7 @@
   <div class="span9">
     <% @beer_taps.each do |tap| %>
       <div class="hero-unit">
-        <h2><%= tap.name %>: <%= tap.active_keg.try(:name) || 'Offline' %></h2>
+        <h2><%= homepage_tap_header(tap) %></h2>
         <% if keg = tap.active_keg %>
           <div class="row-fluid">
             <div class="span3 well">

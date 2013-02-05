@@ -9,6 +9,7 @@ Bender::Application.routes.draw do
     end
   end
 
+  resources :kegs
   resources :pours do
     get 'volume' => 'pours#volume'
   end
