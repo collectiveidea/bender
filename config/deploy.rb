@@ -16,8 +16,9 @@ role :db,  hostname, :primary => true
 
 
 # SCM Settings
-set :scm,           :git
-set :repository,    "git://github.com/collectiveidea/bender.git"
+set :scm,        :git
+set :repository, "git://github.com/collectiveidea/bender.git"
+set :deploy_via, :remote_cache
 
 # Deployment Settings
 set :deploy_to,    "/app/bender"
