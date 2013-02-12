@@ -30,6 +30,8 @@ gem 'thin'
 # Deployment
 gem "capistrano", group: :development
 
+gem 'god', require: false
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
