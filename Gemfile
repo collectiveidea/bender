@@ -23,6 +23,10 @@ end
 gem 'jquery-rails'
 gem 'd3js-rails'
 
+# Deployment
+gem "capistrano", group: :development
+
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
