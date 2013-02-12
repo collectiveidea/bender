@@ -8,6 +8,7 @@ God.watch do |w|
   w.env   = {"RAILS_ENV" => "production"}
   w.log   = File.expand_path("../../log/temp_monitor.log", __FILE__)
   w.dir   = File.expand_path("../..", __FILE__)
+  w.keepalive
 end
 
 God.watch do |w|
@@ -18,4 +19,5 @@ God.watch do |w|
   w.env   = {"RAILS_ENV" => "production"}
   w.log   = File.expand_path("../../log/tap_monitor.log", __FILE__)
   w.dir   = File.expand_path("../..", __FILE__)
+  w.keepalive
 end
