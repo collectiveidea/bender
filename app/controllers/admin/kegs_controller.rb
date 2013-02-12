@@ -1,14 +1,19 @@
 class Admin::KegsController < ApplicationController
+  respond_to :html, :json
+
   def index
     @kegs = Keg.all
+    respond_with @kegs
   end
 
   def show
     @keg = Keg.find(params[:id])
+    respond_with @keg
   end
 
   def new
     @keg = Keg.new
+    respond_with @keg
   end
 
   def create
@@ -22,6 +27,7 @@ class Admin::KegsController < ApplicationController
 
   def edit
     @keg = Keg.find(params[:id])
+    respond_with @keg
   end
 
   def update

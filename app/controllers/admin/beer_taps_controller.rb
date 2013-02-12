@@ -1,10 +1,14 @@
 class Admin::BeerTapsController < ApplicationController
+  respond_to :html, :json
+  
   def index
     @beer_taps = BeerTap.all
+    respond_with @beer_taps
   end
 
   def show
     @beer_tap = BeerTap.find(params[:id])
+    respond_with @beer_tap
   end
 
   def new

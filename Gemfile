@@ -22,6 +22,8 @@ end
 
 gem 'jquery-rails'
 gem 'd3js-rails'
+gem 'faye'
+gem 'thin'
 
 # Deployment
 gem "capistrano", group: :development

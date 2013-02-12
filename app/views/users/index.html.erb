@@ -1,0 +1,12 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'New', new_user_path, :class => 'btn' %>
+  </div>
+  <h1>Users</h1>
+</div>
+
+<ul class="unstyled">
+  <% @users.each do |user| %>
+    <li><%= link_to user.name, user %>
+  <% end %>
+</ul>
