@@ -1,5 +1,7 @@
 class BeerTap < ActiveRecord::Base
-  attr_accessible :name, :gpio_pin, :temperature_sensor_id
+  FLOZ_PER_ML = BigDecimal.new('0.033814')
+
+  attr_accessible :name, :gpio_pin, :temperature_sensor_id, :ml_per_tick
 
   belongs_to :temperature_sensor
 
@@ -15,6 +17,10 @@ class BeerTap < ActiveRecord::Base
       tap.monitor
     end
     while true; sleep 60; end
+  end
+
+  def floz_per_tick
+    ml_per_tick * FLOZ_PER_ML
   end
 
   def monitor

@@ -11,14 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204185417) do
+ActiveRecord::Schema.define(:version => 20130212022107) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
     t.integer  "gpio_pin"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.integer  "temperature_sensor_id"
+    t.decimal  "ml_per_tick",           :precision => 6, :scale => 5
   end
 
   create_table "kegs", :force => true do |t|

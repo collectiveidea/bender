@@ -6,3 +6,6 @@
 
 <%= f.label :temperature_sensor_id %>
 <%= f.select :temperature_sensor_id, TemperatureSensor.for_select, include_blank: true %>
+
+<%= f.label :ml_per_tick, 'mL per tick' %>
+<%= f.text_field :ml_per_tick %>
