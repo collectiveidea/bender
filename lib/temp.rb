@@ -1,7 +1,8 @@
 class Temp
   DEVICE_DIR = '/sys/bus/w1/devices/'
+
   def self.discover
-    @sensors = Dir["#{DEVICE_DIR}28-*/w1_slave"].inject({}) do |hsh, path|
+    Dir["#{DEVICE_DIR}28-*/w1_slave"].inject({}) do |hsh, path|
       sensor = Sensor.new(path)
       hsh[sensor.id] = sensor
       hsh
@@ -9,35 +10,28 @@ class Temp
   end
 
   def self.[](val)
-    (@sensors || discover)[val]
+    (@sensors ||= discover)[val]
   end
 
   def self.[]=(name, val)
-    (@sensors || discover)[name] = val
+    (@sensors ||= discover)[name] = val
   end
 
   def self.sensors
-    @sensors || discover
+    @sensors ||= discover
   end
 
   class ReadingFailed < StandardError; end
 
   class Sensor
     TEMP_REGEX = /^t=(\-?[0-9]+)$/
-    attr_reader :name, :id
+    ID_REGEX = %r{/28-([^/]+)}
+    attr_reader :id
 
     def initialize(path)
-      @path = path
-      @id   = %r{/28-([^/]+)}.match(path)[1]
+      @path  = path
+      @id    = ID_REGEX.match(path)[1]
       @value = -100.0
-    end
-
-    def name=(val)
-      Temp[@name] = nil if @name
-
-      @name = val
-      Temp[@name] = self
-      val
     end
 
     def c
