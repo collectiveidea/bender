@@ -1,5 +1,7 @@
 require "bundler/capistrano"
 
+load "deploy/assets"
+
 # Application settings
 set :user,          "pi"
 set :use_sudo,      false
