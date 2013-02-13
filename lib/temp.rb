@@ -28,6 +28,10 @@ class Temp
     ID_REGEX = %r{/28-([^/]+)}
     attr_reader :id
 
+    def self.from_id(id)
+      new("#{DEVICE_DIR}28-#{id}/w1_slave")
+    end
+
     def initialize(path)
       @path  = path
       @id    = ID_REGEX.match(path)[1]

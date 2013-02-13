@@ -4,6 +4,7 @@ class BeerTap < ActiveRecord::Base
   attr_accessible :name, :gpio_pin, :temperature_sensor_id, :ml_per_tick
 
   belongs_to :temperature_sensor
+  belongs_to :kegerator
 
   has_many :kegs
   has_one :active_keg, class_name: 'Keg', conditions: {active: true}

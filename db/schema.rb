@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212022107) do
+ActiveRecord::Schema.define(:version => 20130213162015) do
 
   create_table "beer_taps", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,18 @@ ActiveRecord::Schema.define(:version => 20130212022107) do
     t.datetime "updated_at",                                          :null => false
     t.integer  "temperature_sensor_id"
     t.decimal  "ml_per_tick",           :precision => 6, :scale => 5
+    t.integer  "kegerator_id"
+  end
+
+  create_table "kegerators", :force => true do |t|
+    t.string   "name"
+    t.integer  "temperature_sensor_id"
+    t.integer  "min_temp"
+    t.integer  "max_temp"
+    t.integer  "control_pin"
+    t.datetime "last_shutdown"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "kegs", :force => true do |t|

@@ -7,4 +7,8 @@ class TemperatureSensor < ActiveRecord::Base
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }
   end
+
+  def sensor
+    @sensor ||= Temp::Sensor.from_id(code)
+  end
 end
