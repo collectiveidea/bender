@@ -20,5 +20,13 @@ God.watch do |w|
   w.keepalive
 
   w.start = "bundle exec rake bender:monitor_taps"
+end
 
+God.watch do |w|
+  w.name     = "faye"
+  w.pid_file = File.expand_path('faye.pid', God.pid_file_directory)
+  w.dir      = working_dir
+  w.keepalive
+
+  w.start = "bundle exec rackup faye.ru -s thin -E production -D --pid #{w.pid_file}"
 end
