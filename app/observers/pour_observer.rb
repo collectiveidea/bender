@@ -16,7 +16,7 @@ class PourObserver < ActiveRecord::Observer
   def send_to_campfire(pour)
     return true if Setting.hubot_url.blank? || pour.finished_at.blank? || pour.user_id.present?
 
-    uri = URI.parse(Settings.hubot_url)
+    uri = URI.parse(Setting.hubot_url)
     req = Net::HTTP::Post.new(uri.path)
     req["Content-Type"] = "application/json"
     req.body = {data: ("An anonymous coward just poured a %0.1foz %s." % [pour.volume, pour.keg.name])}.to_json
