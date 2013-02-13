@@ -47,20 +47,27 @@ class BeerTap < ActiveRecord::Base
         end
 
         pour = active_keg.active_pour || active_keg.pours.new
-        pour.attributes = {sensor_ticks: @ticks, volume: @ticks * floz_per_tick, started_at: @first_tick}
+        pour.sensor_ticks = @ticks
+        pour.volume       = @ticks * floz_per_tick
+        pour.started_at   = @first_tick
         pour.save
 
         # Waiting for pour to finish
         while @last_tick > (Time.now - 10)
           sleep 1
-          pour.update_attributes(sensor_ticks: @ticks, volume: @ticks * floz_per_tick)
+          pour.sensor_ticks = @ticks
+          pour.volume       = @ticks * floz_per_tick
+          pour.save
         end
 
         ticks = @ticks
         last_tick = @last_tick
         @ticks = 0
 
-        pour.update_attributes(sensor_ticks: ticks, volume: ticks * floz_per_tick, finished_at: last_tick)
+        pour.sensor_ticks = ticks
+        pour.volume       = ticks * floz_per_tick
+        pour.finished_at  = last_tick
+        pour.save
       end
     end
   end
