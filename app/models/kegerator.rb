@@ -12,7 +12,7 @@ class Kegerator < ActiveRecord::Base
   end
 
   def check
-    return unless control_pin.blank? || min_temp.blank? || max_temp.blank?
+    return if control_pin.blank? || min_temp.blank? || max_temp.blank?
 
     pin = GPIO::Pin.new(:pin => control_pin, :direction => :out)
     current_temp = temperature_sensor.sensor.f
