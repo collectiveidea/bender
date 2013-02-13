@@ -44,6 +44,7 @@ namespace :deploy do
     # Symlink specific files in shared/config to the releases config directory
     %w(
       database.yml
+      settings.yml
     ).each do |config|
       run "ln -nfsT #{shared_path}/config/#{config} #{release_path}/config/#{config}"
     end
