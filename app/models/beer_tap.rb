@@ -46,7 +46,7 @@ class BeerTap < ActiveRecord::Base
           sleep 1
         end
 
-        pour = active_keg.active_pour || active_keg.pours.new
+        pour = active_keg.active_pour(true) || active_keg.pours.new
         pour.sensor_ticks = @ticks
         pour.volume       = @ticks * floz_per_tick
         pour.started_at   = @first_tick
