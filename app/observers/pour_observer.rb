@@ -8,7 +8,13 @@ class PourObserver < ActiveRecord::Observer
 
   def send_pour_update(pour)
     puts "Pour update"
-    message = {channel: "/testing", data: {type: "pour_volume", tap_id: pour.keg.beer_tap.id, volume: pour.volume.to_s}}
+    message = {channel: "/testing", data: {
+                type: "pour_volume", 
+                tap_id: pour.keg.beer_tap_id, 
+                user_id: pour.user_id, 
+                volume: pour.volume.to_s,
+                updated_at: pour.updated_at.to_s
+    }}
     uri = URI.parse("http://localhost:9292/faye")
     Net::HTTP.post_form(uri, :message => message.to_json)
   end
