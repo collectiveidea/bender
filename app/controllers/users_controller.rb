@@ -6,6 +6,11 @@ class UsersController < ApplicationController
     respond_with @users
   end
 
+  def show
+    @user = User.find(params[:id])
+    respond_with @user
+  end
+
   def new
     @user = User.new
   end
