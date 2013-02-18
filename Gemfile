@@ -24,8 +24,9 @@ end
 
 gem 'jquery-rails'
 gem 'd3js-rails'
-gem 'faye'
-gem 'thin'
+
+gem 'faye', require: false
+gem 'thin', require: false
 
 # Deployment
 gem "capistrano", group: :development
