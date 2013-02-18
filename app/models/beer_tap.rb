@@ -51,7 +51,7 @@ class BeerTap < ActiveRecord::Base
 
         Pour.update(pour, {
           sensor_ticks: @ticks,
-          volume: @ticks * floz_per_tick
+          volume: @ticks * floz_per_tick,
           started_at: @first_tick
         })
 
@@ -68,7 +68,7 @@ class BeerTap < ActiveRecord::Base
         # Finalize pour
         Pour.update(pour, {
           sensor_ticks: @ticks,
-          volume: @ticks * floz_per_tick
+          volume: @ticks * floz_per_tick,
           finished_at: @last_tick
         })
 
