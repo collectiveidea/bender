@@ -32,12 +32,10 @@ class BeerTap < ActiveRecord::Base
       @first_tick = Time.now
       @last_tick = Time.now
 
-      GPIO.watch(:pin => gpio_pin) do |pin|
-        if pin.value == 1
-          @ticks += 1
-          @last_tick = Time.now
-          @first_tick = Time.now if @ticks == 1
-        end
+      GPIO.watch(:pin => gpio_pin, :trigger => :rising) do |pin|
+        @ticks += 1
+        @last_tick = Time.now
+        @first_tick = Time.now if @ticks == 1
       end
 
       loop do
