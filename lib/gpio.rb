@@ -69,6 +69,10 @@ module GPIO
         File.open(direction_file, "w") { |f| f.write(@direction == :out ? "out" : "in") }
       end
 
+      if @direction == :in
+        File.open(edge_file, "w") { |f| f.write("both") }
+      end
+
       read
     end
 
@@ -105,11 +109,11 @@ module GPIO
 
     # blocks until a logic level change occurs. The initializer option `:trigger` modifies what edge this method will release on.
     def wait_for_change
-      fd = File.open(value_file, "r")
-      File.open(edge_file, "w") { |f| f.write("both") }
+      @fd = nil if @fd && @fd.closed?
+      @fd ||= File.open(value_file, "r")
       loop do
-        fd.read
-        IO.select(nil, nil, [fd], nil)
+        @fd.read
+        IO.select(nil, nil, [@fd], nil)
         read
         if changed?
           next if @trigger == :rising and value == 0
@@ -123,8 +127,17 @@ module GPIO
     # In short, you must call this method if you are curious about the current state of the pin.
     def read
       @last_value = @value
-      val = File.read(value_file).to_i
+      val = get_val
       @value = invert ? (val ^ 1) : val
+    end
+
+    def get_val
+      if @fd && !@fd.closed?
+        @fd.rewind
+        @fd.read.to_i
+      else
+        File.read(value_file).to_i
+      end
     end
 
     private
