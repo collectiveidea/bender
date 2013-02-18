@@ -10,7 +10,7 @@ class TapMonitor
   end
 
   def monitor
-    pin = Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
+    pin = GPIO::Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
     loop do
       pin.wait_for_change
 
@@ -27,7 +27,7 @@ class TapMonitor
     Thread.new do
       pour = @tap.active_keg(true).active_pour(true) || @tap.active_keg.pours.new
       pour.sensor_ticks = @ticks
-      pour.volume       = @ticks * floz_per_tick
+      pour.volume       = @ticks * @tap.floz_per_tick
       pour.started_at   = @first_tick
       pour.save
 
@@ -35,7 +35,7 @@ class TapMonitor
       while @last_tick > (Time.now - Setting.pour_timeout)
         sleep 1
         pour.sensor_ticks = @ticks
-        pour.volume       = @ticks * floz_per_tick
+        pour.volume       = @ticks * @tap.floz_per_tick
         pour.save
       end
 
@@ -44,7 +44,7 @@ class TapMonitor
       @ticks = 0
 
       pour.sensor_ticks = ticks
-      pour.volume       = ticks * floz_per_tick
+      pour.volume       = ticks * @tap.floz_per_tick
       pour.finished_at  = last_tick
       pour.save
     end
