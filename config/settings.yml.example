@@ -1,2 +1,3 @@
 ---
 hubot_url: http://hubot.example.com/hubot/kegbot/API_KEY
+pour_timeout: 10
