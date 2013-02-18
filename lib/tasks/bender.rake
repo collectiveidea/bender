@@ -23,6 +23,8 @@ namespace :bender do
 
   desc "Monitor taps for pour activity"
   task :monitor_taps => :environment do
+    require 'celluloid'
+    Celluloid::SHUTDOWN_TIMEOUT = 15
     BeerTap.monitor
   end
 end
