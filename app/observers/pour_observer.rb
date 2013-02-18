@@ -13,7 +13,7 @@ class PourObserver < ActiveRecord::Observer
 
   def send_pour_update(pour, update_type = :update)
     uri = URI.parse(Setting.faye_url)
-    data = pour.attributes.symbolize!
+    data = pour.attributes.symbolize_keys
     data[:beer_tap_id] = pour.keg.beer_tap_id.to_s
 
     message = case update_type
