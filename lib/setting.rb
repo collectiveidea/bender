@@ -3,6 +3,10 @@ module Setting
     settings['hubot_url']
   end
 
+  def self.faye_url
+  	settings['faye_url']
+  end
+
   def self.pour_timeout
   	settings['pour_timeout']
   end
