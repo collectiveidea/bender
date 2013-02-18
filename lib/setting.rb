@@ -4,11 +4,11 @@ module Setting
   end
 
   def self.faye_url
-  	settings['faye_url']
+    settings['faye_url']
   end
 
   def self.pour_timeout
-  	settings['pour_timeout']
+    settings['pour_timeout'] || 10
   end
 
   def self.settings
