@@ -18,11 +18,11 @@ class PourObserver < ActiveRecord::Observer
 
     message = case update_type
               when :start
-                then {channel: "/pour/start", data: data}
+                {channel: "/pour/start", data: data}
               when :update
-                then {channel: "/pour/update", data: data}
+                {channel: "/pour/update", data: data}
               when :complete
-                then {channel: "/pour/complete", data: data}
+                {channel: "/pour/complete", data: data}
               end
 
     Net::HTTP.post_form(uri, :message => message.to_json) if message
