@@ -2,14 +2,17 @@ class PourObserver < ActiveRecord::Observer
   observe :pour
 
   def after_update(pour)
-    send_pour_update(pour)
     send_to_campfire(pour)
+  end
+
+  def after_save(pour)
+    send_pour_update(pour) unless pour.change_type.to_s == "completed"
   end
 
   def send_pour_update(pour)
     data = {}
-    pour.attributes.each { |attribute, value| data[attribute.to_sym] = value.to_s } 
-    data[:beer_tap_id] = pour.keg.beer_tap_id
+    pour.attributes.each { |attribute, value| data[attribute.to_sym] = value.to_s }
+    data[:beer_tap_id] = pour.keg.beer_tap_id.to_s
 
     message = {channel: "/pour/update", data: data}
     uri = URI.parse("http://localhost:9292/faye")
