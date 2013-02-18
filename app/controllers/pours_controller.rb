@@ -23,6 +23,10 @@ class PoursController < ApplicationController
     respond_with @pour
   end
 
+  def update
+    respond_with Pour.update(params[:id], params[:pour])
+  end
+
   def volume
     @pour = Pour.find(params[:pour_id])
     output = @pour.volume ? "You have poured <span>#{'%0.2f' % @pour.volume} oz." : ""
