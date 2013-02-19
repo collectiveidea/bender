@@ -50,9 +50,9 @@ class Keg < ActiveRecord::Base
 
   def temp_data
     if sensor = beer_tap.temperature_sensor
-      sensor.temperature_readings.where(['created_at >= ?', 24.hours.ago]).order('created_at').select([:temp_f, :created_at]).to_json
+      sensor.temp_data
     else
-      [].to_json
+      []
     end
   end
 end
