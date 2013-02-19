@@ -8,5 +8,5 @@
 <div id="temp-chart"></div>
 
 <script type="text/javascript" charset="utf-8">
-  $.temp_chart(<%= @keg.temp_data.html_safe %>);
+  new TempChart("<%= temp_data_path %>").draw();
 </script>

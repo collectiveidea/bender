@@ -1,45 +1,65 @@
-$.temp_chart = (data) ->
-  margin = {top: 20, right: 20, bottom: 30, left: 50}
-  width = 700 - margin.left - margin.right
-  height = 170 - margin.top - margin.bottom
+class TempChart
+  constructor: (url) ->
+    @url = url
 
-  x = d3.time.scale().range([0, width])
+    @margin = {top: 20, right: 50, bottom: 30, left: 50}
+    @width = 700 - @margin.left - @margin.right
+    @height = 170 - @margin.top - @margin.bottom
 
-  y = d3.scale.linear().range([height, 0])
+  draw: =>
+    d3.json(@url, @callback)
 
-  xAxis = d3.svg.axis().scale(x).orient("bottom")
+  callback: (error, data) =>
+    x = d3.time.scale().range([0, @width])
+    y = d3.scale.linear().range([@height, 0])
 
-  yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width).ticks(7)
+    xAxis = d3.svg.axis().scale(x).orient("bottom")
 
-  line = d3.svg.line()
-    .x((d) -> x(new Date(d.created_at)))
-    .y((d) -> y(d.temp_f))
+    line = d3.svg.line()
+      .x((d) -> x(new Date(d.created_at)))
+      .y((d) -> y(parseFloat(d.temp_f)))
 
-  svg = d3.select("#temp-chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    color = d3.scale.category10()
 
-  x.domain(d3.extent(data, (d) -> new Date(d.created_at) ))
-  y.domain(d3.extent(data, (d) -> d.temp_f ))
+    svg = d3.select("#temp-chart").append("svg")
+      .attr("width", @width + @margin.left + @margin.right)
+      .attr("height", @height + @margin.top + @margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
 
-  svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
+    color.domain(d3.map(data, (d) -> d.name))
 
-  svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0)
-    .attr("dy", "-2em")
-    .style("text-anchor", "end")
-    .text("Temp F")
+    x.domain([
+      d3.min(data, (d) -> d3.min(d.data, (e) -> new Date(e.created_at))),
+      d3.max(data, (d) -> d3.max(d.data, (e) -> new Date(e.created_at)))
+    ])
 
-  svg.append("path")
-    .datum(data)
-    .attr("class", "line")
-    .attr("d", line)
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + @height + ")")
+      .call(xAxis)
+
+    sides = ["right", "left"]
+    offsets = [@width, 0]
+    tickSizes = [0, @width]
+
+    data.forEach (datum) ->
+      y.domain(d3.extent(datum.data, (d) -> parseFloat(d.temp_f)))
+
+      side = sides.pop()
+
+      yAxis = d3.svg.axis().scale(y).orient(side).ticks(7).tickSize(-tickSizes.pop())
+
+      svg.append("g")
+        .attr("class", "y axis axis-" + side)
+        .attr("transform", "translate(" + offsets.pop() + ",0)")
+        .attr("style", "fill: " + color(datum.name))
+        .call(yAxis)
+
+      svg.append("path")
+        .datum(datum.data)
+        .attr("class", "line line-" + side)
+        .attr("d", line)
+        .style("stroke", color(datum.name))
+
+window.TempChart = TempChart

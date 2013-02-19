@@ -15,6 +15,8 @@ Bender::Application.routes.draw do
   end
   resources :users
 
+  get 'temp_data' => 'homepage#temp_data'
+
   root :to => 'homepage#index'
 
 end

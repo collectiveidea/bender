@@ -11,4 +11,8 @@ class TemperatureSensor < ActiveRecord::Base
   def sensor
     @sensor ||= Temp::Sensor.from_id(code)
   end
+
+  def temp_data
+    temperature_readings.where(['created_at >= ?', 24.hours.ago]).order('created_at').select([:temp_f, :created_at])
+  end
 end
