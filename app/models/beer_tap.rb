@@ -13,13 +13,6 @@ class BeerTap < ActiveRecord::Base
     all.map {|tap| [tap.name, tap.id] }
   end
 
-  def self.monitor
-    all.each do |tap|
-      TapMonitor.new(tap).async.monitor
-    end
-    while true; sleep 60; end
-  end
-
   def floz_per_tick
     ml_per_tick * FLOZ_PER_ML
   end

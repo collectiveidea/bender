@@ -1,5 +1,33 @@
 class TapMonitor
-  include Celluloid
+  def self.monitor_taps
+    tap_monitors = {}
+    loop do
+      tap_monitors.each do |tap_id, thread|
+        case thread.status
+        when nil # Thread died with an error
+          if tap = BeerTap.find_by_id(tap_id)
+            # Restart the monitor
+            tap_monitors[tap.id] = start(tap)
+          else
+            # Tap has been removed
+            tap_monitors.delete(tap_id)
+          end
+        when false # Thread exitted cleanly
+          tap_monitors.delete(tap_id)
+        end
+      end
+
+      BeerTap.all.each do |tap|
+        tap_monitors[tap.id] ||= start(tap)
+      end
+
+      sleep 60
+    end
+  end
+
+  def self.start(tap)
+    Thread.new { new(tap).monitor }
+  end
 
   def initialize(tap)
     @tap = tap
