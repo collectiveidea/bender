@@ -4,7 +4,7 @@ class TempChart
     @sensor1 = sensor1
     @sensor2 = sensor2
 
-    @increment = 60 * 60 * 1000
+    @increment = 3 * 60 * 60 * 1000
     @to = new Date('2013-02-19 11:00')
     @from = new Date(@to - 86400000)
 
