@@ -19,9 +19,6 @@ class TempChart
     @x = d3.time.scale().range([0, @width])
     @y = d3.scale.linear().range([@height, 0])
 
-    @color = d3.scale.category10()
-    @color.domain(['line1', 'line2'])
-
     @lineData1 = []
     @lineData2 = []
 
@@ -46,15 +43,36 @@ class TempChart
       .attr("transform", "translate(0," + @height + ")")
       .call(xAxis)
 
+    color = d3.scale.category10()
+    color.domain(['line1', 'line2'])
+
+    # Add bare yAxis elements
+    @svg.append("g")
+      .attr("class", "y axis left")
+      .attr("transform", "translate(0,0)")
+      .attr("style", "fill: " + color('line1'))
+
+    @svg.append("g")
+      .attr("class", "y axis right")
+      .attr("transform", "translate(" + @width + ",0)")
+      .attr("style", "fill: " + color('line2'))
+
+    # Add empty lines
+    @svg.append("path")
+      .attr("class", "line line1")
+      .style("stroke", color('line1'))
+
+    @svg.append("path")
+      .attr("class", "line line2")
+      .style("stroke", color('line2'))
+
     @loadLine1()
 
-    d3.json(@url, @callback)
-
   calculateX: (point)=>
-    @x(new Date(point.created_at))
+    @x(point.created_at)
 
   calculateY: (point)=>
-    @y(parseFloat(point.temp_f))
+    @y(point.temp_f)
 
   loadLine1: =>
     @endTime = new Date(@endTime - @increment)
@@ -77,64 +95,48 @@ class TempChart
 
 
   drawLine1: (error, data) =>
+    data.forEach (d) ->
+      d.created_at = new Date(d.created_at)
+      d.temp_f = parseFloat(d.temp_f)
+
+    @lineData1 = data.concat(@lineData1)
+
+    @y.domain(d3.extent(@lineData1, (d) -> d.temp_f))
+
+    yAxis = d3.svg.axis().scale(@y).orient("left").ticks(7).tickSize(-@width)
+
+    @svg.selectAll(".y.axis.left").call(yAxis)
+
     line = d3.svg.line()
       .x(@calculateX)
       .y(@calculateY)
 
-    # First line
-    @lineData1 = data.concat(@lineData1)
-    leftColor = @color('line1')
-
-    @y.domain(d3.extent(@lineData1, (d) -> parseFloat(d.temp_f)))
-
-    yAxis = d3.svg.axis().scale(@y).orient("left").ticks(7).tickSize(-@width)
-
-    @svg.selectAll('.y.axis.left').remove()
-
-    @svg.append("g")
-      .attr("class", "y axis left")
-      .attr("transform", "translate(0,0)")
-      .attr("style", "fill: " + leftColor)
-      .call(yAxis)
-
-    @svg.selectAll('.line.line1').remove()
-
-    @svg.append("path")
+    @svg.selectAll('.line.line1')
       .datum(@lineData1)
-      .attr("class", "line line1")
       .attr("d", line)
-      .style("stroke", leftColor)
 
     @loadLine1()
 
   drawLine2: (error, data) =>
+    data.forEach (d) ->
+      d.created_at = new Date(d.created_at)
+      d.temp_f = parseFloat(d.temp_f)
+
+    @lineData2 = data.concat(@lineData2)
+
+    @y.domain(d3.extent(@lineData2, (d) -> d.temp_f))
+
+    yAxis = d3.svg.axis().scale(@y).orient("right").ticks(7).tickSize(0)
+
+    @svg.selectAll(".y.axis.right").call(yAxis)
+
     line = d3.svg.line()
       .x(@calculateX)
       .y(@calculateY)
 
-    # Second line
-    @lineData2 = data.concat(@lineData2)
-    rightColor = @color('line2')
-
-    @y.domain(d3.extent(@lineData2, (d) -> parseFloat(d.temp_f)))
-
-    yAxis = d3.svg.axis().scale(@y).orient("right").ticks(7).tickSize(0)
-
-    @svg.selectAll('.y.axis.right').remove()
-
-    @svg.append("g")
-      .attr("class", "y axis right")
-      .attr("transform", "translate(" + @width + ",0)")
-      .attr("style", "fill: " + rightColor)
-      .call(yAxis)
-
-    @svg.selectAll('.line.line2').remove()
-
-    @svg.append("path")
+    @svg.selectAll('.line.line2')
       .datum(@lineData2)
-      .attr("class", "line line2")
       .attr("d", line)
-      .style("stroke", rightColor)
 
     @loadLine2()
 
