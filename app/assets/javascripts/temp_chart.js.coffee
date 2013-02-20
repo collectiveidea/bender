@@ -105,7 +105,9 @@ class TempChart
 
     yAxis = d3.svg.axis().scale(@y).orient("left").ticks(7).tickSize(-@width)
 
-    @svg.selectAll(".y.axis.left").call(yAxis)
+    @svg.selectAll(".y.axis.left")
+      .transition().duration(250)
+      .call(yAxis)
 
     line = d3.svg.line()
       .x(@calculateX)
@@ -113,9 +115,8 @@ class TempChart
 
     @svg.selectAll('.line.line1')
       .datum(@lineData1)
+      .transition().duration(250).ease('easeInOutQuad').each('start', @loadLine1)
       .attr("d", line)
-
-    @loadLine1()
 
   drawLine2: (error, data) =>
     data.forEach (d) ->
@@ -128,7 +129,9 @@ class TempChart
 
     yAxis = d3.svg.axis().scale(@y).orient("right").ticks(7).tickSize(0)
 
-    @svg.selectAll(".y.axis.right").call(yAxis)
+    @svg.selectAll(".y.axis.right")
+      .transition().duration(250)
+      .call(yAxis)
 
     line = d3.svg.line()
       .x(@calculateX)
@@ -136,8 +139,7 @@ class TempChart
 
     @svg.selectAll('.line.line2')
       .datum(@lineData2)
+      .transition().duration(250).ease('easeInOutQuad').each('start', @loadLine2)
       .attr("d", line)
-
-    @loadLine2()
 
 window.TempChart = TempChart
