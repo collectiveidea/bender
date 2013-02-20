@@ -23,6 +23,6 @@ namespace :bender do
 
   desc "Monitor taps for pour activity"
   task :monitor_taps => :environment do
-    BeerTap.monitor
+    TapMonitor.monitor_taps
   end
 end
