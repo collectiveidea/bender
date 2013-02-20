@@ -13,9 +13,8 @@ Bender::Application.routes.draw do
   resources :pours do
     get 'volume' => 'pours#volume'
   end
+  resources :temperature_sensors
   resources :users
-
-  get 'temp_data' => 'homepage#temp_data'
 
   root :to => 'homepage#index'
 
