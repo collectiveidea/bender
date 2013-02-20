@@ -1,0 +1,33 @@
+svg {
+  .axis path {
+    fill: none;
+    shape-rendering: crispEdges;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .y.axis line {
+    stroke-opacity: .2;
+  }
+}
+
+#temp-chart {
+  width: 700px;
+  height: 180px;
+
+  .loading {
+    position: absolute;
+    width: 700px;
+    padding-top: 80px;
+  }
+}
