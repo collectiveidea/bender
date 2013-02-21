@@ -37,7 +37,7 @@ class TapMonitor
     end
 
     # We are done here. Tell all subprocess to quit
-    tap_monitors.each_value {|pid| Process.kill(pid) }
+    tap_monitors.each_value {|pid| Process.kill('TERM', pid) }
 
     # Wait for the subprocesses to finish
     begin
@@ -105,7 +105,7 @@ class TapMonitor
       # Grabbing a new pin object should trigger the wait_for_change on the monitored pin
       GPIO::Pin.new(:pin => @tap.gpio_pin)
 
-      Process.kill(@sub_process_pid)
+      Process.kill('TERM', @sub_process_pid)
 
       begin
         Process.waitpid2(-1)
