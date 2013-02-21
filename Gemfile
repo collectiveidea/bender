@@ -28,6 +28,8 @@ gem 'd3js-rails'
 gem 'faye', require: false
 gem 'thin', require: false
 
+gem 'raindrops', require: false
+
 # Deployment
 gem "capistrano", group: :development
 
