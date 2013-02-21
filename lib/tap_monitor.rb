@@ -68,10 +68,10 @@ class TapMonitor
 
     pour_monitor = start_pour_monitor
 
-    pin = GPIO::Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
+    @pin = GPIO::Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
     # Loop while we are running or a pour is in progress
     while @running || @drop[TICKS] > 0
-      pin.wait_for_change
+      @pin.wait_for_change
       break if !@running && @drop[TICKS] == 0
 
       @drop[FIRST_TICK] = Time.now.to_i if @drop[TICKS] == 0
@@ -102,8 +102,7 @@ class TapMonitor
         end
       end
 
-      # Grabbing a new pin object should trigger the wait_for_change on the monitored pin
-      GPIO::Pin.new(:pin => @tap.gpio_pin)
+      @pin.break_wait_for_change
 
       Process.kill('TERM', @sub_process_pid)
 

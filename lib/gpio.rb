@@ -111,7 +111,8 @@ module GPIO
     def wait_for_change
       @fd = nil if @fd && @fd.closed?
       @fd ||= File.open(value_file, "r")
-      loop do
+      @waiting = true
+      while @waiting
         @fd.read
         IO.select(nil, nil, [@fd], nil)
         read
@@ -121,6 +122,11 @@ module GPIO
           break
         end
       end
+    end
+
+    def break_wait_for_change
+      @waiting = false
+      File.read(value_file)
     end
 
     # Reads the current value from the pin. Without calling this method first, `value`, `last_value` and `changed?` will not be updated.
