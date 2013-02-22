@@ -7,6 +7,7 @@ Bender::Application.routes.draw do
       put    'tap' => 'kegs#tap_keg'
       delete 'tap' => 'kegs#untap_keg'
     end
+    get 'settings' => 'settings#index'
   end
 
   resources :kegs

@@ -2,3 +2,4 @@
 hubot_url: http://hubot.example.com/hubot/kegbot/API_KEY
 pour_timeout: 10
 faye_url: http://localhost:9292/faye
+api_url: http://bender.dev
