@@ -30,6 +30,8 @@ gem 'thin', require: false
 
 gem 'raindrops', require: false
 
+gem 'oj'
+
 # Deployment
 gem "capistrano", group: :development
 
