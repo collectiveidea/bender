@@ -1,3 +1,5 @@
+require 'net/http'
+
 class PourObserver < ActiveRecord::Observer
   observe :pour
 
