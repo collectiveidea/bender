@@ -6,5 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
-# !!! Seed User with id=0 for Guest
+User.new(name: "Guest") do |u|
+	u.id = 0
+	u.save
+end
