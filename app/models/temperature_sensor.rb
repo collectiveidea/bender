@@ -8,6 +8,21 @@ class TemperatureSensor < ActiveRecord::Base
     all.map {|tap| [tap.name, tap.id] }
   end
 
+  def self.monitor
+    loop do
+      Temp.discover.each do |id, sensor|
+        temp_sensor = where(code: id).first || create(name: id, code: id)
+        begin
+          temp_sensor.temperature_readings.create(temp_c: sensor.c)
+        rescue Temp::ReadingFailed => e
+          puts "Could not read temperature on #{id}\n#{e.message}"
+        end
+      end
+
+      sleep(60 - Time.now.sec)
+    end
+  end
+
   def sensor
     @sensor ||= Temp::Sensor.from_id(code)
   end
