@@ -3,6 +3,7 @@ class TemperatureSensor < ActiveRecord::Base
 
   has_many :temperature_readings
   has_one :latest_reading, class_name: 'TemperatureReading', order: 'created_at DESC'
+  has_one :kegerator
 
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }

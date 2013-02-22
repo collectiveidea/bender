@@ -1,9 +1,4 @@
 namespace :bender do
-  desc "Acts as a thermostat for the kegerator"
-  task :monitor_kegerator => :environment do
-    Kegerator.monitor
-  end
-
   desc "Read and report from each available temperature sensor"
   task :monitor_temps => :environment do
     TemperatureSensor.monitor
