@@ -24,7 +24,7 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def send_to_campfire(pour)
-    return true if Setting.hubot_url.blank? || pour.finished_at.blank? || pour.user_id.present?
+    return true if Setting.hubot_url.blank? || pour.finished_at.blank? || pour.user_id != 0
 
     uri = URI.parse(Setting.hubot_url)
     req = Net::HTTP::Post.new(uri.path)
