@@ -3,6 +3,10 @@ require 'net/http'
 class PourObserver < ActiveRecord::Observer
   observe :pour
 
+  def after_create(pour)
+    send_pour_update(pour)
+  end
+
   def after_update(pour)
     send_pour_update(pour)
     send_to_campfire(pour)
