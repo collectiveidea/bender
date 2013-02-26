@@ -47,7 +47,11 @@ class PourMonitor
       pour.sensor_ticks = ticks
       pour.volume       = ticks * @tap.floz_per_tick
       pour.finished_at  = last_tick
-      pour.save
+      if pour.volume < 0.5
+        pour.destroy
+      else
+        pour.save
+      end
     end
   end
 end
