@@ -30,7 +30,8 @@
   <div class="span3">
     <% @pours.each do |pour| %>
     <div class="well">
-      <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %>
+      <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
+      <small><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></small>
     </div>
     <% end %>
   </div>
