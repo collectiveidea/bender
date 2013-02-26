@@ -16,7 +16,11 @@ class PourObserver < ActiveRecord::Observer
     data[:beer_tap_id] = pour.keg.beer_tap_id.to_s
     message = {channel: "/pour/#{update_type}", data: data}
 
-    Net::HTTP.post_form(uri, :message => message.to_json)
+    begin
+      Net::HTTP.post_form(uri, :message => message.to_json)
+    rescue StandardError => e
+      puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye"
+    end
   end
 
   def send_to_campfire(pour)
@@ -27,8 +31,12 @@ class PourObserver < ActiveRecord::Observer
     req["Content-Type"] = "application/json"
     req.body = {data: ("An anonymous coward just poured a %0.1foz %s." % [pour.volume, pour.keg.name])}.to_json
 
-    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(req)
+    begin
+      Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(req)
+      end
+    rescue StandardError => e
+      puts "Encountered #{e.message} (#{e.class}) while trying to report to rosie"
     end
   end
 end
