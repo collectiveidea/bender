@@ -2,7 +2,7 @@ class PoursController < ApplicationController
   respond_to :html, :json
   
   def new
-    @users = User.order(:name)
+    @users = User.where(['name != ?', 'Guest']).order(:name)
   end
 
   def create
