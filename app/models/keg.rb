@@ -55,4 +55,8 @@ class Keg < ActiveRecord::Base
       []
     end
   end
+
+  def top_consumers
+    pours.select('name, sum(volume) as total').group('users.name').order('total desc').joins(:user)
+  end
 end
