@@ -29,5 +29,5 @@
 </section>
 
 <script type="text/javascript" charset="utf-8">
-  new TempChart("<%= temperature_sensors_path %>", <%= TemperatureSensor.select(:id).limit(2).map(&:id).map(&:to_s).join(', ') %>).draw();
+  new TempChart("/temperature_sensors", <%= TemperatureSensor.select(:id).limit(2).map(&:id).map(&:to_s).join(', ') %>).draw();
 </script>

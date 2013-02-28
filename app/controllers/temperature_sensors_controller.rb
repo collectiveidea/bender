@@ -1,8 +1,10 @@
 class TemperatureSensorsController < ApplicationController
-  def show
-    sensor = TemperatureSensor.find(params[:id])
-    start_time = Time.parse(params[:start_time]) rescue 24.hours.ago
-    end_time   = Time.parse(params[:end_time])   rescue Time.now
+  def readings
+    sensor = TemperatureSensor.find(params[:sensor_id])
+    start_time = Time.at(params[:start_timestamp].to_i)
+    end_time   = start_time + params[:duration].to_i
+
     render :json => sensor.temp_data(start_time, end_time)
+    cache_page if end_time < Time.now
   end
 end

@@ -5,10 +5,14 @@ class TempChart
     @sensor2 = sensor2
 
     @increment = 2 * 60 * 60 * 1000
-    @to = new Date()
+    @to = new Date('2013-02-19 11:00')
+    @to.setMinutes(0)
+    @to.setSeconds(0)
+    @to.setMilliseconds(0)
+    @to.setHours(@to.getHours() - (@to.getHours() % 2) + 2)
     @from = new Date(@to - 86400000)
 
-    @endTime = new Date(@to - 0 + @increment)
+    @startTime = new Date(@to)
 
     container = $('#temp-chart')
 
@@ -75,23 +79,21 @@ class TempChart
     @y(point.temp_f)
 
   loadLine1: =>
-    @endTime = new Date(@endTime - @increment)
-    @startTime = new Date(@endTime - @increment)
+    @startTime = new Date(@startTime - @increment)
 
     if @startTime < @from
-      @endTime = new Date(@to - 0 + @increment)
+      @startTime = new Date(@to)
       @loadLine2()
     else
-      d3.json(@url + "/" + @sensor1 + "?start_time=" + @startTime.toJSON() + "&end_time=" + @endTime.toJSON(), @drawLine1)
+      d3.json("#{@url}/#{@sensor1}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine1)
 
   loadLine2: =>
-    @endTime = new Date(@endTime - @increment)
-    @startTime = new Date(@endTime - @increment)
+    @startTime = new Date(@startTime - @increment)
 
     if @startTime < @from
       $('#temp-chart .loading').hide();
     else
-      d3.json(@url + "/" + @sensor2 + "?start_time=" + @startTime.toJSON() + "&end_time=" + @endTime.toJSON(), @drawLine2)
+      d3.json("#{@url}/#{@sensor2}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine2)
 
 
   drawLine1: (error, data) =>

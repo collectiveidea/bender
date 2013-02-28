@@ -14,8 +14,9 @@ Bender::Application.routes.draw do
   resources :pours do
     get 'volume' => 'pours#volume'
   end
-  resources :temperature_sensors
   resources :users
+
+  get "temperature_sensors/:sensor_id/:duration/:start_timestamp.:format" => "temperature_sensors#readings", as: "temperature_sensor_readings"
 
   root :to => 'homepage#index'
 
