@@ -14,8 +14,12 @@ class Keg < ActiveRecord::Base
   has_many :pours
   has_one :active_pour, class_name: 'Pour', conditions: {finished_at: nil}
 
+  def completed_pours
+    pours.where('finished_at IS NOT NULL')
+  end
+
   def poured
-    @poured ||= pours.sum(:volume)
+    @poured ||= completed_pours.sum(:volume)
   end
 
   def remaining
@@ -58,5 +62,9 @@ class Keg < ActiveRecord::Base
 
   def top_consumers
     pours.select('name, sum(volume) as total').group('users.name').order('total desc').joins(:user)
+  end
+
+  def projected_empty
+    Time.now + (Time.now - started_at) / poured * remaining
   end
 end

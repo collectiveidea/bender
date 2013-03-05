@@ -5,21 +5,51 @@
   <h1><%= @keg.name %></h1>
 </div>
 
-<section>
-  <div class="page-header"><h3>Leaderboard</h3></div>
-  <table class="table table-striped">
-    <tr>
-      <th>Name</th>
-      <th>Volume (fl oz)</th>
-    </tr>
-    <% @keg.top_consumers.each do |leader| %>
-    <tr>
-      <td><%= leader.name %></td>
-      <td><%= leader.total %></td>
-    </tr>
-    <% end %>
-  </table>
-</section>
+<div class="row-fluid">
+  <section class="span6">
+    <div class="page-header"><h3>Leaderboard</h3></div>
+    <table class="table table-striped">
+      <tr>
+        <th>Name</th>
+        <th>Volume (fl oz)</th>
+      </tr>
+      <% @keg.top_consumers.each do |leader| %>
+      <tr>
+        <td><%= leader.name %></td>
+        <td><%= leader.total %></td>
+      </tr>
+      <% end %>
+    </table>
+  </section>
+
+  <section class="span6">
+    <div class="page-header"><h3>Stats</h3></div>
+    <table class="table table-striped">
+      <tr>
+        <td>Poured</td>
+        <td><%= @keg.poured.round %> oz</td>
+      </tr>
+      <tr>
+        <td>Remaining</td>
+        <td><%= @keg.remaining.round%> oz</td>
+      </tr>
+      <tr>
+        <td>Pours</td>
+        <td><%= @keg.completed_pours.size %></td>
+      </tr>
+      <tr>
+        <td>Average pour volume</td>
+        <td><%= "%0.1f" % @keg.completed_pours.average(:volume) %> oz</td>
+      </tr>
+      <tr>
+        <td>Projected empty date</td>
+        <td><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+
 
 <section>
   <div class="page-header"><h3>Kegerator Temperatures</h3></div>

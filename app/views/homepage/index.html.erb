@@ -6,11 +6,11 @@
         <% if keg = tap.active_keg %>
           <div class="row-fluid">
             <div class="span3 well">
-              <h4><%= '%0.1f' % keg.poured %> oz</h4>
+              <h4><%= keg.poured.round %> oz</h4>
               <small>Poured</small>
             </div>
             <div class="span3 well">
-              <h4><%= (keg.remaining / 16).round %> pints</h4>
+              <h4><%= keg.remaining.round %> oz</h4>
               <small>Remaining</small>
             </div>
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
