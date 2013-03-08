@@ -8,23 +8,27 @@
 <div class="row-fluid">
   <section class="span6">
     <div class="page-header"><h3>Leaderboard</h3></div>
-    <table class="table table-striped">
-      <tr>
-        <th>Name</th>
-        <th>Total (oz)</th>
-        <th>Average (oz)</th>
-        <th>Max Pour (oz)</th>
-        <th>Pours</th>
-      </tr>
-      <% @keg.top_consumers.each do |leader| %>
-      <tr>
-        <td><%= leader.name %></td>
-        <td><%= "%0.1f" % leader.total %></td>
-        <td><%= "%0.1f" % leader.average %></td>
-        <td><%= "%0.1f" % leader.max %></td>
-        <td><%= leader.count %></td>
-      </tr>
-      <% end %>
+    <table class="table table-striped data-table" id="leaderboard">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="center">Total (oz)</th>
+          <th class="center">Average (oz)</th>
+          <th class="center">Max Pour (oz)</th>
+          <th class="center">Pours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @keg.top_consumers.each do |leader| %>
+        <tr>
+          <td><%= leader.name %></td>
+          <td class="center"><%= "%0.1f" % leader.total %></td>
+          <td class="center"><%= "%0.1f" % leader.average %></td>
+          <td class="center"><%= "%0.1f" % leader.max %></td>
+          <td class="center"><%= leader.count %></td>
+        </tr>
+        <% end %>
+      </tbody>
     </table>
   </section>
 
