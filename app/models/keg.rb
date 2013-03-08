@@ -61,7 +61,7 @@ class Keg < ActiveRecord::Base
   end
 
   def top_consumers
-    pours.select('name, sum(volume) as total').group('users.name').order('total desc').joins(:user)
+    pours.select('name, sum(volume) as total, count(pours.id) as count, avg(volume) as average, max(volume) as max').group('users.name').order('total desc').joins(:user)
   end
 
   def projected_empty

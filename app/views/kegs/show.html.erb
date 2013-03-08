@@ -11,12 +11,18 @@
     <table class="table table-striped">
       <tr>
         <th>Name</th>
-        <th>Volume (fl oz)</th>
+        <th>Total (oz)</th>
+        <th>Average (oz)</th>
+        <th>Max Pour (oz)</th>
+        <th>Pours</th>
       </tr>
       <% @keg.top_consumers.each do |leader| %>
       <tr>
         <td><%= leader.name %></td>
-        <td><%= leader.total %></td>
+        <td><%= "%0.1f" % leader.total %></td>
+        <td><%= "%0.1f" % leader.average %></td>
+        <td><%= "%0.1f" % leader.max %></td>
+        <td><%= leader.count %></td>
       </tr>
       <% end %>
     </table>
@@ -48,8 +54,6 @@
     </table>
   </section>
 </div>
-
-
 
 <section>
   <div class="page-header"><h3>Kegerator Temperatures</h3></div>
