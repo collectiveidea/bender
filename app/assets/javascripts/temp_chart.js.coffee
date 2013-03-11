@@ -37,7 +37,7 @@ class TempChart
       .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
 
 
-    @x.domain([@from, @to])
+    @x.domain([@from, new Date()])
 
     # Draw the xAxis
     xAxis = d3.svg.axis().scale(@x).orient("bottom")
