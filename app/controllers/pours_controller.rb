@@ -1,6 +1,10 @@
 class PoursController < ApplicationController
   respond_to :html, :json
-  
+
+  def index
+    respond_with Pour.where('volume IS NOT NULL').order('created_at desc').limit(10)
+  end
+
   def new
     @users = User.where(['name != ?', 'Guest']).order(:name)
   end
