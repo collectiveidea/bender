@@ -1,5 +1,5 @@
 class Keg < ActiveRecord::Base
-  attr_accessible :name, :description, :capacity
+  attr_accessible :name, :brewery, :style, :abv, :description, :capacity
 
   # Capacity is stored in fluid ounces
   KEG_CAPACITIES = [

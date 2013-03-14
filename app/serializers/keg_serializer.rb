@@ -1,5 +1,5 @@
 class KegSerializer < ActiveModel::Serializer
-  attributes :id, :beer_tap_id, :name, :description, :active, :capacity, :started_at, :finished_at
+  attributes :id, :beer_tap_id, :name, :brewery, :style, :abv, :description, :active, :capacity, :started_at, :finished_at
 
   def attributes
     data = super
