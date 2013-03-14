@@ -16,6 +16,9 @@ Bender::Application.routes.draw do
   end
   resources :users
 
+  get "activity/recent(/:limit)(.:format)" => "activity#recent", as: "recent_activity"
+  get "activity/user/:user_id(/:limit)(.:format)" => "activity#user_recent", as: "user_activity"
+
   get "temperature_sensors/:sensor_id/:duration/:start_timestamp.:format" => "temperature_sensors#readings", as: "temperature_sensor_readings"
 
   root :to => 'homepage#index'
