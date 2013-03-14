@@ -9,7 +9,7 @@ set :rails_env,     "production"
 set :application,   "bender"
 
 # Server Settings
-hostname = "example.com"
+hostname = "bender.collectiveidea.com"
 role :app, hostname
 role :web, hostname
 role :db,  hostname, :primary => true
