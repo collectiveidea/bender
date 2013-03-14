@@ -65,6 +65,10 @@ class Keg < ActiveRecord::Base
   end
 
   def projected_empty
-    Time.now + (Time.now - started_at) / poured * remaining
+    if poured == 0 || remaining == 0
+      "No projection available"
+    else
+      Time.now + (Time.now - started_at) / poured * remaining
+    end
   end
 end
