@@ -3,6 +3,9 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+
+    @users.each_with_index { |user, index| @users[index][:last_pour_at] = user.last_pour_at }
+
     respond_with @users
   end
 
