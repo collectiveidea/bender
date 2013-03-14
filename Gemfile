@@ -38,6 +38,8 @@ gem "capistrano", group: :development
 gem 'god', require: false
 
 
+gem 'active_model_serializers'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

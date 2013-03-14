@@ -14,6 +14,8 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
+    active_model_serializers (0.7.0)
+      activemodel (>= 3.0)
     activemodel (3.2.12)
       activesupport (= 3.2.12)
       builder (~> 3.0.0)
@@ -153,6 +155,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   capistrano
   coffee-rails (~> 3.2.1)
   d3js-rails
