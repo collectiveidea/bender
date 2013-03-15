@@ -37,6 +37,15 @@ gem "capistrano", group: :development
 
 gem 'god', require: false
 
+group :test, :development do
+  gem 'rspec-rails',        '~> 2.0'
+  gem 'cucumber-rails',     require: false
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'launchy'
+  gem 'debugger'
+end
+
 
 gem 'active_model_serializers'
 
