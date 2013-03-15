@@ -13,6 +13,8 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def send_pour_update(pour)
+    return true if Setting.faye_url.blank?
+
     update_type = (pour.finished_at ? :complete : :update)
 
     uri  = URI.parse(Setting.faye_url)
