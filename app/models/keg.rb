@@ -26,9 +26,9 @@ class Keg < ActiveRecord::Base
     self.capacity - poured
   end
 
-  def start_pour(user)
+  def start_pour(user = nil)
     pour = active_pour || pours.new
-    pour.user = user
+    pour.user = user if user
     pour.save
     pour
   end
