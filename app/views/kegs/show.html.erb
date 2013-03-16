@@ -21,11 +21,11 @@
       <tbody>
         <% @keg.top_consumers.each do |leader| %>
         <tr>
-          <td><%= leader.name %></td>
-          <td class="center"><%= "%0.1f" % leader.total %></td>
-          <td class="center"><%= "%0.1f" % leader.average %></td>
-          <td class="center"><%= "%0.1f" % leader.max %></td>
-          <td class="center"><%= leader.count %></td>
+          <td class="name"><%= leader.name %></td>
+          <td class="total center"><%= "%0.1f" % leader.total %></td>
+          <td class="average center"><%= "%0.1f" % leader.average %></td>
+          <td class="max center"><%= "%0.1f" % leader.max %></td>
+          <td class="pours center"><%= leader.count %></td>
         </tr>
         <% end %>
       </tbody>
@@ -34,27 +34,27 @@
 
   <section class="span6">
     <div class="page-header"><h3>Stats</h3></div>
-    <table class="table table-striped">
+    <table class="table table-striped" id="stats">
       <tr>
         <td>Poured</td>
-        <td><%= @keg.poured.round %> oz</td>
+        <td class="poured"><%= @keg.poured.round %> oz</td>
       </tr>
       <tr>
         <td>Remaining</td>
-        <td><%= @keg.remaining.round%> oz</td>
+        <td class="remaining"><%= @keg.remaining.round%> oz</td>
       </tr>
       <tr>
         <td>Pours</td>
-        <td><%= @keg.completed_pours.size %></td>
+        <td class="pours"><%= @keg.completed_pours.size %></td>
       </tr>
       <tr>
         <td>Average pour volume</td>
-        <td><%= "%0.1f" % @keg.completed_pours.average(:volume).to_f %> oz</td>
+        <td class="average-pour-volume"><%= "%0.1f" % @keg.completed_pours.average(:volume).to_f %> oz</td>
       </tr>
       <% if @keg.completed_pours.any? %>
       <tr>
         <td>Projected empty date</td>
-        <td><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
+        <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
       </tr>
       <% end %>
     </table>
