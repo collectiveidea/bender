@@ -41,7 +41,7 @@ group :test, :development do
   gem 'rspec-rails', '~> 2.0'
   gem 'capybara', '~> 2.0'
   gem 'poltergeist', '~> 1.1'
-  gem 'domino', github: 'ersatzryan/domino', ref: 'callbacks'
+  gem 'domino', '~> 0.4'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'debugger'
