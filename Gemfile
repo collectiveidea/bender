@@ -38,11 +38,12 @@ gem "capistrano", group: :development
 gem 'god', require: false
 
 group :test, :development do
-  gem 'rspec-rails',        '~> 2.0'
-  gem 'cucumber-rails',     require: false
+  gem 'rspec-rails', '~> 2.0'
+  gem 'capybara', '~> 2.0'
+  gem 'poltergeist', '~> 1.1'
+  gem 'domino', '~> 0.4'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'launchy'
   gem 'debugger'
 end
 
