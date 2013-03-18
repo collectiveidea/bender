@@ -8,6 +8,7 @@ Bender::Application.routes.draw do
       delete 'tap' => 'kegs#untap_keg'
     end
     get 'settings' => 'settings#index'
+    get 'achievements' => 'metrics#achievements'
   end
 
   resources :kegs
