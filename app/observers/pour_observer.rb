@@ -32,17 +32,6 @@ class PourObserver < ActiveRecord::Observer
   def send_to_campfire(pour)
     return true if Setting.hubot_url.blank? || pour.finished_at.blank? || pour.user_id != 0
 
-    uri = URI.parse(Setting.hubot_url)
-    req = Net::HTTP::Post.new(uri.path)
-    req["Content-Type"] = "application/json"
-    req.body = {data: ("An anonymous coward just poured a %0.1foz %s." % [pour.volume, pour.keg.name])}.to_json
-
-    begin
-      Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-    rescue StandardError => e
-      puts "Encountered #{e.message} (#{e.class}) while trying to report to rosie"
-    end
+    Hubot.send_message("An anonymous coward just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
   end
 end
