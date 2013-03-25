@@ -5,7 +5,7 @@ module Hubot
     uri = URI.parse(Setting.hubot_url)
     req = Net::HTTP::Post.new(uri.path)
     req["Content-Type"] = "application/json"
-    req.body = {data: message)}.to_json
+    req.body = {data: message}.to_json
 
     begin
       Net::HTTP.start(uri.hostname, uri.port) do |http|

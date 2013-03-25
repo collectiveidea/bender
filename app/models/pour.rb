@@ -10,4 +10,7 @@ class Pour < ActiveRecord::Base
 
   belongs_to :keg
   belongs_to :user
+
+  scope :finished, where("finished_at IS NOT NULL")
+  scope :non_guest, where("user_id > 0")
 end

@@ -4,5 +4,6 @@ FactoryGirl.define do
     started_at  { 5.seconds.ago }
     finished_at { Time.now }
     keg
+    user
   end
 end
