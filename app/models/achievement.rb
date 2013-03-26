@@ -106,7 +106,7 @@ class Achievement
   end
 
   def self.pour_time_max(options = {})
-    options = { metric: "max(finished_at - started_at)",
+    options = { metric: "max(duration)",
                reverse: true,
                   name: "Long Winded",
            description: "Longest Single Pour" }.merge(options)
@@ -115,7 +115,7 @@ class Achievement
   end
 
   def self.pour_time_min(options = {})
-    options = { metric: "min(finished_at - started_at)",
+    options = { metric: "min(duration)",
                reverse: false,
                   name: "Quick Draw",
            description: "Shortest Single Pour" }.merge(options)

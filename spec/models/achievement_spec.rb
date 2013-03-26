@@ -23,11 +23,11 @@ describe Achievement do
     before do
       FactoryGirl.create(:pour, user_id: 0, keg_id: 1, volume: 0)
       FactoryGirl.create(:pour, user_id: 1, keg_id: 1, volume: 12)
-      FactoryGirl.create(:pour, user_id: 2, keg_id: 1, volume: 23, created_at: Time.now - 31.days, finished_at: Time.now - 31.days)
-      FactoryGirl.create(:pour, user_id: 1, keg_id: 1, volume: 999, created_at: Time.now - 5.seconds, finished_at: nil)
+      FactoryGirl.create(:pour, user_id: 2, keg_id: 1, volume: 23, created_at: 31.days.ago, finished_at: 31.days.ago)
+      FactoryGirl.create(:pour, user_id: 1, keg_id: 1, volume: 999, created_at: 5.seconds.ago, finished_at: nil)
       FactoryGirl.create(:pour, user_id: 0, keg_id: 2, volume: 999)
       FactoryGirl.create(:pour, user_id: 1, keg_id: 2, volume: 34)
-      FactoryGirl.create(:pour, user_id: 2, keg_id: 2, volume: 45, created_at: Time.now - 31.days, finished_at: Time.now - 31.days)
+      FactoryGirl.create(:pour, user_id: 2, keg_id: 2, volume: 45, created_at: 31.days.ago, finished_at: 31.days.ago)
     end
 
     it 'ignores pours for Guests' do
@@ -155,28 +155,23 @@ describe Achievement do
 
   describe 'calculates pour duration' do
     before do
-      FactoryGirl.create(:pour, user_id: 1, created_at: Time.now - 10.seconds, finished_at: Time.now)
-      FactoryGirl.create(:pour, user_id: 2, created_at: Time.now - 10.minutes, finished_at: Time.now)
-      FactoryGirl.create(:pour, user_id: 2, created_at: Time.now, finished_at: Time.now)
+      FactoryGirl.create(:pour, user_id: 1, started_at: 10.seconds.ago, finished_at: Time.current)
+      FactoryGirl.create(:pour, user_id: 2, started_at: 10.minutes.ago, finished_at: Time.current)
     end
 
     it 'calculates maximum pour duration by user' do
-      pending "need to reconcile timestamp differences"
-      expect(Achievement.pour_time_max.value).to eq(600.seconds)
+      expect(Achievement.pour_time_max.value.to_f).to be_within(1.second).of(10.minutes)
     end
 
     it 'identifies user for maximum pour duration' do
-      pending "need to reconcile timestamp differences"
       expect(Achievement.pour_time_max.user_name).to eq("Bar")
     end
 
     it 'calculates minimum pour duration by user' do
-      pending "need to reconcile timestamp differences"
-      expect(Achievement.pour_time_min.value).to eq(10.seconds)
+      expect(Achievement.pour_time_min.value.to_f).to be_within(1.second).of(10.seconds)
     end
 
     it 'identifies user for minimum pour duration' do
-      pending "need to reconcile timestamp differences"
       expect(Achievement.pour_time_min.user_name).to eq("Foo")
     end
   end
