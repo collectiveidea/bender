@@ -13,7 +13,7 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def send_pour_update(pour)
-    return true if Setting.faye_url.blank?
+    return true if Setting.faye_url.blank? || pour.volume.to_f <= 0.1
 
     update_type = (pour.finished_at ? :complete : :update)
 
