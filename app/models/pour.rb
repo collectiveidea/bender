@@ -16,6 +16,10 @@ class Pour < ActiveRecord::Base
   scope :finished, where("finished_at IS NOT NULL")
   scope :non_guest, where("user_id > 0")
 
+  def complete?
+    finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
+  end
+
   private
 
   def calculate_duration
