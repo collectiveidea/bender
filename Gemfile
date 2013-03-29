@@ -44,7 +44,8 @@ group :test, :development do
   gem 'domino', '~> 0.4'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'debugger'
+  # gem 'debugger'
+  gem 'timecop'
 end
 
 
