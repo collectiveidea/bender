@@ -7,6 +7,8 @@ class Kegerator < ActiveRecord::Base
   def check(reading)
     return if control_pin.blank? || min_temp.blank? || max_temp.blank?
 
+    report_dms(reading)
+
     pin = GPIO::Pin.new(:pin => control_pin, :direction => :out)
     if pin.on?
       if reading.temp_f < min_temp
@@ -27,5 +29,17 @@ class Kegerator < ActiveRecord::Base
     return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1
 
     Hubot.send_message("ALERT: The kegerator temperature is at %0.1f" % [reading.temp_f])
+  end
+
+  def report_dms(reading)
+    # don't report to DMS if we are above the alarm temp
+    return if Setting.dms_url.blank? || reading.temp_f > alarm_temp
+
+    uri = URI(Setting.dms_url)
+    begin
+      Net::HTTP.get(uri)
+    rescue => e
+      puts "Failed to connect to DMS with: #{e.inspect} (#{Time.now})"
+    end
   end
 end

@@ -11,6 +11,10 @@ module Setting
     settings['pour_timeout'] || 10
   end
 
+  def self.dms_url
+    settings['dms_url']
+  end
+
   def self.settings
     @settings ||= YAML.load_file(Rails.root.join('config','settings.yml'))
   end
