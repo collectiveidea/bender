@@ -37,7 +37,9 @@ class Kegerator < ActiveRecord::Base
 
     uri = URI(Setting.dms_url)
     begin
-      Net::HTTP.get(uri)
+      Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == 'https')) do |http|
+        http.request(Net::HTTP::Get.new(uri.request_uri))
+      end
     rescue => e
       puts "Failed to connect to DMS with: #{e.inspect} (#{Time.now})"
     end
