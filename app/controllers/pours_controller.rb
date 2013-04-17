@@ -27,8 +27,17 @@ class PoursController < ApplicationController
     respond_with @pour
   end
 
+  def edit
+    @pour = Pour.find(params[:id])
+    @users = User.where(['name != ?', 'Guest']).order(:name)
+  end
+
   def update
-    respond_with Pour.update(params[:id], params[:pour])
+    pour = Pour.update(params[:id], params[:pour])
+    respond_to do |format|
+      format.json { respond_with pour }
+      format.html { redirect_to root_path }
+    end
   end
 
   def volume
