@@ -33,7 +33,7 @@ class PourObserver < ActiveRecord::Observer
     return true if Setting.hubot_url.blank? || pour.finished_at.blank?
 
     if pour.user_id == 0
-      Hubot.send_message("An anonymous coward just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
+      Hubot.send_message("Someone just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
     elsif pour.user_id_change && pour.user_id_change[0] == 0
       Hubot.send_message("%s has repented and claimed the %0.1foz pour." % [pour.user.name, pour.volume])
     end

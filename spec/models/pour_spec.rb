@@ -29,7 +29,7 @@ describe Pour do
       it 'sends a hubot message on completing an anonymous pour' do
         pour = FactoryGirl.create(:pour, user_id: 0, finished_at: nil, volume: "12")
 
-        Hubot.should_receive(:send_message).with("An anonymous coward just poured a 12.0oz #{pour.keg.name}.")
+        Hubot.should_receive(:send_message).with("Someone just poured a 12.0oz #{pour.keg.name}.")
 
         pour.finished_at = Time.now
         pour.save
