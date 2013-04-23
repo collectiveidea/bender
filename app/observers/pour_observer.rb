@@ -35,7 +35,7 @@ class PourObserver < ActiveRecord::Observer
     if pour.user_id == 0
       Hubot.send_message("Someone just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
     elsif pour.user_id_change && pour.user_id_change[0] == 0
-      Hubot.send_message("%s has repented and claimed the %0.1foz pour." % [pour.user.name, pour.volume])
+      Hubot.send_message("%s has claimed the %0.1foz pour." % [pour.user.name, pour.volume])
     end
   end
 end

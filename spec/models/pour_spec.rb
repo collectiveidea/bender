@@ -39,7 +39,7 @@ describe Pour do
         pour = FactoryGirl.create(:pour, user_id: 0, finished_at: Time.current, volume: "12")
         user = FactoryGirl.create(:user, name: 'Jim')
 
-        Hubot.should_receive(:send_message).with("Jim has repented and claimed the 12.0oz pour.")
+        Hubot.should_receive(:send_message).with("Jim has claimed the 12.0oz pour.")
 
         pour.user = user
         pour.save
