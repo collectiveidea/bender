@@ -49,7 +49,13 @@ namespace :deploy do
       run "ln -nfsT #{shared_path}/config/#{config} #{release_path}/config/#{config}"
     end
   end
+
+  task :restart_god, :roles => :app do
+    run "cd #{current_path}; bundle exec god restart bender"
+  end
 end
 
 # Clean up old deploys after each deploy (leaves 5)
 after "deploy", "deploy:cleanup"
+
+after "deploy:restart", "deploy:restart_god"
