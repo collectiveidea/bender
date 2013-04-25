@@ -68,15 +68,36 @@ class TapMonitor
 
     pour_monitor = start_pour_monitor
 
-    @pin = GPIO::Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
+    @pin = GPIO::Pin.new(:pin => @tap.gpio_pin)
     # Loop while we are running or a pour is in progress
     while @running || @drop[TICKS] > 0
+      # Wait for a pour to start
       @pin.wait_for_change
       break if !@running && @drop[TICKS] == 0
 
-      @drop[FIRST_TICK] = Time.now.to_i if @drop[TICKS] == 0
-      @drop[LAST_TICK]  = Time.now.to_i
-      @drop.incr(TICKS)
+      # Prevent GC from running during the pour
+      GC.disable
+      # Rescue block so we always re-enable GC
+      begin
+        # This is a ruby do/while block
+        begin
+          @drop[LAST_TICK]  = Time.now.to_i
+          @drop[FIRST_TICK] = @drop[LAST_TICK] if @drop[TICKS] == 0
+          @drop.incr(TICKS)
+
+          # Rapid read loop to detect pin state change
+          begin
+            @pin.read
+          # Wait for the pin value to cycle back to 1
+          # If ticks is 0 the pour timeout has occurred
+          end while (!@pin.changed? || @pin.value == 0) && @drop[TICKS] > 0
+
+        # When ticks is 0 the pour timeout has occurred
+        end while @drop[TICKS] > 0
+      ensure
+        GC.enable
+        GC.start
+      end
     end
 
     pour_monitor.join

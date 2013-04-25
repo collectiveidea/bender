@@ -104,7 +104,7 @@ module GPIO
 
     # Tests if the logic level has changed since the pin was last read.
     def changed?
-      last_value != value
+      @last_value != @value
     end
 
     # blocks until a logic level change occurs. The initializer option `:trigger` modifies what edge this method will release on.
@@ -133,17 +133,15 @@ module GPIO
     # In short, you must call this method if you are curious about the current state of the pin.
     def read
       @last_value = @value
-      val = get_val
-      @value = invert ? (val ^ 1) : val
-    end
 
-    def get_val
-      if @fd && !@fd.closed?
+      val = if @fd && !@fd.closed?
         @fd.rewind
         @fd.read.to_i
       else
         File.read(value_file).to_i
       end
+
+      @value = @invert ? (val ^ 1) : val
     end
 
     private
