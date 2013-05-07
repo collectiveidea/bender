@@ -23,17 +23,27 @@ class Kegerator < ActiveRecord::Base
     end
   end
 
+  def cooling?
+    return nil unless temperature_sensor
+    readings = temperature_sensor.temperature_readings
+
+    most_recent_temp = readings.where(['created_at > ?', 5.minutes.ago]).order('created_at DESC').first.try(:temp_f)
+    return nil unless most_recent_temp
+
+    readings.where(['created_at > ? AND temp_f > ?', 30.minutes.ago, most_recent_temp]).exists?
+  end
+
   # This should send a message on the first alarm reading and every 30 minutes after that
   def send_alarm_message(reading)
     last_good = temperature_sensor.temperature_readings.where(['temp_f < ?', alarm_temp]).order('created_at DESC').first.try(:created_at)
-    return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1
+    return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1 || cooling?
 
     Hubot.send_message("ALERT: The kegerator temperature is at %0.1f" % [reading.temp_f])
   end
 
   def report_dms(reading)
     # don't report to DMS if we are above the alarm temp
-    return if Setting.dms_url.blank? || reading.temp_f > alarm_temp
+    return if Setting.dms_url.blank? || reading.temp_f > alarm_temp || cooling?
 
     uri = URI(Setting.dms_url)
     begin
