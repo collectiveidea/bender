@@ -8,19 +8,21 @@ class Kegerator < ActiveRecord::Base
     return if control_pin.blank? || min_temp.blank? || max_temp.blank?
 
     report_dms(reading)
+    check_alarms(reading)
 
     pin = GPIO::Pin.new(:pin => control_pin, :direction => :out)
-    if pin.on?
-      if reading.temp_f < min_temp
-        self.last_shutdown = Time.now
-        self.save
-        pin.off
-      elsif alarm_temp && reading.temp_f > alarm_temp
-        send_alarm_message(reading)
-      end
+    if pin.on? && reading.temp_f < min_temp
+      self.last_shutdown = Time.now
+      self.save
+      pin.off
     elsif pin.off? && reading.temp_f > max_temp && (last_shutdown.nil? || last_shutdown < 5.minutes.ago)
       pin.on
     end
+  end
+
+  def check_alarms(reading)
+    send_alarm_message(reading) if alarm_temp && reading.temp_f > alarm_temp
+    send_all_clear_message(reading) if alarm_temp && reading.temp_f > max_temp && reading.temp_f < alarm_temp
   end
 
   def cooling?
@@ -39,6 +41,12 @@ class Kegerator < ActiveRecord::Base
     return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1 || cooling?
 
     Hubot.send_message("ALERT: The kegerator temperature is at %0.1f" % [reading.temp_f])
+  end
+
+  def send_all_clear_message(reading)
+    if temperature_sensor.temperature_readings.where(['temp_f < ? AND created_at > ?', alarm_temp, 10.minutes.ago]).count == 1
+      Hubot.send_message("All Clear: The kegerator is now below the alarm temperature")
+    end
   end
 
   def report_dms(reading)
