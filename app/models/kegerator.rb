@@ -51,7 +51,7 @@ class Kegerator < ActiveRecord::Base
 
   def report_dms(reading)
     # don't report to DMS if we are above the alarm temp
-    return if Setting.dms_url.blank? || reading.temp_f > alarm_temp || cooling?
+    return if Setting.dms_url.blank? || (reading.temp_f > alarm_temp && !cooling?)
 
     uri = URI(Setting.dms_url)
     begin

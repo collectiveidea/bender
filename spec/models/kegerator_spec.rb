@@ -79,4 +79,35 @@ describe Kegerator do
       @kegerator.send_all_clear_message(reading)
     end
   end
+
+  describe '#report_dms' do
+    before(:each) do
+      Setting.stub(:dms_url).and_return('https://nosnch.in/66860019c9')
+    end
+
+    it 'pings DMS if everything is good' do
+      reading = FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 43)
+
+      Net::HTTP.should_receive(:start)
+
+      @kegerator.report_dms(reading)
+    end
+
+    it 'does not ping DMS if we are above the alarm temp' do
+      reading = FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 50)
+
+      Net::HTTP.should_not_receive(:start)
+
+      @kegerator.report_dms(reading)
+    end
+
+    it 'pings DMS if we are above the alarm temp and cooling' do
+      FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 52, created_at: 2.minutes.ago)
+      reading = FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 50)
+
+      Net::HTTP.should_receive(:start)
+
+      @kegerator.report_dms(reading)
+    end
+  end
 end
