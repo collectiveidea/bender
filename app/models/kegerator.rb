@@ -7,10 +7,6 @@ class Kegerator < ActiveRecord::Base
   def check(reading)
     return if control_pin.blank? || min_temp.blank? || max_temp.blank?
 
-    report_dms(reading)
-    check_alarms(reading)
-
-    pin = GPIO::Pin.new(:pin => control_pin, :direction => :out)
     if pin.on? && reading.temp_f < min_temp
       self.last_shutdown = Time.now
       self.save
@@ -18,6 +14,9 @@ class Kegerator < ActiveRecord::Base
     elsif pin.off? && reading.temp_f > max_temp && (last_shutdown.nil? || last_shutdown < 5.minutes.ago)
       pin.on
     end
+
+    report_dms(reading)
+    check_alarms(reading)
   end
 
   def check_alarms(reading)
@@ -40,6 +39,9 @@ class Kegerator < ActiveRecord::Base
     last_good = temperature_sensor.temperature_readings.where(['temp_f < ?', alarm_temp]).order('created_at DESC').first.try(:created_at)
     return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1 || cooling?
 
+    # Try to reset the GFCI
+    pin.off
+
     Hubot.send_message("ALERT: The kegerator temperature is at %0.1f" % [reading.temp_f])
   end
 
@@ -61,5 +63,11 @@ class Kegerator < ActiveRecord::Base
     rescue => e
       puts "Failed to connect to DMS with: #{e.inspect} (#{Time.now})"
     end
+  end
+
+  protected
+
+  def pin
+    @pin ||= GPIO::Pin.new(:pin => control_pin, :direction => :out)
   end
 end
