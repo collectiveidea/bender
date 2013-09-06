@@ -26,7 +26,13 @@ class PourMonitor
       # has begun, then finish the pour first
       break if !@running && @drop[TICKS] == 0
 
-      pour = @tap.active_keg(true).active_pour(true) || @tap.active_keg.pours.new
+      keg = @tap.active_keg(true)
+      if keg.nil?
+        @drop[TICKS] = 0
+        next
+      end
+
+      pour = keg.active_pour(true) || keg.pours.new
       pour.sensor_ticks = @drop[TICKS]
       pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
       pour.started_at   = Time.at(@drop[FIRST_TICK])
