@@ -1,76 +1,67 @@
 class TempChart
-  constructor: (url, sensor1, sensor2) ->
-    @url = url
-    @sensor1 = sensor1
-    @sensor2 = sensor2
+  constructor: (container) ->
+    @container = container
 
-    @increment = 2 * 60 * 60 * 1000
-    @to = new Date()
-    @to.setMinutes(0)
-    @to.setSeconds(0)
-    @to.setMilliseconds(0)
-    @to.setHours(@to.getHours() - (@to.getHours() % 2) + 2)
+    @url       = @container.data('sensor-url')
+    @sensors   = @container.data('sensor-ids').toString().split(/, */)
+    @offset    = 0
+
+    @margin    = {top: 20, right: 20, bottom: 30, left: 50}
+    @width     = @container.width()  - @margin.left - @margin.right
+    @height    = @container.height() - @margin.top  - @margin.bottom
+    @g_height  = (@height - (@sensors.length - 1) * 15) / @sensors.length
+
+    @increment_hours = 2
+    # hours in milliseconds
+    @increment = @increment_hours * 3600000
+
+    @to   = new Date()
+    # 24 hours before @to
     @from = new Date(@to - 86400000)
 
-    @startTime = new Date(@to)
-
-    container = $('#temp-chart')
-
-    @margin = {top: 20, right: 50, bottom: 30, left: 50}
-    @width = container.width() - @margin.left - @margin.right
-    @height = container.height() - @margin.top - @margin.bottom
-
     @x = d3.time.scale().range([0, @width])
-    @y = d3.scale.linear().range([@height, 0])
+    @y = d3.scale.linear().range([@g_height, 0])
 
-    @lineData1 = []
-    @lineData2 = []
+    @axis = d3.svg.axis().orient("left").ticks(@g_height / 16).tickSize(-@width)
+
+  getStartTime: (time) =>
+    st = new Date(time)
+    # For better caching, load from an increment hour that is in the future
+    st.setHours(st.getHours() + @increment_hours - (st.getHours() % @increment_hours))
+    st.setMinutes(0)
+    st.setSeconds(0)
+    st.setMilliseconds(0)
+    st
+
+  processData: (data) =>
+    data.forEach (d) ->
+      d.created_at = new Date(d.created_at)
+      d.temp_f     = parseFloat(d.temp_f)
+
+    data.filter (d) =>
+      d.created_at > @from
 
   draw: =>
-    $('#temp-chart .loading').show();
+    @container.find('.loading').show();
 
     # Start drawing graph while we wait for a response
-    @svg = d3.select("#temp-chart").append("svg")
+    @svg = d3.select(@container[0]).append("svg")
       .attr("width", @width + @margin.left + @margin.right)
       .attr("height", @height + @margin.top + @margin.bottom)
       .append("g")
       .attr("transform", "translate(" + @margin.left + "," + @margin.top + ")")
 
-
-    @x.domain([@from, new Date()])
-
     # Draw the xAxis
-    xAxis = d3.svg.axis().scale(@x).orient("bottom")
-
+    @x.domain([@from, @to])
     @svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + @height + ")")
-      .call(xAxis)
+      .call(d3.svg.axis().scale(@x).orient("bottom"))
 
-    color = d3.scale.category10()
-    color.domain(['line1', 'line2'])
+    @color = d3.scale.category10()
+    @color.domain(@sensors)
 
-    # Add bare yAxis elements
-    @svg.append("g")
-      .attr("class", "y axis left")
-      .attr("transform", "translate(0,0)")
-      .attr("style", "fill: " + color('line1'))
-
-    @svg.append("g")
-      .attr("class", "y axis right")
-      .attr("transform", "translate(" + @width + ",0)")
-      .attr("style", "fill: " + color('line2'))
-
-    # Add empty lines
-    @svg.append("path")
-      .attr("class", "line line1")
-      .style("stroke", color('line1'))
-
-    @svg.append("path")
-      .attr("class", "line line2")
-      .style("stroke", color('line2'))
-
-    @loadLine1()
+    @setupGraph()
 
   calculateX: (point)=>
     @x(point.created_at)
@@ -78,70 +69,53 @@ class TempChart
   calculateY: (point)=>
     @y(point.temp_f)
 
-  loadLine1: =>
-    @startTime = new Date(@startTime - @increment)
+  setupGraph: =>
+    @startTime = @getStartTime(@to)
+    @sensor    = @sensors[@offset]
+    @lineData  = []
 
+    # Add bare yAxis
+    @svgAxis = @svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(0,#{@offset * @g_height + @offset * 15})")
+      .style("fill", @color(@sensor))
+
+    # Add empty line
+    @path = @svg.append("path")
+      .attr("class", "line")
+      .attr("transform", "translate(0,#{@offset * @g_height + @offset * 15})")
+      .style("stroke", @color(@sensor))
+
+    @loadLine()
+
+  loadLine: =>
     if @startTime < @from
-      @startTime = new Date(@to)
-      @loadLine2()
+      if @sensors[++@offset]?
+        @setupGraph()
+      else
+        @container.find('.loading').hide();
     else
-      d3.json("#{@url}/#{@sensor1}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine1)
-
-  loadLine2: =>
-    @startTime = new Date(@startTime - @increment)
-
-    if @startTime < @from
-      $('#temp-chart .loading').hide();
-    else
-      d3.json("#{@url}/#{@sensor2}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine2)
+      @startTime = new Date(@startTime - @increment)
+      d3.json("#{@url}/#{@sensor}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine)
 
 
-  drawLine1: (error, data) =>
-    data.forEach (d) ->
-      d.created_at = new Date(d.created_at)
-      d.temp_f = parseFloat(d.temp_f)
+  drawLine: (error, data) =>
+    @lineData = @processData(data).concat(@lineData)
 
-    @lineData1 = data.concat(@lineData1)
+    # Update y axis
+    @y.domain(d3.extent(@lineData, (d) -> d.temp_f))
+    @axis.scale(@y)
+    @svgAxis.transition().duration(250)
+      .call(@axis)
 
-    @y.domain(d3.extent(@lineData1, (d) -> d.temp_f))
-
-    yAxis = d3.svg.axis().scale(@y).orient("left").ticks(7).tickSize(-@width)
-
-    @svg.selectAll(".y.axis.left")
-      .transition().duration(250)
-      .call(yAxis)
-
-    line = d3.svg.line()
-      .x(@calculateX)
-      .y(@calculateY)
-
-    @svg.selectAll('.line.line1')
-      .datum(@lineData1)
-      .transition().duration(250).ease('easeInOutQuad').each('start', @loadLine1)
-      .attr("d", line)
-
-  drawLine2: (error, data) =>
-    data.forEach (d) ->
-      d.created_at = new Date(d.created_at)
-      d.temp_f = parseFloat(d.temp_f)
-
-    @lineData2 = data.concat(@lineData2)
-
-    @y.domain(d3.extent(@lineData2, (d) -> d.temp_f))
-
-    yAxis = d3.svg.axis().scale(@y).orient("right").ticks(7).tickSize(0)
-
-    @svg.selectAll(".y.axis.right")
-      .transition().duration(250)
-      .call(yAxis)
-
-    line = d3.svg.line()
-      .x(@calculateX)
-      .y(@calculateY)
-
-    @svg.selectAll('.line.line2')
-      .datum(@lineData2)
-      .transition().duration(250).ease('easeInOutQuad').each('start', @loadLine2)
-      .attr("d", line)
+    # Update Path
+    @path.datum(@lineData)
+      .transition().duration(250).ease('easeInOutQuad').each('start', @loadLine)
+      .attr("d", d3.svg.line().x(@calculateX).y(@calculateY))
 
 window.TempChart = TempChart
+
+$(->
+  $('.temp-chart').each (idx) ->
+    new TempChart($(this)).draw()
+)

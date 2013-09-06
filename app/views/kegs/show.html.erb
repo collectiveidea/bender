@@ -63,11 +63,7 @@
 
 <section>
   <div class="page-header"><h3>Kegerator Temperatures</h3></div>
-  <div id="temp-chart">
+  <div id="temp-chart" class="temp-chart" data-sensor-url="/temperature_sensors" data-sensor-ids="<%= TemperatureSensor.select(:id).limit(2).map(&:id).map(&:to_s).join(', ') %>">
     <div class="loading" style="display: none;">Loading</div>
   </div>
 </section>
-
-<script type="text/javascript" charset="utf-8">
-  new TempChart("/temperature_sensors", <%= TemperatureSensor.select(:id).limit(2).map(&:id).map(&:to_s).join(', ') %>).draw();
-</script>
