@@ -70,7 +70,7 @@ module GPIO
       end
 
       if @direction == :in
-        File.open(edge_file, "w") { |f| f.write("both") }
+        File.open(edge_file, "w") { |f| f.write(@trigger.to_s) }
       end
 
       read
@@ -108,21 +108,14 @@ module GPIO
     end
 
     # blocks until a logic level change occurs. The initializer option `:trigger` modifies what edge this method will release on.
-    def wait_for_change
-      @fd = nil if @fd && @fd.closed?
+    # continue is a lambda used to determine whether we should continue waiting after the 1 second IO timeout
+    def wait_for_change(continue = nil)
       @fd ||= File.open(value_file, "r")
       @waiting = true
       read
-      while @waiting
+      begin
         ready = IO.select(nil, nil, [@fd], 1)
-        next unless ready
-        read
-        if changed?
-          next if @trigger == :rising and value == 0
-          next if @trigger == :falling and value == 1
-          break
-        end
-      end
+      end while @waiting && !ready && (!continue || continue.call)
     end
 
     def break_wait_for_change
@@ -134,7 +127,7 @@ module GPIO
     def read
       @last_value = @value
 
-      val = if @fd && !@fd.closed?
+      val = if @fd
         @fd.rewind
         @fd.read.to_i
       else
