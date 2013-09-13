@@ -26,6 +26,7 @@ describe Kegerator do
   describe '#send_alarm_message' do
     before(:each) do
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 44, created_at: 31.minutes.ago)
+      GPIO::Pin.stub(:new).and_return(double(on: true, off: true))
     end
 
     it 'sends an alarm message when we are at the correct time interval' do
