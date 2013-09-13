@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -39,9 +39,10 @@ gem 'god', require: false
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
-  gem 'capybara', '~> 2.0'
+  gem 'capybara',    '~> 2.0'
+  gem 'nokogiri',    '< 1.6', require: false
   gem 'poltergeist', '~> 1.1'
-  gem 'domino', '~> 0.4'
+  gem 'domino',      '~> 0.4'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   # gem 'debugger'
