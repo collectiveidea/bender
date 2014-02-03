@@ -1,13 +1,11 @@
 class BeerTap < ActiveRecord::Base
   FLOZ_PER_ML = BigDecimal.new('0.033814')
 
-  attr_accessible :name, :gpio_pin, :temperature_sensor_id, :ml_per_tick
-
   belongs_to :temperature_sensor
   belongs_to :kegerator
 
   has_many :kegs
-  has_one :active_keg, class_name: 'Keg', conditions: {active: true}
+  has_one :active_keg, lambda { where(active: true) }, class_name: 'Keg'
 
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }

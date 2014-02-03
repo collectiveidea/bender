@@ -1,6 +1,4 @@
 class TemperatureReading < ActiveRecord::Base
-  attr_accessible :temp_c, :temperature_sensor_id
-
   belongs_to :temperature_sensor
 
   after_create :check_kegerator

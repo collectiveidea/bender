@@ -5,7 +5,7 @@ describe Keg do
     keg = FactoryGirl.create(:keg)
     FactoryGirl.create_list(:pour, 3, {keg_id: keg.id})
     FactoryGirl.create(:pour)
-    total_volume = Pour.where(keg_id: keg.id).all.sum {|p| p.volume }
+    total_volume = Pour.where(keg_id: keg.id).to_a.sum {|p| p.volume }
 
     expect(keg.poured).to eq(total_volume)
   end
@@ -14,7 +14,7 @@ describe Keg do
     keg = FactoryGirl.create(:keg, capacity: 100)
     FactoryGirl.create_list(:pour, 3, {keg_id: keg.id})
     FactoryGirl.create(:pour)
-    total_volume = Pour.where(keg_id: keg.id).all.sum {|p| p.volume }
+    total_volume = Pour.where(keg_id: keg.id).to_a.sum {|p| p.volume }
 
     expect(keg.remaining).to eq(100 - total_volume)
   end

@@ -1,8 +1,6 @@
 class TemperatureSensor < ActiveRecord::Base
-  attr_accessible :code, :name
-
   has_many :temperature_readings
-  has_one :latest_reading, class_name: 'TemperatureReading', order: 'created_at DESC'
+  has_one :latest_reading, lambda { order('created_at DESC') }, class_name: 'TemperatureReading'
   has_one :kegerator
 
   def self.for_select

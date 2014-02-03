@@ -6,15 +6,13 @@
 # ml * 0.033814 = fl oz
 
 class Pour < ActiveRecord::Base
-  attr_accessible :user_id
-
   belongs_to :keg
   belongs_to :user
 
   before_save :calculate_duration
 
-  scope :finished, where("finished_at IS NOT NULL")
-  scope :non_guest, where("user_id > 0")
+  scope :finished, lambda { where("finished_at IS NOT NULL") }
+  scope :non_guest, lambda { where("user_id > 0") }
 
   def complete?
     finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout

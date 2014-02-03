@@ -1,6 +1,4 @@
 class Keg < ActiveRecord::Base
-  attr_accessible :name, :brewery, :style, :abv, :description, :capacity
-
   # Capacity is stored in fluid ounces
   KEG_CAPACITIES = [
     ['1/2 Barrel', 1980],
@@ -12,7 +10,7 @@ class Keg < ActiveRecord::Base
   belongs_to :beer_tap
 
   has_many :pours
-  has_one :active_pour, class_name: 'Pour', conditions: {finished_at: nil}
+  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour'
 
   def completed_pours
     pours.where('finished_at IS NOT NULL')

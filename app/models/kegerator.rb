@@ -1,6 +1,4 @@
 class Kegerator < ActiveRecord::Base
-  attr_accessible :max_temp, :min_temp, :name, :temperature_sensor_id, :control_pin
-
   belongs_to :temperature_sensor
   has_many :beer_taps
 
