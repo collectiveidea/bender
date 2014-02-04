@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     if @user.save
       respond_to do |format|
         format.json { respond_with @user }
@@ -29,5 +29,11 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
+
+  protected
+
+  def user_params
+    params.require(:user).permit(:name, :email)
   end
 end

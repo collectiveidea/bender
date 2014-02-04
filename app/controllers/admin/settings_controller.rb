@@ -1,7 +1,7 @@
 class Admin::SettingsController < ApplicationController
-	respond_to :json
+  respond_to :json
 
-	def index
+  def index
     @settings = Setting.settings
     respond_with @settings
   end

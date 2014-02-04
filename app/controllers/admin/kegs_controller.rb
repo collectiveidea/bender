@@ -17,7 +17,7 @@ class Admin::KegsController < ApplicationController
   end
 
   def create
-    @keg = Keg.new(params[:keg])
+    @keg = Keg.new(keg_params)
     if @keg.save
       redirect_to [:admin, @keg]
     else
@@ -32,7 +32,7 @@ class Admin::KegsController < ApplicationController
 
   def update
     @keg = Keg.find(params[:id])
-    if @keg.update_attributes(params[:keg])
+    if @keg.update_attributes(keg_params)
       redirect_to [:admin, @keg]
     else
       render :edit
@@ -58,6 +58,12 @@ class Admin::KegsController < ApplicationController
     @keg = Keg.find(params[:keg_id])
     @keg.untap_it
     redirect_to [:admin, @keg]
+  end
+
+  protected
+
+  def keg_params
+    params.require(:keg).permit(:name, :description, :capacity)
   end
 
 end

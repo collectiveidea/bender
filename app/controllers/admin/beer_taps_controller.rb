@@ -1,6 +1,6 @@
 class Admin::BeerTapsController < ApplicationController
   respond_to :html, :json
-  
+
   def index
     @beer_taps = BeerTap.all
     respond_with @beer_taps
@@ -16,7 +16,7 @@ class Admin::BeerTapsController < ApplicationController
   end
 
   def create
-    @beer_tap = BeerTap.new(params[:beer_tap])
+    @beer_tap = BeerTap.new(beer_tap_params)
     if @beer_tap.save
       redirect_to [:admin, @beer_tap]
     else
@@ -30,10 +30,16 @@ class Admin::BeerTapsController < ApplicationController
 
   def update
     @beer_tap = BeerTap.find(params[:id])
-    if @beer_tap.update_attributes(params[:beer_tap])
+    if @beer_tap.update_attributes(beer_tap_params)
       redirect_to [:admin, @beer_tap]
     else
       render :edit
     end
+  end
+
+  protected
+
+  def beer_tap_params
+    params.require(:beer_tap).permit(:name, :gpio_pin, :temperature_sensor_id, :ml_per_tick)
   end
 end
