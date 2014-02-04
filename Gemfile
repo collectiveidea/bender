@@ -20,7 +20,7 @@ gem 'raindrops', require: false
 gem 'oj'
 
 # Deployment
-gem "capistrano", group: :development
+gem "capistrano", '< 3.0', group: :development
 
 gem 'god', require: false
 
