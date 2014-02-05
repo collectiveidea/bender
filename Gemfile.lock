@@ -10,6 +10,8 @@ GEM
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
+    actionpack-page_caching (1.0.2)
+      actionpack (>= 4.0.0, < 5)
     active_model_serializers (0.8.1)
       activemodel (>= 3.0)
     activemodel (4.0.2)
@@ -195,6 +197,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionpack-page_caching
   active_model_serializers
   capistrano (< 3.0)
   capybara (~> 2.0)

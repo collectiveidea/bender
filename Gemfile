@@ -40,6 +40,7 @@ end
 
 gem 'active_model_serializers'
 gem 'rails-observers'
+gem 'actionpack-page_caching'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
