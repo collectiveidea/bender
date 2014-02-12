@@ -116,6 +116,31 @@ footer {
   }
 }
 
+.page-header {
+  border-bottom: 1px solid #e1e1e8;
+  padding-bottom: 10px;
+
+  h1 { margin: 0; }
+}
+
+.table-striped {
+  border-collapse: collapse;
+
+  td, th { padding: 5px; }
+
+  td {
+    border-top: 1px solid #e1e1e8;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+}
+
+table#leaderboard, table#stats {
+  width: 100%;
+}
+
 svg {
   .axis path {
     fill: none;
@@ -156,4 +181,12 @@ svg {
 
 .pourer {
   margin-bottom: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.pull-right {
+  float: right;
 }
