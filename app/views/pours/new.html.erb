@@ -1,6 +1,6 @@
 <div class="page-header">
   <div class="pull-right">
-    <%= link_to 'Return', root_path, :class => 'btn' %>
+    <%= link_to 'Return', root_path, :class => 'btn btn-default' %>
   </div>
   <h1>Who are you?</h1>
 </div>
@@ -8,8 +8,8 @@
 <p><%= link_to 'New User', new_user_path, class: 'btn btn-inverse' %></p>
 
 <ul class="unstyled">
-  <li class="pourer"><%= link_to 'Guest', pours_path(user_id: 0), method: 'post', class: 'btn' %></li>
+  <li class="pourer"><%= link_to 'Guest', pours_path(user_id: 0), method: 'post', class: 'btn btn-default' %></li>
   <% @users.each do |user| %>
-    <li class="pourer"><%= link_to user.name, pours_path(beer_tap_id: params[:beer_tap_id], user_id: user.id), method: 'post', class: 'btn' %></li>
+    <li class="pourer"><%= link_to user.name, pours_path(beer_tap_id: params[:beer_tap_id], user_id: user.id), method: 'post', class: 'btn btn-default' %></li>
   <% end %>
 </ul>
