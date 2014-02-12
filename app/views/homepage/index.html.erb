@@ -2,38 +2,40 @@
   <div class="column two-thirds">
     <% @beer_taps.each do |tap| %>
       <div class="home-tap">
-        <h2><%= homepage_tap_header(tap) %></h2>
+        <%= content_tag(:h4, tap.name) %>
         <% if keg = tap.active_keg %>
-          <div class="row">
-            <div class="column one-fourth">
-              <h4><%= keg.poured.round %> oz</h4>
-              <small>Poured</small>
-            </div>
-            <div class="column one-fourth">
-              <h4><%= keg.remaining.round %> oz</h4>
-              <small>Remaining</small>
-            </div>
+        <div class="row">
+          <div class="column half">
+            <%= content_tag(:h2, link_to(keg.name, keg)) %>
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
-            <div class="column one-fourth">
-              <h4><%= '%0.1f' % reading.temp_f %>&deg;F</h4>
-              <small>Temperature</small>
-            </div>
-            <% end %>
-            <%= link_to new_pour_path(beer_tap_id: tap.id), class: 'column one-fourth beer-me' do %>
-              <h2>Beer Me!</h2>
+            <div><%= '%0.1f' % reading.temp_f %>&deg;F</div>
             <% end %>
           </div>
+          <div class="column one-fourth">
+            <div class="beer-glass">
+              <%= content_tag :div, "#{keg.poured.round} oz", class: 'poured', style: "height: #{keg.poured_percent.round}%" %>
+              <%= content_tag :div, "#{keg.remaining.round} oz", class: 'remaining' %>
+            </div>
+          </div>
+          <div class="column one-fourth">
+            <%= link_to content_tag(:h2, "Beer Me!"), new_pour_path(beer_tap_id: tap.id), class: 'beer-me' %>
+          </div>
+        </div>
+        <% else %>
+        <%= content_tag(:h2, "Offline") %>
         <% end %>
       </div>
     <% end %>
   </div>
   <div class="column one-third">
-    <% @pours.each do |pour| %>
-    <div class="well">
-      <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
-      <small><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></small>
-      <%= content_tag :small, link_to('Claim pour', [:edit, pour]) if pour.user_id == 0 %>
+    <div class="activity-feed">
+      <% @pours.each do |pour| %>
+      <div class="entry">
+        <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
+        <small><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></small>
+        <%= content_tag :small, link_to('Claim pour', [:edit, pour]) if pour.user_id == 0 %>
+      </div>
+      <% end %>
     </div>
-    <% end %>
   </div>
 </div>
