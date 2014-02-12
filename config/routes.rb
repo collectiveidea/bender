@@ -10,6 +10,7 @@ Bender::Application.routes.draw do
     get 'settings' => 'settings#index'
     get 'achievements' => 'metrics#achievements'
   end
+  get 'admin' => 'admin/dashboard#index'
 
   resources :kegs
   resources :pours do

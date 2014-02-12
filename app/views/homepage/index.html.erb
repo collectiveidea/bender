@@ -1,25 +1,25 @@
-<div class="row-fluid">
-  <div class="span9">
+<div class="row">
+  <div class="column two-thirds">
     <% @beer_taps.each do |tap| %>
-      <div class="hero-unit">
+      <div class="home-tap">
         <h2><%= homepage_tap_header(tap) %></h2>
         <% if keg = tap.active_keg %>
-          <div class="row-fluid">
-            <div class="span3 well">
+          <div class="row">
+            <div class="column one-fourth">
               <h4><%= keg.poured.round %> oz</h4>
               <small>Poured</small>
             </div>
-            <div class="span3 well">
+            <div class="column one-fourth">
               <h4><%= keg.remaining.round %> oz</h4>
               <small>Remaining</small>
             </div>
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
-            <div class="span3 well">
+            <div class="column one-fourth">
               <h4><%= '%0.1f' % reading.temp_f %>&deg;F</h4>
               <small>Temperature</small>
             </div>
             <% end %>
-            <%= link_to new_pour_path(beer_tap_id: tap.id), class: 'span3 well alert-info' do %>
+            <%= link_to new_pour_path(beer_tap_id: tap.id), class: 'column one-fourth beer-me' do %>
               <h2>Beer Me!</h2>
             <% end %>
           </div>
@@ -27,7 +27,7 @@
       </div>
     <% end %>
   </div>
-  <div class="span3">
+  <div class="column one-third">
     <% @pours.each do |pour| %>
     <div class="well">
       <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
@@ -36,5 +36,4 @@
     </div>
     <% end %>
   </div>
-  <div class="span1"></div>
 </div>
