@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <%= link_to pours_path(beer_tap_id: params[:beer_tap_id], user_id: 0), method: 'post' do %>
-      <%= image_tag User.find(0).gravatar_url(size: 50) %>
+      <%= image_tag User.guest.gravatar_url(size: 50) %>
       <div class="user-info">
         <div class="user-name">Guest</div>
       </div>
