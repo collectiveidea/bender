@@ -2,7 +2,7 @@ class KegsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @kegs = Keg.where(active: true)
+    @kegs = Keg.order('id DESC')
     respond_with @kegs
   end
 
