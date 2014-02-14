@@ -29,7 +29,7 @@
   }
 }
 
-.activity-feed {
+.activity-feed, .user-list {
   background-color: #f7f7f9;
   border: 1px solid #e1e1e8;
 
@@ -37,12 +37,12 @@
   -moz-border-radius: 4px;
   border-radius: 4px;
 
-  .entry {
+  & > div {
     border-bottom: 1px solid #e1e1e8;
     padding: 10px;
   }
 
-  .entry:last-child {
+  & > div:last-child {
     border: none;
   }
 }

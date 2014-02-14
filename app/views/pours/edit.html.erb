@@ -5,9 +5,19 @@
   <h1>Who are you?</h1>
 </div>
 
-<ul class="unstyled">
-  <li><%= link_to 'New User', new_user_path %></li>
+<div class="user-list">
+  <div class="row">
+    <%= link_to 'New User', new_user_path %>
+  </div>
   <% @users.each do |user| %>
-    <li><%= link_to user.name, pour_path(@pour, pour: {user_id: user.id}), method: 'put' %></li>
+  <div class="row">
+    <%= link_to pour_path(@pour, pour: {user_id: user.id}), method: 'put' do %>
+      <%= image_tag user.gravatar_url(size: 50) %>
+      <div class="user-info">
+        <div class="user-name"><%= user.name %></div>
+        <div class="last-pour"><small><%= last_pour(user) %></small></div>
+      </div>
+    <% end %>
+  </div>
   <% end %>
-</ul>
+</div>
