@@ -1,0 +1,23 @@
+<div class="page-header">
+  <div class="pull-right"><%= link_to 'Return', root_path, :class => 'btn btn-default' %></div>
+  <h1>Kegs</h1>
+</div>
+
+<table class="table-striped full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="center">Tapped</th>
+      <th class="center">Finished</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @kegs.each do |keg| %>
+    <tr>
+      <td><%= link_to keg.name, [keg] %></td>
+      <td class="center"><%= keg.started_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
+      <td class="center"><%= keg.finished_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

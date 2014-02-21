@@ -9,10 +9,10 @@
   <%= f.text_field :name %>
 
   <%= f.label :email %>
-  <%= f.text_field :email %>
+  <%= f.email_field :email %>
 
   <div class="form-actions">
     <%= f.submit 'Create', :class => 'btn btn-primary' %>
-    <%= link_to 'Cancel', :back, :class => 'btn' %>
+    <%= link_to 'Cancel', :back, :class => 'btn btn-default' %>
   </div>
 <% end %>

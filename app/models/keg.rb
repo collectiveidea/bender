@@ -20,6 +20,10 @@ class Keg < ActiveRecord::Base
     @poured ||= completed_pours.sum(:volume)
   end
 
+  def poured_percent
+    @poured_percent ||= (completed_pours.sum(:volume) / capacity) * 100
+  end
+
   def remaining
     self.capacity - poured
   end
