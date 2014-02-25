@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+  .keg > div.column {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .keg > div.column {
+    margin-left: 0;
+  }
+
+  .keg > div.column:first-child {
+    margin-left: 3%;
+  }
+}

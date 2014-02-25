@@ -3,34 +3,8 @@
   <h1><%= @keg.name %></h1>
 </div>
 
-<div class="row">
-  <div class="column two-thirds">
-    <h3>Leaderboard</h3>
-    <table class="table table-striped data-table" id="leaderboard">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th class="center">Total (oz)</th>
-          <th class="center">Average (oz)</th>
-          <th class="center">Max Pour (oz)</th>
-          <th class="center">Pours</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @keg.top_consumers.each do |leader| %>
-        <tr>
-          <td class="name"><%= leader.name %></td>
-          <td class="total center"><%= "%0.1f" % leader.total %></td>
-          <td class="average center"><%= "%0.1f" % leader.average %></td>
-          <td class="max center"><%= "%0.1f" % leader.max %></td>
-          <td class="pours center"><%= leader.count %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="column one-third">
+<div class="row keg">
+  <div class="column one-third flow-opposite">
     <h3>Stats</h3>
     <table class="table-striped" id="stats">
       <tr>
@@ -55,6 +29,32 @@
         <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
       </tr>
       <% end %>
+    </table>
+  </div>
+
+  <div class="column two-thirds">
+    <h3>Leaderboard</h3>
+    <table class="table table-striped data-table" id="leaderboard">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="center">Total (oz)</th>
+          <th class="center">Average (oz)</th>
+          <th class="center">Max Pour (oz)</th>
+          <th class="center">Pours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @keg.top_consumers.each do |leader| %>
+        <tr>
+          <td class="name"><%= leader.name %></td>
+          <td class="total center"><%= "%0.1f" % leader.total %></td>
+          <td class="average center"><%= "%0.1f" % leader.average %></td>
+          <td class="max center"><%= "%0.1f" % leader.max %></td>
+          <td class="pours center"><%= leader.count %></td>
+        </tr>
+        <% end %>
+      </tbody>
     </table>
   </div>
 </div>

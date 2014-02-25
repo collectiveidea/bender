@@ -46,3 +46,18 @@
     border: none;
   }
 }
+
+@media (max-width: 768px) {
+  .taps .column.half {
+    width: 100%;
+  }
+
+  .taps .beer-extra {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .taps .column.half .half {
+    width: 48.5%;
+  }
+}

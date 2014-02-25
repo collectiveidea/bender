@@ -61,3 +61,13 @@ body {
 .row {
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .column.two-thirds, .column.one-third {
+    width: 48.5%;
+  }
+}
+
+@media (min-width: 769px) {
+  .column.flow-opposite { float: right; }
+}
