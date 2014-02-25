@@ -28,6 +28,10 @@
         <td>Projected empty date</td>
         <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
       </tr>
+      <tr>
+        <td>Days until empty</td>
+        <td class="days-until-empty"><%= (@keg.projected_empty - Time.current).to_i / 1.day %></td>
+      </tr>
       <% end %>
     </table>
   </div>
