@@ -2,13 +2,12 @@
 
 [![Build Status](https://travis-ci.org/collectiveidea/bender.png?branch=master)](https://travis-ci.org/collectiveidea/bender)
 [![Code Climate](https://codeclimate.com/github/collectiveidea/bender.png)](https://codeclimate.com/github/collectiveidea/bender)
-[![Test Coverage](https://codeclimate.com/github/collectiveidea/coverage.png)](https://codeclimate.com/github/collectiveidea/feed)
 
-A kegerator monitoring application.
+A kegerator monitoring application built to run on a RaspberryPi or BeagleBone Black.
 
-[![Home page]](http://i.imgur.com/wBebZEB.png)
+![Home page](http://i.imgur.com/wBebZEB.png)
 
-[![Keg details page]](http://i.imgur.com/oMi5kKF.png)
+![Keg details page](http://i.imgur.com/oMi5kKF.png)
 
 ## Running
 
