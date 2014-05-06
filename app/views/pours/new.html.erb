@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <%= link_to pours_path(beer_tap_id: params[:beer_tap_id], user_id: 0), method: 'post' do %>
-      <%= image_tag User.guest.gravatar_url(size: 50) %>
+      <%= image_tag User.guest.gravatar_url(size: 100), alt: "Guest Avatar", class: 'std-avatar' %>
       <div class="user-info">
         <div class="user-name">Guest</div>
       </div>
@@ -20,7 +20,7 @@
   <% @users.each do |user| %>
   <div class="row">
     <%= link_to pours_path(beer_tap_id: params[:beer_tap_id], user_id: user.id), method: 'post' do %>
-      <%= image_tag user.gravatar_url(size: 50) %>
+      <%= image_tag user.gravatar_url(size: 100), alt: "#{user.name} Avatar", class: 'std-avatar' %>
       <div class="user-info">
         <div class="user-name"><%= user.name %></div>
         <div class="last-pour"><small><%= last_pour(user) %></small></div>

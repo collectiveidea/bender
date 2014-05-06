@@ -12,7 +12,7 @@
   <% @users.each do |user| %>
   <div class="row">
     <%= link_to pour_path(@pour, pour: {user_id: user.id}), method: 'put' do %>
-      <%= image_tag user.gravatar_url(size: 50) %>
+      <%= image_tag user.gravatar_url(size: 100), alt: "#{user.name} Avatar", class: 'std-avatar' %>
       <div class="user-info">
         <div class="user-name"><%= user.name %></div>
         <div class="last-pour"><small><%= last_pour(user) %></small></div>
