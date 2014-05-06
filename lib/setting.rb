@@ -16,6 +16,6 @@ module Setting
   end
 
   def self.settings
-    @settings ||= YAML.load_file(Rails.root.join('config','settings.yml'))
+    @settings ||= YAML.load_file(Rails.root.join('config', 'settings.yml'))
   end
 end

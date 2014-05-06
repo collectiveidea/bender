@@ -7,7 +7,7 @@ class Kegerator < ActiveRecord::Base
 
     if pin.on? && reading.temp_f < min_temp
       self.last_shutdown = Time.now
-      self.save
+      save
       pin.off
     elsif pin.off? && reading.temp_f > max_temp && (last_shutdown.nil? || last_shutdown < 5.minutes.ago)
       pin.on
@@ -40,12 +40,12 @@ class Kegerator < ActiveRecord::Base
     # Try to reset the GFCI
     pin.off
 
-    Hubot.send_message("ALERT: The kegerator temperature is at %0.1f" % [reading.temp_f])
+    Hubot.send_message('ALERT: The kegerator temperature is at %0.1f' % [reading.temp_f])
   end
 
   def send_all_clear_message(reading)
     if temperature_sensor.temperature_readings.where(['temp_f < ? AND created_at > ?', alarm_temp, 10.minutes.ago]).count == 1
-      Hubot.send_message("All Clear: The kegerator is now below the alarm temperature")
+      Hubot.send_message('All Clear: The kegerator is now below the alarm temperature')
     end
   end
 
@@ -66,6 +66,6 @@ class Kegerator < ActiveRecord::Base
   protected
 
   def pin
-    @pin ||= GPIO::Pin.new(:pin => control_pin, :direction => :out)
+    @pin ||= GPIO::Pin.new(pin: control_pin, direction: :out)
   end
 end

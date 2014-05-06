@@ -16,9 +16,9 @@ class TapMonitor
     while @running
       # Check for processes which have exitted
       begin
-        cpid, status = Process.waitpid2(-1, Process::WNOHANG)
+        cpid, _ = Process.waitpid2(-1, Process::WNOHANG)
         break if cpid.nil?
-        tap_monitors.delete_if {|_,pid| pid == cpid }
+        tap_monitors.delete_if {|_, pid| pid == cpid }
       rescue Errno::ECHILD
         break
       end while true
@@ -70,7 +70,7 @@ class TapMonitor
 
     continue = lambda { @drop[TICKS] > 0 }
 
-    @pin = GPIO::Pin.new(:pin => @tap.gpio_pin, :trigger => :rising)
+    @pin = GPIO::Pin.new(pin: @tap.gpio_pin, trigger: :rising)
     # Loop while we are running or a pour is in progress
     while @running || @drop[TICKS] > 0
       # Wait for a pour to start
@@ -105,7 +105,7 @@ class TapMonitor
     Thread.new do
       while @running || @drop[TICKS] > 0
         begin
-          cpid, status = Process.waitpid2(-1, Process::WNOHANG)
+          cpid, _ = Process.waitpid2(-1, Process::WNOHANG)
           @sub_process_pid = PourMonitor.start(@tap, @drop) if cpid
         rescue Errno::ECHILD
           @sub_process_pid = PourMonitor.start(@tap, @drop)
@@ -131,5 +131,4 @@ class TapMonitor
       end
     end
   end
-
 end

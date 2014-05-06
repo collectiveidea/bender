@@ -65,5 +65,4 @@ class Admin::KegsController < ApplicationController
   def keg_params
     params.require(:keg).permit(:name, :description, :capacity)
   end
-
 end

@@ -23,7 +23,7 @@ class PourObserver < ActiveRecord::Observer
     message = {channel: "/pour/#{update_type}", data: data}
 
     begin
-      Net::HTTP.post_form(uri, :message => message.to_json)
+      Net::HTTP.post_form(uri, message: message.to_json)
     rescue StandardError => e
       puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye"
     end
@@ -33,9 +33,9 @@ class PourObserver < ActiveRecord::Observer
     return true if Setting.hubot_url.blank? || pour.finished_at.blank?
 
     if pour.user_id == 0
-      Hubot.send_message("Someone just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
+      Hubot.send_message('Someone just poured a %0.1foz %s.' % [pour.volume, pour.keg.name])
     elsif pour.user_id_change && pour.user_id_change[0] == 0
-      Hubot.send_message("%s has claimed the %0.1foz pour." % [pour.user.name, pour.volume])
+      Hubot.send_message('%s has claimed the %0.1foz pour.' % [pour.user.name, pour.volume])
     end
   end
 end

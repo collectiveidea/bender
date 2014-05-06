@@ -25,10 +25,10 @@ class Keg < ActiveRecord::Base
   end
 
   def remaining
-    self.capacity - poured
+    capacity - poured
   end
 
-  def start_pour(user = nil)
+  def start_pour(user=nil)
     pour = active_pour || pours.new
     pour.user = user if user
     pour.save
@@ -37,7 +37,7 @@ class Keg < ActiveRecord::Base
 
   def tap_it(tap_id)
     if tap_id.blank?
-      self.errors.add(:beer_tap_id, 'needs to be seleced')
+      errors.add(:beer_tap_id, 'needs to be seleced')
       return
     end
 
@@ -45,13 +45,13 @@ class Keg < ActiveRecord::Base
     self.started_at ||= Time.now
     self.finished_at = nil
     self.active = true
-    self.save
+    save
   end
 
   def untap_it
     self.finished_at = Time.now
     self.active = false
-    self.save
+    save
   end
 
   def temp_data
@@ -68,7 +68,7 @@ class Keg < ActiveRecord::Base
 
   def projected_empty
     if poured == 0 || remaining == 0
-      "No projection available"
+      'No projection available'
     else
       Time.now + (Time.now - started_at) / poured * remaining
     end

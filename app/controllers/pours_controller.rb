@@ -41,7 +41,7 @@ class PoursController < ApplicationController
 
   def volume
     @pour = Pour.find(params[:pour_id])
-    output = @pour.volume ? "You have poured <span>#{'%0.2f' % @pour.volume} oz." : ""
+    output = @pour.volume ? "You have poured <span>#{'%0.2f' % @pour.volume} oz." : ''
     render text: output, layout: false
   end
 

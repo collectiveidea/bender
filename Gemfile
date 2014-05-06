@@ -36,6 +36,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   # gem 'debugger'
   gem 'timecop'
+  gem 'rubocop', require: false
 end
 
 gem 'active_model_serializers'

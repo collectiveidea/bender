@@ -23,7 +23,7 @@
 module GPIO
   extend self
 
-  #Defines an event block to be executed when an pin event occurs.
+  # Defines an event block to be executed when an pin event occurs.
   #
   # == Parameters:
   # options:
@@ -47,7 +47,7 @@ module GPIO
   class Pin
     attr_reader :pin, :last_value, :value, :direction, :invert
 
-    #Initializes a new GPIO pin.
+    # Initializes a new GPIO pin.
     #
     # @param [Hash] options A hash of options
     # @option options [Fixnum] :pin The pin number to initialize. Required.
@@ -55,22 +55,22 @@ module GPIO
     # @option options [Boolean] :invert Indicates if the value read from the physical pin should be inverted. Defaults to false.
     # @option options [Symbol] :trigger Indicates when the wait_for_change method will detect a change, either :rising, :falling, or :both edge triggers. Defaults to :both.
     def initialize(options)
-      options = {:direction => :in, :invert => false, :trigger => :both}.merge options
+      options = {direction: :in, invert: false, trigger: :both}.merge options
       @pin = options[:pin]
       @direction = options[:direction]
       @invert = options[:invert]
       @trigger = options[:trigger]
 
-      raise "Invalid direction. Options are :in or :out" unless [:in, :out].include? @direction
-      raise "Invalid trigger. Options are :rising, :falling, or :both" unless [:rising, :falling, :both].include? @trigger
+      raise 'Invalid direction. Options are :in or :out' unless [:in, :out].include? @direction
+      raise 'Invalid trigger. Options are :rising, :falling, or :both' unless [:rising, :falling, :both].include? @trigger
 
       curr_direction = File.read(direction_file).strip
-      if (@direction == :out && curr_direction == "in") || (@direction == :in && curr_direction == "out")
-        File.open(direction_file, "w") { |f| f.write(@direction == :out ? "out" : "in") }
+      if (@direction == :out && curr_direction == 'in') || (@direction == :in && curr_direction == 'out')
+        File.open(direction_file, 'w') {|f| f.write(@direction == :out ? 'out' : 'in') }
       end
 
       if @direction == :in
-        File.open(edge_file, "w") { |f| f.write(@trigger.to_s) }
+        File.open(edge_file, 'w') {|f| f.write(@trigger.to_s) }
       end
 
       read
@@ -78,17 +78,17 @@ module GPIO
 
     # If the pin has been initialized for output this method will set the logic level high.
     def on
-      File.open(value_file, 'w') {|f| f.write("1") } if direction == :out
+      File.open(value_file, 'w') {|f| f.write('1') } if direction == :out
     end
 
     # Tests if the logic level is high.
     def on?
-      not off?
+      !off?
     end
 
     # If the pin has been initialized for output this method will set the logic level low.
     def off
-      File.open(value_file, 'w') {|f| f.write("0") } if direction == :out
+      File.open(value_file, 'w') {|f| f.write('0') } if direction == :out
     end
 
     # Tests if the logic level is low.
@@ -109,8 +109,8 @@ module GPIO
 
     # blocks until a logic level change occurs. The initializer option `:trigger` modifies what edge this method will release on.
     # continue is a lambda used to determine whether we should continue waiting after the 1 second IO timeout
-    def wait_for_change(continue = nil)
-      @fd ||= File.open(value_file, "r")
+    def wait_for_change(continue=nil)
+      @fd ||= File.open(value_file, 'r')
       @waiting = true
       read
       begin
@@ -138,6 +138,7 @@ module GPIO
     end
 
     private
+
     def value_file
       "/sys/class/gpio/gpio#{pin}/value"
     end
@@ -149,6 +150,5 @@ module GPIO
     def direction_file
       "/sys/class/gpio/gpio#{pin}/direction"
     end
-
   end
 end

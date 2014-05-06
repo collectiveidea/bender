@@ -11,8 +11,8 @@ class Pour < ActiveRecord::Base
 
   before_save :calculate_duration
 
-  scope :finished, lambda { where("finished_at IS NOT NULL") }
-  scope :non_guest, lambda { where("user_id > 0") }
+  scope :finished, lambda { where('finished_at IS NOT NULL') }
+  scope :non_guest, lambda { where('user_id > 0') }
 
   def complete?
     finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
@@ -21,7 +21,6 @@ class Pour < ActiveRecord::Base
   private
 
   def calculate_duration
-    self.duration = self.finished_at - self.started_at if self.finished_at && self.started_at
+    self.duration = finished_at - started_at if finished_at && started_at
   end
-
 end
