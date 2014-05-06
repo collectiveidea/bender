@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130326025332) do
+ActiveRecord::Schema.define(version: 20140410005101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20130326025332) do
   create_table "beer_taps", force: true do |t|
     t.string   "name"
     t.integer  "gpio_pin"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.integer  "temperature_sensor_id"
     t.decimal  "ml_per_tick",           precision: 6, scale: 5
     t.integer  "kegerator_id"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20130326025332) do
     t.integer  "max_temp"
     t.integer  "control_pin"
     t.datetime "last_shutdown"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.integer  "alarm_temp"
   end
 
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20130326025332) do
     t.text     "description"
     t.boolean  "active"
     t.integer  "capacity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.datetime "started_at"
     t.datetime "finished_at"
     t.string   "brewery"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20130326025332) do
     t.decimal  "volume",       precision: 6, scale: 2
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.integer  "user_id",                              default: 0, null: false
     t.float    "duration"
   end
@@ -76,19 +76,20 @@ ActiveRecord::Schema.define(version: 20130326025332) do
     t.decimal  "temp_f",                precision: 6, scale: 3
   end
 
+  add_index "temperature_readings", ["temperature_sensor_id", "created_at"], name: "index_temperature_readings_by_date", using: :btree
   add_index "temperature_readings", ["temperature_sensor_id"], name: "index_temperature_readings_on_temperature_sensor_id", using: :btree
 
   create_table "temperature_sensors", force: true do |t|
     t.string   "name"
     t.string   "code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "email"
   end
 
