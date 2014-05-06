@@ -1,4 +1,8 @@
 module Setting
+  def self.kegerator_name
+    settings['kegerator_name']
+  end
+
   def self.hubot_url
     settings['hubot_url']
   end

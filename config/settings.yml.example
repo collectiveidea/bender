@@ -1,4 +1,5 @@
 ---
+kegerator_name: '[i] Kegerator'
 hubot_url: http://hubot.example.com/hubot/kegbot/API_KEY
 pour_timeout: 10
 user_timeout: 15
