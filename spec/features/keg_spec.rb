@@ -17,7 +17,7 @@ describe "View Keg" do
 
     page.should have_content "Leaderboard"
     page.should have_content "Stats"
-    page.should have_content "Kegerator Temperatures"
+    page.should have_content "Beer Temperature"
 
     stats = Dom::KegStats.first
     stats.poured.should eq(0)
