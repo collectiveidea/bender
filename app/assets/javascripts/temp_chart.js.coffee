@@ -3,13 +3,11 @@ class TempChart
     @container = container
 
     @url       = @container.data('sensor-url')
-    @sensors   = @container.data('sensor-ids').toString().split(/, */)
-    @offset    = 0
+    @sensor    = @container.data('sensor-id')
 
     @margin    = {top: 20, right: 20, bottom: 30, left: 50}
     @width     = @container.width()  - @margin.left - @margin.right
     @height    = @container.height() - @margin.top  - @margin.bottom
-    @g_height  = (@height - (@sensors.length - 1) * 15) / @sensors.length
 
     @increment_hours = 2
     # hours in milliseconds
@@ -20,9 +18,9 @@ class TempChart
     @from = new Date(@to - 86400000)
 
     @x = d3.time.scale().range([0, @width])
-    @y = d3.scale.linear().range([@g_height, 0])
+    @y = d3.scale.linear().range([@height, 0])
 
-    @axis = d3.svg.axis().orient("left").ticks(@g_height / 16).tickSize(-@width)
+    @axis = d3.svg.axis().orient("left").ticks(@height / 16).tickSize(-@width)
 
   getStartTime: (time) =>
     st = new Date(time)
@@ -59,7 +57,7 @@ class TempChart
       .call(d3.svg.axis().scale(@x).orient("bottom"))
 
     @color = d3.scale.category10()
-    @color.domain(@sensors)
+    @color.domain([@sensor])
 
     @setupGraph()
 
@@ -71,29 +69,25 @@ class TempChart
 
   setupGraph: =>
     @startTime = @getStartTime(@to)
-    @sensor    = @sensors[@offset]
     @lineData  = []
 
     # Add bare yAxis
     @svgAxis = @svg.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate(0,#{@offset * @g_height + @offset * 15})")
+      .attr("transform", "translate(0,0)")
       .style("fill", @color(@sensor))
 
     # Add empty line
     @path = @svg.append("path")
       .attr("class", "line")
-      .attr("transform", "translate(0,#{@offset * @g_height + @offset * 15})")
+      .attr("transform", "translate(0,0)")
       .style("stroke", @color(@sensor))
 
     @loadLine()
 
   loadLine: =>
     if @startTime < @from
-      if @sensors[++@offset]?
-        @setupGraph()
-      else
-        @container.find('.loading').hide();
+      @container.find('.loading').hide();
     else
       @startTime = new Date(@startTime - @increment)
       d3.json("#{@url}/#{@sensor}/#{@increment / 1000}/#{@startTime.getTime() / 1000}.json", @drawLine)

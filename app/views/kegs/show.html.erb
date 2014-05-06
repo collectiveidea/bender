@@ -64,8 +64,8 @@
 </div>
 
 <div class="row">
-  <h3>Kegerator Temperatures</h3>
-  <div id="temp-chart" class="temp-chart" data-sensor-url="/temperature_sensors" data-sensor-ids="<%= TemperatureSensor.select(:id).limit(2).map(&:id).map(&:to_s).join(', ') %>">
+  <h3>Beer Temperature</h3>
+  <div class="temp-chart" data-sensor-url="/temperature_sensors" data-sensor-id="<%= @keg.beer_tap.try(:temperature_sensor_id) %>">
     <div class="loading" style="display: none;">Loading</div>
   </div>
 </div>
