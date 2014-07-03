@@ -12,14 +12,14 @@ describe Kegerator do
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 45, created_at: 15.minutes.ago)
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 47, created_at: 31.minutes.ago) # beyond time limit
 
-      expect(@kegerator.cooling?).to be_false
+      expect(@kegerator).not_to be_cooling
     end
 
     it 'returns true if there was a recent higher temp' do
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 44, created_at: 1.minute.ago)
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 46, created_at: 15.minutes.ago)
 
-      expect(@kegerator.cooling?).to be_true
+      expect(@kegerator).to be_cooling
     end
   end
 
