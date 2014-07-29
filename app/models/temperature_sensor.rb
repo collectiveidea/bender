@@ -27,6 +27,9 @@ class TemperatureSensor < ActiveRecord::Base
   end
 
   def temp_data(start_time=24.hours.ago, end_time=Time.now)
-    temperature_readings.where(['created_at >= ? AND created_at < ?', start_time, end_time]).order('created_at').select([:temp_f, :created_at])
+    temperature_readings.
+      where(created_at: (start_time...end_time)).
+      order(:created_at).
+      pluck(:temp_f, :created_at)
   end
 end
