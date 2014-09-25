@@ -30,6 +30,6 @@ class TemperatureSensor < ActiveRecord::Base
     temperature_readings.
       where(created_at: (start_time...end_time)).
       order(:created_at).
-      pluck(:temp_f, :created_at)
+      pluck(:temp_f, "extract(epoch from created_at)")
   end
 end

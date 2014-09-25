@@ -33,7 +33,7 @@ class TempChart
 
   processData: (data) =>
     data.forEach (d) ->
-      d.created_at = new Date(d[1])
+      d.created_at = new Date(d[1] * 1000)
       d.temp_f     = parseFloat(d[0])
 
     data.filter (d) =>
