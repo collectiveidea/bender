@@ -5,13 +5,15 @@ gem 'rails', '~> 4.1.4'
 gem 'pg'
 
 # Assets
-gem 'sass-rails',   '~> 4.0.0'
-gem 'uglifier',     '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+group :assets do
+  gem 'sass-rails',   '~> 4.0.0'
+  gem 'uglifier',     '>= 1.3.0'
+  gem 'coffee-rails', '~> 4.0.0'
 
-gem 'jquery-rails'
-gem 'compass-rails'
-gem 'd3js-rails'
+  gem 'jquery-rails'
+  gem 'compass-rails'
+  gem 'd3js-rails'
+end
 
 
 gem 'faye', require: false
