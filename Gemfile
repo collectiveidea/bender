@@ -15,18 +15,14 @@ group :assets do
   gem 'd3js-rails'
 end
 
-
-gem 'faye', require: false
-gem 'thin', require: false
-
-gem 'raindrops', require: false
+gem 'actionpack-page_caching'
+gem 'active_model_serializers'
+gem 'rails-observers'
 
 gem 'oj'
 
 # Deployment
-gem "capistrano", '< 3.0', group: :development
-
-gem 'god', require: false
+gem 'capistrano', '< 3.0', group: :development
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
@@ -41,18 +37,9 @@ group :test, :development do
   gem 'rubocop', require: false
 end
 
-gem 'active_model_serializers'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# To use debugger
-# gem 'debugger'
+group :no_require do
+  gem 'faye'
+  gem 'thin'
+  gem 'raindrops'
+  gem 'god'
+end
