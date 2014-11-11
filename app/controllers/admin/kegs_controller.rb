@@ -2,7 +2,7 @@ class Admin::KegsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @kegs = Keg.all
+    @kegs = Keg.order('started_at DESC NULLS FIRST')
     respond_with @kegs
   end
 

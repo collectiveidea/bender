@@ -15,7 +15,7 @@
     <% @kegs.each do |keg| %>
     <tr>
       <td><%= link_to keg.name, [keg] %></td>
-      <td class="center"><%= keg.started_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
+      <td class="center"><%= keg.started_at.try(:strftime, "%a, %b %d %Y %l:%M %p") || "On Deck" %></td>
       <td class="center"><%= keg.finished_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
     </tr>
     <% end %>

@@ -5,8 +5,21 @@
   <h1>Admin Kegs</h1>
 </div>
 
-<ul class="unstyled">
-  <% @kegs.each do |keg| %>
-    <li><%= link_to keg.name, [:admin, keg] %>
-  <% end %>
-</ul>
+<table class="table-striped full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="center">Tapped</th>
+      <th class="center">Finished</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @kegs.each do |keg| %>
+    <tr>
+      <td><%= link_to keg.name, [:admin, keg] %></td>
+      <td class="center"><%= keg.started_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
+      <td class="center"><%= keg.finished_at.try(:strftime, "%a, %b %d %Y %l:%M %p") %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
