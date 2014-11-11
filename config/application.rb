@@ -2,12 +2,13 @@ require File.expand_path('../boot', __FILE__)
 
 require "rails"
 
-%w(
+frameworks = %w(
   active_record
   action_controller
   action_view
-  sprockets
-).each do |framework|
+)
+frameworks << "sprockets" unless ENV["NO_SPROCKETS"]
+frameworks.each do |framework|
   begin
     require "#{framework}/railtie"
   rescue LoadError
