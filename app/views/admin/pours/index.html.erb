@@ -1,0 +1,8 @@
+<div class="page-header">
+  <div class="pull-right"><%= link_to 'Return', [:admin, @keg], :class => 'btn btn-default' %></div>
+  <h1>Pours for <%= @keg.name %></h1>
+</div>
+
+<%= render 'admin/pours/table', pours: @pours %>
+
+<%= paginate @pours %>

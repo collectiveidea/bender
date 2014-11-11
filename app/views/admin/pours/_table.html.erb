@@ -1,0 +1,23 @@
+<table class="table-striped full-width">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Volume</th>
+      <th>Poured at</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% pours.each do |pour| %>
+    <tr>
+      <td><%= image_tag pour.user.gravatar_url(size: 50), alt: "#{pour.user.name} Avatar", class: 'mini-avatar' %> <%= pour.user.name %></td>
+      <td><%= '%0.1f' % pour.volume %></td>
+      <td><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></td>
+      <td>
+        <%= link_to 'Delete', [:admin, pour.keg, pour], class: 'warning pull-right', method: 'delete', data: {confirm: 'Are you sure?'} if pour.user_id == 0 %>
+        <%= link_to 'Claim pour', [:edit, pour] if pour.user_id == 0 %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

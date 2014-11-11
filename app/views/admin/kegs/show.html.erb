@@ -10,4 +10,37 @@
   <h1>Admin Keg: <%= @keg.name %></h1>
 </div>
 
-Put more info here!
+<h3>Stats</h3>
+<table class="table-striped" id="stats">
+  <tr>
+    <td>Poured</td>
+    <td class="poured"><%= @keg.poured.round %> oz</td>
+  </tr>
+  <tr>
+    <td>Remaining</td>
+    <td class="remaining"><%= @keg.remaining.round%> oz</td>
+  </tr>
+  <tr>
+    <td>Pours</td>
+    <td class="pours"><%= @keg.completed_pours.size %></td>
+  </tr>
+  <tr>
+    <td>Average pour volume</td>
+    <td class="average-pour-volume"><%= "%0.1f" % @keg.completed_pours.average(:volume).to_f %> oz</td>
+  </tr>
+  <% if @keg.completed_pours.any? %>
+  <tr>
+    <td>Projected empty date</td>
+    <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
+  </tr>
+  <tr>
+    <td>Days until empty</td>
+    <td class="days-until-empty"><%= (@keg.projected_empty - Time.current).to_i / 1.day %></td>
+  </tr>
+  <% end %>
+</table>
+
+<h3>Recent Pours</h3>
+<%= render 'admin/pours/table', pours: @keg.pours.for_listing.limit(15) %>
+
+<%= link_to 'More', admin_keg_pours_path(@keg, page: 2), class: 'btn' if @keg.pours.for_listing.count > 15 %>

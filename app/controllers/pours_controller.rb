@@ -2,7 +2,7 @@ class PoursController < ApplicationController
   respond_to :html, :json
 
   def index
-    @pours = Pour.where('volume IS NOT NULL').includes(:user, :keg).order('created_at desc').page(params[:page])
+    @pours = Pour.for_listing.page(params[:page])
     respond_with @pours
   end
 

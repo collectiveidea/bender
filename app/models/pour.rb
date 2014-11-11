@@ -13,6 +13,7 @@ class Pour < ActiveRecord::Base
 
   scope :finished, lambda { where('finished_at IS NOT NULL') }
   scope :non_guest, lambda { where('user_id > 0') }
+  scope :for_listing, lambda { where('volume IS NOT NULL').includes(:keg, :user).order('created_at desc') }
 
   def complete?
     finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
