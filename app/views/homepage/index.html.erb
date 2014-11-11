@@ -36,5 +36,8 @@
       <%= content_tag :small, link_to('Claim pour', [:edit, pour]) if pour.user_id == 0 %>
     </div>
     <% end %>
+    <div class="entry">
+      <%= link_to "More", pours_path %>
+    </div>
   </div>
 </div>
