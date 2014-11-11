@@ -1,0 +1,26 @@
+<table class="table-striped full-width">
+  <thead>
+    <tr>
+      <th>Beer</th>
+      <th>Volume</th>
+      <th>Poured at</th>
+      <th>User</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pours.each do |pour| %>
+    <tr>
+      <td><%= pour.keg.name %></td>
+      <td><%= '%0.1f' % pour.volume %></td>
+      <td><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></td>
+      <td><%= image_tag pour.user.gravatar_url(size: 50), alt: "#{pour.user.name} Avatar", class: 'mini-avatar' %> <%= pour.user.name %></td>
+      <td>
+        <%= link_to 'Claim pour', [:edit, pour] if pour.user_id == 0 %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @pours %>

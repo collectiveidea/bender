@@ -17,6 +17,7 @@ end
 
 gem 'actionpack-page_caching'
 gem 'active_model_serializers'
+gem 'kaminari'
 gem 'rails-observers'
 
 gem 'oj'
