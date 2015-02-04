@@ -31,9 +31,8 @@ group :test, :development do
   gem 'nokogiri', require: false
   gem 'poltergeist', '~> 1.1'
   gem 'domino'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '< 1.4.0'
   gem 'factory_girl_rails'
-  # gem 'debugger'
   gem 'timecop'
   gem 'rubocop', require: false
 end
