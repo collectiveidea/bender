@@ -11,7 +11,7 @@
   </div>
   <% @users.each do |user| %>
   <div class="row">
-    <%= link_to pour_path(@pour, pour: {user_id: user.id}), method: 'put' do %>
+    <%= link_to pour_path(@pour, pour: {user_id: user.id}, back_to: request.headers["Referer"]), method: 'put' do %>
       <%= image_tag user.gravatar_url(size: 100), alt: "#{user.name} Avatar", class: 'std-avatar' %>
       <div class="user-info">
         <div class="user-name"><%= user.name %></div>

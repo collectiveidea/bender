@@ -5,6 +5,7 @@ describe 'Managing pours' do
   let(:keg) { FactoryGirl.create(:keg, name: 'Better Beer') }
 
   before do
+    User.create(id: 0, name: 'Guest')
     keg.tap_it(beer_tap.id)
   end
 
@@ -27,7 +28,6 @@ describe 'Managing pours' do
   end
 
   it 'allows an existing user to claim a pour' do
-    User.create(id: 0, name: 'Guest')
     user = FactoryGirl.create(:user, name: 'Johnny')
     pour = FactoryGirl.create(:pour, keg: keg, volume: 4.0, user_id: 0)
 
@@ -37,5 +37,19 @@ describe 'Managing pours' do
     click_link 'Johnny'
 
     expect(page).to have_content("Johnny poured a 4.0oz Better Beer")
+  end
+
+  it 'redirects to the appropriate place after claiming a pour' do
+    user = FactoryGirl.create(:user, name: 'Johnny')
+    pour = FactoryGirl.create(:pour, keg: keg, volume: 4.0, user_id: 0)
+
+    source = url_for([:admin, keg])
+
+    visit source
+
+    click_link 'Claim pour'
+    click_link 'Johnny'
+
+    expect(page.current_url).to eq(source)
   end
 end

@@ -36,7 +36,7 @@ class PoursController < ApplicationController
     pour = Pour.update(params[:id], pour_params)
     respond_to do |format|
       format.json { respond_with pour }
-      format.html { redirect_to root_path }
+      format.html { redirect_to(params[:back_to] || root_path) }
     end
   end
 
