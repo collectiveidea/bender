@@ -13,20 +13,14 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def send_pour_update(pour)
-    return true if Setting.faye_url.blank? || pour.volume.to_f <= 0.1 || pour.complete?
+    return true if !FayeNotifier.configured? || pour.volume.to_f <= 0.1 || pour.complete?
 
     update_type = (pour.finished_at ? :complete : :update)
 
-    uri  = URI.parse(Setting.faye_url)
     data = pour.attributes.symbolize_keys
     data[:beer_tap_id] = pour.keg.beer_tap_id.to_s
-    message = {channel: "/pour/#{update_type}", data: data}
 
-    begin
-      Net::HTTP.post_form(uri, message: message.to_json)
-    rescue StandardError => e
-      puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye"
-    end
+    FayeNotifier.send_message("/pour/#{update_type}", data)
   end
 
   def send_to_campfire(pour)
