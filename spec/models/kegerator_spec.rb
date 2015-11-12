@@ -47,7 +47,8 @@ describe Kegerator do
       @kegerator.send_alarm_message(reading)
     end
 
-    it 'does not send an alarm message when we are cooling' do
+    # currently disabled
+    xit 'does not send an alarm message when we are cooling' do
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 50, created_at: 25.minutes.ago)
 
       reading = FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 49)
@@ -102,7 +103,8 @@ describe Kegerator do
       @kegerator.report_dms(reading)
     end
 
-    it 'pings DMS if we are above the alarm temp and cooling' do
+    # currently disabled
+    xit 'pings DMS if we are above the alarm temp and cooling' do
       FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 52, created_at: 2.minutes.ago)
       reading = FactoryGirl.create(:temperature_reading, temperature_sensor: @temp_sensor, temp_f: 50)
 

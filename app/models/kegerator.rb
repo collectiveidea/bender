@@ -35,7 +35,7 @@ class Kegerator < ActiveRecord::Base
   # This should send a message on the first alarm reading and every 30 minutes after that
   def send_alarm_message(reading)
     last_good = temperature_sensor.temperature_readings.where(['temp_f < ?', alarm_temp]).order('created_at DESC').first.try(:created_at)
-    return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1 || cooling?
+    return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1
 
     # Try to reset the GFCI
     pin.off
@@ -51,7 +51,7 @@ class Kegerator < ActiveRecord::Base
 
   def report_dms(reading)
     # don't report to DMS if we are above the alarm temp
-    return if Setting.dms_url.blank? || (reading.temp_f > alarm_temp && !cooling?)
+    return if Setting.dms_url.blank? || (reading.temp_f > alarm_temp)
 
     uri = URI(Setting.dms_url)
     begin
