@@ -13,6 +13,8 @@ group :assets do
   gem 'jquery-rails'
   gem 'compass-rails'
   gem 'd3js-rails'
+  gem 'rickshaw_rails'
+  gem 'momentjs-rails'
 end
 
 gem 'actionpack-page_caching'

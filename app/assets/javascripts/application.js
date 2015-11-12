@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require d3
+//= require d3.v2
+//= require rickshaw
+//= require moment
 //= require jquery.dataTables
 //= require_tree .
