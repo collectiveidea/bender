@@ -6,6 +6,6 @@ class TemperatureSensorsController < ApplicationController
     start_time = Time.at(params[:start_timestamp].to_i)
     end_time   = start_time + params[:duration].to_i
 
-    render json: sensor.temp_data(start_time, end_time).to_json
+    render json: Oj.dump(sensor.temp_data(start_time, end_time))
   end
 end
