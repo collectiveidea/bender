@@ -7,7 +7,7 @@ class TempChart
 
     @duration  = @container.data('duration') || 21600
 
-    @graph_end = moment().valueOf() / 1e3 - 86400 # REMOVE THIS OFFSET THIS WAS FOR TESTING
+    @graph_end = moment().valueOf() / 1e3
     @graph_start = @graph_end - @duration
 
   draw: =>
