@@ -11,5 +11,6 @@
  *= require_self
  *= require data_tables
  *= require rickshaw
+ *= require font-awesome
  *= require_tree .
  */
