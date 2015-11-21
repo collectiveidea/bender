@@ -16,4 +16,5 @@
 //= require rickshaw
 //= require moment
 //= require jquery.dataTables
+//= require underscore
 //= require_tree .

@@ -16,6 +16,7 @@ group :assets do
   gem 'rickshaw_rails'
   gem 'momentjs-rails'
   gem 'font-awesome-rails'
+  gem 'underscore-rails'
 end
 
 gem 'actionpack-page_caching'
