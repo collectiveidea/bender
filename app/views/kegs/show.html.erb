@@ -65,7 +65,5 @@
 
 <div class="row">
   <h3>Beer Temperature</h3>
-  <div class="temp-chart" data-sensor-url="/temperature_sensors" data-sensor-id="<%= @keg.beer_tap.try(:temperature_sensor_id) %>">
-    <div class="loading" style="display: none;">Loading</div>
-  </div>
+  <%= render "shared/temp_chart", sensor_id: @keg.beer_tap.try(:temperature_sensor_id) %>
 </div>

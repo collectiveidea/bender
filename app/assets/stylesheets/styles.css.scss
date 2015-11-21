@@ -3,6 +3,10 @@ a {
   text-decoration: none;
 }
 
+a.inactive {
+  color: lighten(#428bca, 30%);
+}
+
 a:hover, a:focus {
   color: #2a6496;
   text-decoration: underline;
@@ -93,35 +97,27 @@ table#leaderboard, table#stats {
   width: 100%;
 }
 
-svg {
-  .axis path {
-    fill: none;
-    shape-rendering: crispEdges;
-  }
-
-  .line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-  }
-
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-
-  .y.axis line {
-    stroke-opacity: .2;
-  }
-}
-
 .temp-chart {
-  height: 200px;
+  .graph-wrapper {
+    height: 200px;
+  }
 
-  .loading {
+  .message {
     position: absolute;
-    padding-top: 80px;
+    font-size: 35px;
+    padding-top: 70px;
+    width: 960px;
+    height: 200px;
+    text-align: center;
+  }
+
+  .controls {
+    font-size: 22px;
+
+    .current {
+      font-size: 34px;
+      margin-top: -9px;
+    }
   }
 }
 
