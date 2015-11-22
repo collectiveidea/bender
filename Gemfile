@@ -15,9 +15,10 @@ group :assets do
   gem 'd3js-rails'
   gem 'rickshaw_rails'
   gem 'momentjs-rails'
-  gem 'font-awesome-rails'
   gem 'underscore-rails'
 end
+
+gem 'font-awesome-rails'
 
 gem 'actionpack-page_caching'
 gem 'active_model_serializers'
