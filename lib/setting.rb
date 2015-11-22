@@ -7,8 +7,15 @@ module Setting
     settings['hubot_url']
   end
 
-  def self.faye_url
-    settings['faye_url']
+  def self.faye_url(substitue_host = nil)
+    return nil unless settings['faye_url']
+    if substitue_host
+      uri = URI.parse(settings['faye_url'])
+      uri.host = substitue_host
+      uri.to_s
+    else
+      settings['faye_url']
+    end
   end
 
   def self.pour_timeout

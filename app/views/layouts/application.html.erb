@@ -26,9 +26,9 @@
   </footer>
 
   <% if Setting.faye_url.present? %>
-    <%= javascript_include_tag "#{Setting.faye_url}/client.js" %>
+    <%= javascript_include_tag "#{Setting.faye_url(request.host)}/client.js" %>
     <script type="text/javascript">
-      var fayeClient = new Faye.Client('<%= Setting.faye_url %>');
+      var fayeClient = new Faye.Client('<%= Setting.faye_url(request.host) %>');
     </script>
   <% end %>
   <%= javascript_include_tag "application" %>
