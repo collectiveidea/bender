@@ -1,7 +1,7 @@
 module PoursHelper
   def last_pour(user)
     if pour_at = user.last_pour_at
-      "Last activity: #{pour_at.strftime("%a, %b %d %Y %l:%M %p")}"
+      "Last activity: #{I18n.l(pour_at, format: :norm)}"
     else
       'No activity yet'
     end

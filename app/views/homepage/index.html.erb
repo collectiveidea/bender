@@ -32,7 +32,7 @@
     <% @pours.each do |pour| %>
     <div class="entry">
       <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
-      <small><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></small>
+      <small><%= l(pour.started_at, format: :norm) %></small>
       <%= content_tag :small, link_to('Claim pour', [:edit, pour]) if pour.user_id == 0 %>
     </div>
     <% end %>

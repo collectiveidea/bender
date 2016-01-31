@@ -13,7 +13,7 @@
     <tr>
       <td><%= pour.keg.name %></td>
       <td><%= '%0.1f' % pour.volume %></td>
-      <td><%= pour.started_at.strftime('%a, %b %e %Y %l:%M %p') %></td>
+      <td><%= l(pour.started_at, format: :norm) %></td>
       <td><%= image_tag pour.user.gravatar_url(size: 50), alt: "#{pour.user.name} Avatar", class: 'mini-avatar' %> <%= pour.user.name %></td>
       <td>
         <%= link_to 'Claim pour', [:edit, pour] if pour.user_id == 0 %>
