@@ -33,6 +33,12 @@
         <td class="days-until-empty"><%= (@keg.projected_empty - Time.current).to_i / 1.day %></td>
       </tr>
       <% end %>
+      <% if @keg.started_at %>
+      <tr>
+        <td>Days on tap</td>
+        <td><%= @keg.days_on_tap %></td>
+      </tr>
+      <% end %>
     </table>
   </div>
 

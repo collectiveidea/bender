@@ -73,4 +73,9 @@ class Keg < ActiveRecord::Base
       Time.now + (Time.now - started_at) / poured * remaining
     end
   end
+
+  def days_on_tap
+    return 0 unless started_at
+    (((finished_at || Time.now) - started_at) / 1.day).round
+  end
 end

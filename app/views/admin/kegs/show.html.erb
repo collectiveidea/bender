@@ -50,6 +50,12 @@
     <td><%= l(@keg.finished_at, format: :norm) %></td>
   </tr>
   <% end %>
+  <% if @keg.started_at %>
+  <tr>
+    <td>Days on tap</td>
+    <td><%= @keg.days_on_tap %></td>
+  </tr>
+  <% end %>
 </table>
 
 <h3>Recent Pours</h3>
