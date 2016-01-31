@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h1>Edit Temperature Sensor: <%= @temperature_sensor.name %></h1>
+</div>
+
+<%= errors_for(@temperature_sensor) %>
+
+<%= form_for [:admin, @temperature_sensor] do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <div class="form-actions">
+    <%= f.submit 'Update', :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', [:admin, @temperature_sensor], :class => 'btn btn-default' %>
+  </div>
+<% end %>

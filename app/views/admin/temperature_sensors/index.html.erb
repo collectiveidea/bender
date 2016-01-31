@@ -1,0 +1,30 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to "All Graphs", all_graphs_admin_temperature_sensors_path, :class => 'btn btn-default' %>
+  </div>
+  <h1>Admin Tempterature Sensors</h1>
+</div>
+
+<table class="table-striped full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="center">Hardware Code</th>
+      <th class="center">Last Reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @temperature_sensors.each do |sensor| %>
+    <tr>
+      <td><%= link_to sensor.name, [:admin, sensor] %></td>
+      <td class="center"><%= sensor.code %></td>
+      <td class="center">
+        <% if sensor.latest_reading %>
+        <%= sensor.latest_reading.temp_f.round(1) %>F
+        at <%= l(sensor.latest_reading.created_at, format: :norm) %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

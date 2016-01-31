@@ -199,3 +199,18 @@ textarea {
 .warning {
   color: red;
 }
+
+h3 small.when {
+  font-weight: normal;
+  font-size: 0.65em;
+}
+
+.all-graphs {
+  .row h3 {
+    margin-bottom: 5px;
+  }
+
+  .temp-chart .graph-wrapper {
+    height: 130px;
+  }
+}

@@ -1,0 +1,27 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'Edit', [:edit, :admin, @temperature_sensor], :class => 'btn btn-default' %>
+  </div>
+  <h1><%= link_to "Admin", admin_path %> > <%= link_to "Temperature Sensors", [:admin, :temperature_sensors] %> > <%= @temperature_sensor.name %></h1>
+</div>
+
+<table class="table-striped" id="stats">
+  <tr>
+    <td>Hardware Code</td>
+    <td><%= @temperature_sensor.code %></td>
+  </tr>
+  <% if @temperature_sensor.latest_reading %>
+  <tr>
+    <td>Last reading</td>
+    <td><%= @temperature_sensor.latest_reading.temp_f.round(1) %>F</td>
+  </tr>
+  <tr>
+    <td>Last reading at</td>
+    <td><%= l(@temperature_sensor.latest_reading.created_at, format: :norm) %></td>
+  </tr>
+  <% end %>
+</table>
+
+<div class="row">
+  <%= render "shared/temp_chart", sensor_id: @temperature_sensor.id %>
+</div>

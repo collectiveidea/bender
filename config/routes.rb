@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       put    'tap' => 'kegs#tap_keg'
       delete 'tap' => 'kegs#untap_keg'
     end
+    resources :temperature_sensors, except: [:new, :create] do
+      collection do
+        get "all_graphs"
+      end
+    end
 
     get 'settings' => 'settings#index'
     get 'achievements' => 'metrics#achievements'

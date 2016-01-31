@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h1>Admin > <%= link_to "Tempterature Sensors", admin_temperature_sensors_path %> > All Graphs</h1>
+</div>
+
+<div class="all-graphs">
+  <% @temperature_sensors.each do |sensor| %>
+  <div class="row">
+    <h3>
+      <div data-sensor-id="<%= sensor.id %>" class="pull-right">
+        <small class="when"><%= l(sensor.latest_reading.created_at, format: :norm) if sensor.latest_reading %></small>
+        <span class="temperature"><%= '%0.1f' % sensor.latest_reading.temp_f if sensor.latest_reading %></span>&deg;F
+      </div>
+      <%= sensor.name %>
+    </h3>
+    <%= render "shared/temp_chart", sensor_id: sensor.id %>
+  </div>
+  <% end %>
+</div>
