@@ -8,7 +8,7 @@
           <div class="column half beer-info">
             <%= content_tag(:h2, link_to(keg.name, keg)) %>
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
-            <div data-sensor-id="<%= tap.temperature_sensor.id %>"><span><%= '%0.1f' % reading.temp_f %></span>&deg;F</div>
+            <div data-sensor-id="<%= tap.temperature_sensor.id %>"><span class="temperature"><%= '%0.1f' % reading.temp_f %></span>&deg;F</div>
             <% end %>
           </div>
           <div class="column half beer-extra">
