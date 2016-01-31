@@ -28,7 +28,7 @@
     <td>Average pour volume</td>
     <td class="average-pour-volume"><%= "%0.1f" % @keg.completed_pours.average(:volume).to_f %> oz</td>
   </tr>
-  <% if @keg.completed_pours.any? %>
+  <% if @keg.completed_pours.any? && @keg.active? %>
   <tr>
     <td>Projected empty date</td>
     <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
@@ -36,6 +36,18 @@
   <tr>
     <td>Days until empty</td>
     <td class="days-until-empty"><%= (@keg.projected_empty - Time.current).to_i / 1.day %></td>
+  </tr>
+  <% end %>
+  <% if @keg.started_at %>
+  <tr>
+    <td>Started at</td>
+    <td><%= l(@keg.started_at, format: :norm) %></td>
+  </tr>
+  <% end %>
+  <% if @keg.finished_at %>
+  <tr>
+    <td>Finished at</td>
+    <td><%= l(@keg.finished_at, format: :norm) %></td>
   </tr>
   <% end %>
 </table>
