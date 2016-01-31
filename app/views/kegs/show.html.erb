@@ -69,7 +69,9 @@
   </div>
 </div>
 
+<% if @keg.active? %>
 <div class="row">
   <h3>Beer Temperature</h3>
   <%= render "shared/temp_chart", sensor_id: @keg.beer_tap.try(:temperature_sensor_id) %>
 </div>
+<% end %>
