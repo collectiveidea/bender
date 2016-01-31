@@ -2,7 +2,20 @@
   <div class="pull-right">
     <%= link_to 'Edit', [:edit, :admin, @beer_tap], :class => 'btn btn-default' %>
   </div>
-  <h1>Admin Tap: <%= @beer_tap.name %></h1>
+  <h1><%= link_to "Admin Taps", [:admin, :beer_taps] %> > <%= @beer_tap.name %></h1>
 </div>
 
-Put more info here!
+<table class="table-striped" id="stats">
+  <tr>
+    <td>GPIO Pin</td>
+    <td><%= @beer_tap.gpio_pin %></td>
+  </tr>
+  <tr>
+    <td>Temperature Sensor</td>
+    <td><%= @beer_tap.temperature_sensor.try(:name) || "Unassigned" %></td>
+  </tr>
+  <tr>
+    <td>mL per tick</td>
+    <td><%= @beer_tap.ml_per_tick %></td>
+  </tr>
+</table>
