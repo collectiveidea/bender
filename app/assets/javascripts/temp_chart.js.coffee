@@ -8,7 +8,7 @@ class TempChart
 
     @duration = @container.data('duration') || 21600
 
-    if @container.data('graph-end')?
+    if @container.data('graph-end')? && @container.data('graph-end') != ""
       @graphEnd = parseFloat(@container.data('graph-end'))
     else
       @graphEnd = moment().valueOf() / 1e3
