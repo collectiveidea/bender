@@ -47,7 +47,7 @@ describe 'Managing pours' do
 
     visit source
 
-    click_link 'Claim pour'
+    click_link 'Assign pour'
     click_link 'Johnny'
 
     expect(page.current_url).to eq(source)

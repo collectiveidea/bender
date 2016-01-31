@@ -12,7 +12,7 @@ describe 'Managing taps' do
 
     click_button 'Create'
 
-    expect(page).to have_content('Admin Tap: Main Tap')
+    expect(page).to have_content('Admin Taps > Main Tap')
   end
 
   it 'allows a user to edit an existing tap' do
@@ -25,6 +25,6 @@ describe 'Managing taps' do
     fill_in 'Name', with: 'Left Tap'
     click_button 'Update'
 
-    expect(page).to have_content('Admin Tap: Left Tap')
+    expect(page).to have_content('Admin Taps > Left Tap')
   end
 end

@@ -11,7 +11,7 @@ describe 'Managing kegs' do
 
     click_button 'Create'
 
-    expect(page).to have_content('Admin Keg: Better Beer')
+    expect(page).to have_content('Admin Kegs > Better Beer')
   end
 
   it 'allows a user to edit a keg' do
@@ -24,7 +24,7 @@ describe 'Managing kegs' do
 
     click_button 'Update'
 
-    expect(page).to have_content('Admin Keg: Betterer Beer')
+    expect(page).to have_content('Admin Kegs > Betterer Beer')
   end
 
   it 'allows a user to tap a keg' do
