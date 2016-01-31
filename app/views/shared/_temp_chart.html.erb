@@ -1,4 +1,4 @@
-<div class="temp-chart" data-sensor-id="<%= sensor_id %>">
+<div class="temp-chart" data-sensor-id="<%= sensor_id %>" data-graph-end="<%= end_at.to_f if local_assigns[:end_at] %>">
   <div class="graph-wrapper">
     <div class="message loading" style="display: none;"><%= fa_icon "spinner", class: "fa-pulse" %> Loading</div>
     <div class="message no-data" style="display: none;"><%= fa_icon "exclamation-triangle" %> No data for this period</div>
