@@ -4,7 +4,7 @@ class Keg < ActiveRecord::Base
     ['1/2 Barrel', 1980],
     ['1/4 Barrel', 984],
     ['1/6 Barrel', 636],
-    ['Home Brew', 636]
+    ['Home Brew', 635]
   ]
 
   belongs_to :beer_tap
