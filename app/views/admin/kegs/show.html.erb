@@ -7,7 +7,7 @@
     <% end %>
     <%= link_to 'Edit', [:edit, :admin, @keg], class: 'btn btn-default' %>
   </div>
-  <h1>Admin Keg: <%= @keg.name %></h1>
+  <h1><%= link_to "Admin Kegs", [:admin, :kegs] %> > <%= @keg.name %></h1>
 </div>
 
 <h3>Stats</h3>
@@ -55,4 +55,4 @@
 <h3>Recent Pours</h3>
 <%= render 'admin/pours/table', pours: @keg.pours.for_listing.limit(15) %>
 
-<%= link_to 'More', admin_keg_pours_path(@keg, page: 2), class: 'btn' if @keg.pours.for_listing.count > 15 %>
+<%= link_to 'More', admin_keg_pours_path(@keg, page: 1), class: 'btn' if @keg.pours.for_listing.count > 15 %>

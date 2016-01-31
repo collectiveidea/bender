@@ -15,7 +15,7 @@
       <td><%= l(pour.started_at, format: :norm) %></td>
       <td>
         <%= link_to 'Delete', [:admin, pour.keg, pour], class: 'warning pull-right', method: 'delete', data: {confirm: 'Are you sure?'} if pour.user_id == 0 %>
-        <%= link_to 'Claim pour', [:edit, pour] if pour.user_id == 0 %>
+        <%= link_to 'Assign pour', [:edit, pour] if pour.user_id == 0 %>
       </td>
     </tr>
     <% end %>
