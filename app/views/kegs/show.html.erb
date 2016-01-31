@@ -23,7 +23,7 @@
         <td>Average pour volume</td>
         <td class="average-pour-volume"><%= "%0.1f" % @keg.completed_pours.average(:volume).to_f %> oz</td>
       </tr>
-      <% if @keg.completed_pours.any? %>
+      <% if @keg.completed_pours.any? && @keg.active? %>
       <tr>
         <td>Projected empty date</td>
         <td class="projected-empty-date"><%= @keg.projected_empty.strftime("%a, %b %d") %></td>
