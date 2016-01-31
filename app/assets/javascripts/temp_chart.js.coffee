@@ -132,7 +132,7 @@ class TempChart
       @hoverDetail = new Rickshaw.Graph.HoverDetail({
         graph: @rickshaw,
         yFormatter: (e) -> e,
-        xFormatter: (e) -> moment(e * 1e3).utc().format("MMMM Do YYYY HH:mm"),
+        xFormatter: (e) -> moment(e * 1e3).utc().format("llll"),
         formatter: (e, t, n, r, i, s) -> i + "&nbsp;" + e.name
       })
       @xAxis = new Rickshaw.Graph.Axis.Time({
