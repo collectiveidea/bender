@@ -15,6 +15,13 @@ class Pour < ActiveRecord::Base
   scope :non_guest, lambda { where('user_id > 0') }
   scope :for_listing, lambda { where('volume IS NOT NULL').includes(:keg, :user).order('created_at desc') }
 
+  def self.between_dates(start_time:, end_time:)
+    start_time ||= 10.years.ago
+    end_time ||= 10.years.from_now
+
+    where(created_at: start_time..end_time)
+  end
+
   def complete?
     finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
   end

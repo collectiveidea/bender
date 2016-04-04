@@ -3,6 +3,7 @@ class PoursController < ApplicationController
 
   def index
     @pours = Pour.for_listing.page(params[:page])
+
     respond_with @pours
   end
 
