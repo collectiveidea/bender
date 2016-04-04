@@ -5,7 +5,7 @@ module Api
         @pours = Pour.for_listing.
           between_dates(start_time: start_time, end_time: end_time)
 
-          render json: @pours
+        render json: @pours
       end
 
       private
