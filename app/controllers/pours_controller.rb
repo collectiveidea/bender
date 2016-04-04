@@ -2,9 +2,7 @@ class PoursController < ApplicationController
   respond_to :html, :json
 
   def index
-    @pours = Pour.for_listing.
-      between_dates(start_time: start_time, end_time: end_time).
-      page(params[:page])
+    @pours = Pour.for_listing.page(params[:page])
 
     respond_with @pours
   end
@@ -53,17 +51,5 @@ class PoursController < ApplicationController
 
   def pour_params
     params.require(:pour).permit(:user_id)
-  end
-
-  def start_time
-    if params[:start_time]
-      Time.zone.parse(params[:start_time])
-    end
-  end
-
-  def end_time
-    if params[:end_time]
-      Time.zone.parse(params[:end_time])
-    end
   end
 end
