@@ -46,4 +46,36 @@ describe Pour do
       end
     end
   end
+
+	describe "#between_dates" do
+		let(:start_datetime) { 3.weeks.ago }
+		let(:end_datetime) { 1.weeks.ago }
+
+		let!(:pour1) { FactoryGirl.create(:pour, created_at: start_datetime) }
+		let!(:pour2) { FactoryGirl.create(:pour, created_at: end_datetime) }
+		let!(:empty_volume) { FactoryGirl.create(:pour, volume: nil) }
+
+		context "when no dates are given" do
+			it "returns all listable pours" do
+				result = Pour.between_dates(start_time: nil, end_time: nil)
+
+				expect(result.size).to eql(3)
+				expect(result).to include(pour1, pour2)
+			end
+		end
+
+		context "dates are given" do
+			it "returns pours that were created between the dates" do
+				result = Pour.between_dates(start_time: start_datetime, end_time: end_datetime)
+
+				expect(result.size).to eql(2)
+				expect(result).to include(pour1, pour2)
+
+				result = Pour.between_dates(start_time: start_datetime, end_time: 2.weeks.ago)
+
+				expect(result.size).to eql(1)
+				expect(result).to include(pour1)
+			end
+		end
+	end
 end
