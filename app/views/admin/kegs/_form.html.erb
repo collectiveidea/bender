@@ -1,6 +1,15 @@
 <%= f.label :name %>
 <%= f.text_field :name %>
 
+<%= f.label :brewery %>
+<%= f.text_field :brewery %>
+
+<%= f.label :style %>
+<%= f.text_field :style %>
+
+<%= f.label :abv %>
+<%= f.number_field :abv, step: 0.1 %>
+
 <%= f.label :description %>
 <%= f.text_area :description %>
 

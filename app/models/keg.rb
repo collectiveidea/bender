@@ -12,6 +12,10 @@ class Keg < ActiveRecord::Base
   has_many :pours
   has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour'
 
+  def display_name
+    [name, brewery].reject(&:blank?).join(" by ")
+  end
+
   def completed_pours
     pours.where('finished_at IS NOT NULL')
   end

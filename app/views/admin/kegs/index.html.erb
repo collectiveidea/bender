@@ -16,7 +16,7 @@
   <tbody>
     <% @kegs.each do |keg| %>
     <tr>
-      <td><%= link_to keg.name, [:admin, keg] %></td>
+      <td><%= link_to keg.display_name, [:admin, keg] %></td>
       <td class="center"><%= l(keg.started_at, format: :norm) if keg.started_at %></td>
       <td class="center"><%= l(keg.finished_at, format: :norm) if keg.finished_at %></td>
     </tr>
