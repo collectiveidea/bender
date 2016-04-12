@@ -2,7 +2,7 @@ class Admin::BeerTapsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @beer_taps = BeerTap.all
+    @beer_taps = BeerTap.order(:display_order)
     respond_to do |wants|
       wants.html
       wants.json { render json: @beer_taps.preload(:active_keg).to_json(include: [:active_keg]) }
@@ -43,6 +43,6 @@ class Admin::BeerTapsController < ApplicationController
   protected
 
   def beer_tap_params
-    params.require(:beer_tap).permit(:name, :gpio_pin, :temperature_sensor_id, :ml_per_tick)
+    params.require(:beer_tap).permit(:name, :gpio_pin, :temperature_sensor_id, :ml_per_tick, :display_order)
   end
 end

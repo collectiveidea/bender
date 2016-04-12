@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140410005101) do
+ActiveRecord::Schema.define(version: 20160412215733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140410005101) do
     t.integer  "temperature_sensor_id"
     t.decimal  "ml_per_tick",           precision: 6, scale: 5
     t.integer  "kegerator_id"
+    t.integer  "display_order"
   end
 
   create_table "kegerators", force: true do |t|
