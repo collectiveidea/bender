@@ -3,7 +3,10 @@ class Admin::BeerTapsController < ApplicationController
 
   def index
     @beer_taps = BeerTap.all
-    respond_with @beer_taps
+    respond_to do |wants|
+      wants.html
+      wants.json { render json: @beer_taps.preload(:active_keg).to_json(include: [:active_keg]) }
+    end
   end
 
   def show

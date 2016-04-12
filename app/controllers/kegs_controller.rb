@@ -3,7 +3,10 @@ class KegsController < ApplicationController
 
   def index
     @kegs = Keg.order('started_at DESC NULLS FIRST')
-    respond_with @kegs
+    respond_to do |wants|
+      wants.html
+      wants.json { render json: @kegs.preload(:beer_tap).to_json(include: [:beer_tap]) }
+    end
   end
 
   def show
