@@ -9,8 +9,8 @@ class Keg < ActiveRecord::Base
 
   belongs_to :beer_tap
 
-  has_many :pours
-  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour'
+  has_many :pours, inverse_of: :keg
+  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour', inverse_of: :keg
 
   def display_name
     [name, brewery].reject(&:blank?).join(" by ")

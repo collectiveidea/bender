@@ -4,8 +4,8 @@ class BeerTap < ActiveRecord::Base
   belongs_to :temperature_sensor
   belongs_to :kegerator
 
-  has_many :kegs
-  has_one :active_keg, lambda { where(active: true) }, class_name: 'Keg'
+  has_many :kegs, inverse_of: :beer_tap
+  has_one :active_keg, lambda { where(active: true) }, class_name: 'Keg', inverse_of: :beer_tap
 
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }
