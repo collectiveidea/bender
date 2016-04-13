@@ -5,7 +5,7 @@ class KegsController < ApplicationController
     @kegs = Keg.order('started_at DESC NULLS FIRST')
     respond_to do |wants|
       wants.html
-      wants.json { render json: @kegs.preload(:beer_tap).to_json(include: [:beer_tap]) }
+      wants.json { render json: @kegs.preload(:beer_tap) }
     end
   end
 

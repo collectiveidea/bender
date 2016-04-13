@@ -5,7 +5,7 @@ class Admin::BeerTapsController < ApplicationController
     @beer_taps = BeerTap.order(:display_order)
     respond_to do |wants|
       wants.html
-      wants.json { render json: @beer_taps.preload(:active_keg).to_json(include: [:active_keg]) }
+      wants.json { render json: @beer_taps.preload(:active_keg) }
     end
   end
 
