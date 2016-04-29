@@ -7,8 +7,12 @@
         <div class="row">
           <div class="column half beer-info">
             <%= content_tag(:h2, link_to(keg.display_name, keg)) %>
+            <div class="beer-stats">
+              <%= "Style: #{keg.style}" if keg.style.present? %>
+              <%= 'ABV: %0.1f%%' % keg.abv if keg.abv.present? %>
+            </div>
             <% if tap.temperature_sensor && (reading = tap.temperature_sensor.latest_reading) %>
-            <div data-sensor-id="<%= tap.temperature_sensor.id %>"><span class="temperature"><%= '%0.1f' % reading.temp_f %></span>&deg;F</div>
+            <div data-sensor-id="<%= tap.temperature_sensor.id %>">Temperature: <span class="temperature"><%= '%0.1f' % reading.temp_f %></span>&deg;F</div>
             <% end %>
           </div>
           <div class="column half beer-extra">
@@ -16,8 +20,8 @@
               <%= content_tag :div, "#{keg.poured.round} oz", class: 'poured', style: "height: #{keg.poured_percent.round}%" %>
               <%= content_tag :div, "#{keg.remaining.round} oz", class: 'remaining' %>
             </div>
-            <div class="column half beer-me">
-              <%= link_to content_tag(:h2, "Beer Me!"), new_pour_path(beer_tap_id: tap.id), class: 'beer-me' %>
+            <div class="column half center">
+              <%= link_to content_tag(:h2, "Start<br>Pour".html_safe), new_pour_path(beer_tap_id: tap.id) %>
             </div>
           </div>
         </div>
