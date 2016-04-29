@@ -34,9 +34,9 @@
 
   <div class="column one-third activity-feed">
     <% @pours.each do |pour| %>
-    <div class="entry">
-      <%= pour.user.name %> poured a <%= '%0.1f' % pour.volume %>oz <%= pour.keg.name %><br>
-      <small><%= l(pour.started_at, format: :norm) %></small>
+    <div class="entry" id="<%= dom_id(pour) %>">
+      <%= pour.user.name %> poured a <span class="volume"><%= '%0.1f' % pour.volume %></span>oz <%= pour.keg.name %><br>
+      <small><%= l(pour.started_at, format: :norm) if pour.started_at %></small>
       <%= content_tag :small, link_to('Claim pour', [:edit, pour]) if pour.user_id == 0 %>
     </div>
     <% end %>

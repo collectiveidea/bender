@@ -4,7 +4,7 @@ class PourObserver < ActiveRecord::Observer
   observe :pour
 
   def after_create(pour)
-    send_pour_update(pour)
+    send_pour_update(pour, :create)
   end
 
   def after_update(pour)
@@ -12,15 +12,15 @@ class PourObserver < ActiveRecord::Observer
     send_to_campfire(pour)
   end
 
-  def send_pour_update(pour)
-    return true if !FayeNotifier.configured? || pour.volume.to_f <= 0.1 || pour.complete?
+  def send_pour_update(pour, update_type = nil)
+    return true if !FayeNotifier.configured? || pour.volume.to_f <= 0.1
 
-    update_type = (pour.finished_at ? :complete : :update)
+    update_type ||= (pour.finished_at ? :complete : :update)
 
     data = pour.attributes.symbolize_keys
     data[:beer_tap_id] = pour.keg.beer_tap_id.to_s
 
-    FayeNotifier.send_message("/pour/#{update_type}", data)
+    FayeNotifier.send_message("/pour/#{update_type}", Oj.dump(data))
   end
 
   def send_to_campfire(pour)
