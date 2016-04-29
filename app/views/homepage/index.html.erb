@@ -21,7 +21,7 @@
               <%= content_tag :div, "#{keg.remaining.round} oz", class: 'remaining' %>
             </div>
             <div class="column half center">
-              <%= link_to content_tag(:h2, "Start<br>Pour".html_safe), new_pour_path(beer_tap_id: tap.id) %>
+              <%= link_to content_tag(:h2, "Start <br>Pour".html_safe), new_pour_path(beer_tap_id: tap.id) %>
             </div>
           </div>
         </div>

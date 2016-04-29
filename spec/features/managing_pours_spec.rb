@@ -12,7 +12,7 @@ describe 'Managing pours' do
   it 'a new drinker can join' do
     visit '/'
 
-    click_link 'Beer Me'
+    click_link 'Start Pour'
     click_link 'New User'
 
     fill_in 'Name', with: 'Johnny'
@@ -21,7 +21,7 @@ describe 'Managing pours' do
 
     expect(current_path).to eq('/')
 
-    click_link 'Beer Me'
+    click_link 'Start Pour'
     click_link 'Johnny'
 
     expect(page).to have_content('Pour Started')
