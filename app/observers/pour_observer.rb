@@ -20,7 +20,7 @@ class PourObserver < ActiveRecord::Observer
     data = pour.attributes
     data['beer_tap_id'] = pour.keg.beer_tap_id.to_s
 
-    FayeNotifier.send_message("/pour/#{update_type}", Oj.dump(data))
+    FayeNotifier.send_message("/pour/#{update_type}", data)
   end
 
   def send_to_campfire(pour)

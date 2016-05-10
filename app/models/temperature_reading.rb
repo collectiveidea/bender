@@ -18,7 +18,7 @@ class TemperatureReading < ActiveRecord::Base
   end
 
   def notify_faye
-    FayeNotifier.send_message("/temperature/#{temperature_sensor_id}", [temp_f, created_at.to_f].to_json)
+    FayeNotifier.send_message("/temperature/#{temperature_sensor_id}", [temp_f, created_at.to_f])
     true
   end
 end
