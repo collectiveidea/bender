@@ -43,6 +43,6 @@ class Admin::BeerTapsController < ApplicationController
   protected
 
   def beer_tap_params
-    params.require(:beer_tap).permit(:name, :gpio_pin, :temperature_sensor_id, :ml_per_tick, :display_order)
+    params.require(:beer_tap).permit(:name, :gpio_pin, :valve_pin, :temperature_sensor_id, :ml_per_tick, :display_order)
   end
 end

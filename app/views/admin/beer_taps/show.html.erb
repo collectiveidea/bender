@@ -11,6 +11,10 @@
     <td><%= @beer_tap.gpio_pin %></td>
   </tr>
   <tr>
+    <td>Valve Pin</td>
+    <td><%= @beer_tap.valve_pin %></td>
+  </tr>
+  <tr>
     <td>Temperature Sensor</td>
     <td><%= @beer_tap.temperature_sensor.try(:name) || "Unassigned" %></td>
   </tr>
