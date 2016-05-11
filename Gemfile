@@ -27,8 +27,12 @@ gem 'rails-observers'
 
 gem 'oj'
 
-# Deployment
-gem 'capistrano', '< 3.0', group: :development
+
+group :development do
+  gem 'capistrano', '< 3.0'
+  gem 'derailed'
+  gem 'stackprof'
+end
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
