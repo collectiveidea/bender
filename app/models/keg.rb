@@ -36,6 +36,7 @@ class Keg < ActiveRecord::Base
     pour = active_pour || pours.new
     pour.user = user if user
     pour.save
+    beer_tap.activate
     pour
   end
 

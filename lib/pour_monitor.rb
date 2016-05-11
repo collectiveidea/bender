@@ -60,6 +60,7 @@ class PourMonitor
       else
         pour.save
       end
+      keg.beer_tap.deactivate
     end
   end
 end
