@@ -21,7 +21,7 @@ describe Keg do
 
   describe 'start_pour' do
     it 'starts a new pour for a guest user' do
-      keg = FactoryGirl.create(:keg)
+      keg = FactoryGirl.create(:keg, beer_tap: FactoryGirl.create(:beer_tap))
       pour = keg.start_pour
 
       expect(pour).to_not be_a_new_record
@@ -29,12 +29,22 @@ describe Keg do
     end
 
     it 'starts a new pour for given user' do
-      keg = FactoryGirl.create(:keg)
+      keg = FactoryGirl.create(:keg, beer_tap: FactoryGirl.create(:beer_tap))
       user = FactoryGirl.create(:user)
       pour = keg.start_pour(user)
 
       expect(pour).to_not be_a_new_record
       expect(pour.user_id).to eq(user.id)
+    end
+
+    it "activates the valve for the keg's tap" do
+      beer_tap = FactoryGirl.create(:beer_tap)
+      keg = FactoryGirl.create(:keg, beer_tap: beer_tap)
+      user = FactoryGirl.create(:user)
+
+      expect(beer_tap).to receive(:activate)
+
+      keg.start_pour(user)
     end
   end
 end
