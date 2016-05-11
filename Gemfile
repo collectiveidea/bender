@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.8'
+gem 'rails', '~> 4.2.6'
 
 gem 'pg'
 
@@ -24,6 +24,7 @@ gem 'actionpack-page_caching'
 gem 'active_model_serializers'
 gem 'kaminari'
 gem 'rails-observers'
+gem 'responders'
 
 gem 'oj'
 
