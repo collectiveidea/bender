@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.8'
+gem 'rails', '~> 4.2.6'
 
 gem 'pg'
 
 # Assets
 group :assets do
-  gem 'sass-rails',   '~> 4.0.4'
+  gem 'sass-rails'
   gem 'uglifier',     '>= 1.3.0'
-  gem 'coffee-rails', '~> 4.0.0'
+  gem 'coffee-rails'
 
   gem 'jquery-rails'
   gem 'compass-rails'
@@ -24,11 +24,16 @@ gem 'actionpack-page_caching'
 gem 'active_model_serializers'
 gem 'kaminari'
 gem 'rails-observers'
+gem 'responders'
 
 gem 'oj'
 
-# Deployment
-gem 'capistrano', '< 3.0', group: :development
+
+group :development do
+  gem 'capistrano', '< 3.0'
+  gem 'derailed'
+  gem 'stackprof'
+end
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
