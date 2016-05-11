@@ -1,3 +1,5 @@
+require 'gpio'
+
 class TapMonitor
   TICKS      = 0
   FIRST_TICK = 1

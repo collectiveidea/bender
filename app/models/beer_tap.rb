@@ -11,6 +11,18 @@ class BeerTap < ActiveRecord::Base
     all.map {|tap| [tap.name, tap.id] }
   end
 
+  def activate
+    return true unless valve_pin.present?
+    GPIO::Pin.new(pin: valve_pin, direction: :out).on
+    true
+  end
+
+  def deactivate
+    return true unless valve_pin.present?
+    GPIO::Pin.new(pin: valve_pin, direction: :out).off
+    true
+  end
+
   def floz_per_tick
     ml_per_tick * FLOZ_PER_ML
   end
