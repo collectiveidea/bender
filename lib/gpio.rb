@@ -64,6 +64,10 @@ module GPIO
       raise 'Invalid direction. Options are :in or :out' unless [:in, :out].include? @direction
       raise 'Invalid trigger. Options are :rising, :falling, or :both' unless [:rising, :falling, :both].include? @trigger
 
+      if !File.exist?(direction_file)
+        File.write('/sys/class/gpio/export', @pin)
+      end
+
       curr_direction = File.read(direction_file).strip
       if (@direction == :out && curr_direction == 'in') || (@direction == :in && curr_direction == 'out')
         File.open(direction_file, 'w') {|f| f.write(@direction == :out ? 'out' : 'in') }
