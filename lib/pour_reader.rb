@@ -17,13 +17,18 @@ $stdout.sync = true
 
 def read
   @pin_file.rewind
-  @pin_file.read
+  @pin_file.read.to_i
 end
 
-def wait_for_change
-  read
+def wait_for_tick
+  @prev_value = read
   begin
     ready = IO.select(nil, nil, @read_group, SELECT_DELAY)
+    if ready
+      val = read
+      ready = nil if @prev_value == val || val == 0
+      @prev_value = val
+    end
   end while !ready && @running && (!block_given? || yield)
   ready
 end
@@ -40,7 +45,7 @@ $stdout.flush
 # Loop while we are running or a pour is in progress
 while @running
   # Wait for a pour to start
-  ticked = wait_for_change
+  ticked = wait_for_tick
 
   break if !@running
 
@@ -55,7 +60,7 @@ while @running
     send_message
 
     while (@now.to_f - @last_tick) < @timeout
-      ticked = wait_for_change do
+      ticked = wait_for_tick do
         now = Time.now
         (now.to_f - @last_tick) < @timeout && (now - @last_message) < MESSAGE_DELAY
       end
