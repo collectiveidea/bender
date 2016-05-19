@@ -65,7 +65,7 @@ module GPIO
       raise 'Invalid trigger. Options are :rising, :falling, or :both' unless [:rising, :falling, :both].include? @trigger
 
       if !File.exist?(direction_file)
-        File.write('/sys/class/gpio/export', @pin)
+        File.open('/sys/class/gpio/export', 'w') {|f| f.write(@pin.to_s) }
       end
 
       curr_direction = File.read(direction_file).strip
