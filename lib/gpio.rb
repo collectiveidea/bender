@@ -115,6 +115,10 @@ module GPIO
       read
       begin
         ready = IO.select(nil, nil, [@fd], 1)
+        if ready
+          read
+          ready = nil if !changed? || value == 0 # val is a hack
+        end
       end while @waiting && !ready && (!continue || continue.call)
     end
 

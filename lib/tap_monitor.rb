@@ -72,7 +72,7 @@ class TapMonitor
 
     continue = lambda { @drop[TICKS] > 0 }
 
-    @pin = GPIO::Pin.new(pin: @tap.gpio_pin, trigger: :rising)
+    @pin = GPIO::Pin.new(pin: @tap.gpio_pin, trigger: :both)
     # Loop while we are running or a pour is in progress
     while @running || @drop[TICKS] > 0
       # Wait for a pour to start
