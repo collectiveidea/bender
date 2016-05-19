@@ -4,7 +4,13 @@ SELECT_DELAY = 0.5
 
 @pin = ARGV[0]
 @timeout = ARGV[1].to_i
-@pin_file = File.open("/sys/class/gpio/gpio#{@pin}/value", "r")
+
+base_path = "/sys/class/gpio/gpio#{@pin}"
+File.open("/sys/class/gpio/export", "w") {|f| f.write(@pin.to_s) } unless File.exist?(base_path)
+File.open("#{base_path}/direction", "w") {|f| f.write("in") }
+File.open("#{base_path}/edge", "w") {|f| f.write("both") }
+
+@pin_file = File.open("#{base_path}/value", "r")
 @running = true
 
 Signal.trap(:INT)  { @running = false }
