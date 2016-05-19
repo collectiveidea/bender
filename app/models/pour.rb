@@ -24,7 +24,7 @@ class Pour < ActiveRecord::Base
 
   def finish_pour(time)
     self.finished_at = time
-    if volume == 0
+    if sensor_ticks.to_i == 0
       keg.beer_tap.deactivate
       destroy
     else
