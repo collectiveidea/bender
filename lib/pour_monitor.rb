@@ -38,13 +38,16 @@ class PourMonitor
       pour.started_at   = Time.at(@drop[FIRST_TICK])
       pour.save
 
+      @timeout = Setting.pour_timeout
+
       # Waiting for pour to finish
-      while @drop[LAST_TICK] > (Time.now.to_i - Setting.pour_timeout)
+      while @drop[LAST_TICK] > (Time.now.to_i - @timeout)
         sleep 1
         pour.reload
         pour.sensor_ticks = @drop[TICKS]
         pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
         pour.save
+        @timeout = 2 if pour.finished_at.present?
       end
 
       ticks     = @drop[TICKS]

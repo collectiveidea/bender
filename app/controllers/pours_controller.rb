@@ -34,7 +34,12 @@ class PoursController < ApplicationController
   end
 
   def update
-    pour = Pour.update(params[:id], pour_params)
+    pour = Pour.find(params[:id])
+    if params.require(:pour).keys == ["finished_at"]
+      pour.finish_pour(params[:pour][:finished_at])
+    else
+      pour.update_attributes(pour_params)
+    end
     respond_to do |format|
       format.json { respond_with pour }
       format.html { redirect_to(params[:back_to] || root_path) }

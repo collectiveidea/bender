@@ -22,6 +22,16 @@ class Pour < ActiveRecord::Base
     where(created_at: start_time..end_time)
   end
 
+  def finish_pour(time)
+    self.finished_at = time
+    if volume == 0
+      keg.beer_tap.deactivate
+      destroy
+    else
+      save
+    end
+  end
+
   def complete?
     finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
   end
