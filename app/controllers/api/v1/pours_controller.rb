@@ -12,7 +12,7 @@ module Api
         pours = Pour.between_dates(start_time: start_time, end_time: end_time)
         case params[:id]
         when "by_beer"
-          data = pours.joins(:keg).
+          data = pours.joins(:keg).where.not(started_at: nil).
             group("kegs.name, pour_date").order("kegs.name, pour_date").
             pluck("kegs.name AS name, date_trunc('day', pours.started_at::TIMESTAMPTZ AT TIME ZONE '#{Time.zone.tzinfo.canonical_identifier}') AS pour_date, count(pours.id) AS pour_count").
             each.with_object({}) do |pour, out|
