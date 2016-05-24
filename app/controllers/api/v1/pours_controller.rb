@@ -2,10 +2,10 @@ module Api
   module V1
     class PoursController < ApiController
       def index
-        @pours = Pour.for_listing.
+        @pours = Pour.for_listing.except(:includes).
           between_dates(start_time: start_time, end_time: end_time)
 
-        render json: @pours
+        render json: Oj.dump(@pours.as_json(except: [:sensor_ticks, :updated_at]), mode: :compat)
       end
 
       def show
