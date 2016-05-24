@@ -3,6 +3,7 @@ class KegsController < ApplicationController
 
   def index
     @kegs = Keg.order('started_at DESC NULLS FIRST')
+    @kegs = @kegs.where(active: true) if params[:active] == 'true'
     respond_to do |wants|
       wants.html
       wants.json { render json: @kegs.preload(:beer_tap) }
