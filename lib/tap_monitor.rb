@@ -1,136 +1,154 @@
 require 'gpio'
 
 class TapMonitor
-  TICKS      = 0
-  FIRST_TICK = 1
-  LAST_TICK  = 2
+  attr_reader :io
 
-  def self.monitor_taps
-    require 'raindrops'
+  class << self
+    attr_accessor :tap_monitors
+    attr_accessor :running
 
-    tap_monitors = {}
-    @running = true
+    def monitor_taps
+      @running = true
 
-    trap(:INT)  { @running = false }
-    trap(:TERM) { @running = false }
-    trap(:QUIT) { @running = false }
+      trap(:INT)  { TapMonitor.running = false }
+      trap(:TERM) { TapMonitor.running = false }
+      trap(:QUIT) { TapMonitor.running = false }
+      trap(:CLD)  { TapMonitor.check_dead; TapMonitor.start_missing }
 
-    while @running
-      # Check for processes which have exitted
-      begin
-        cpid, _ = Process.waitpid2(-1, Process::WNOHANG)
-        break if cpid.nil?
-        tap_monitors.delete_if {|_, pid| pid == cpid }
-      rescue Errno::ECHILD
-        break
-      end while true
+      monitor_loop
 
-      # Start new monitors
-      if @running
-        BeerTap.all.each do |tap|
-          tap_monitors[tap.id] ||= start(tap)
+      # We are done here. Tell all subprocess to quit
+      tap_monitors.each_value {|pid| Process.kill('TERM', pid) }
+
+      # Wait for the subprocesses to finish
+      Process.waitall
+    end
+
+    def check_dead
+      cpid, _ = Process.waitpid2(-1, Process::WNOHANG)
+      return if cpid.nil?
+      tap_monitors.delete_if do |_, monitor|
+        if monitor.pid == cpid
+          monitor.close
+          true
+        else
+          false
         end
       end
+    rescue Errno::ECHILD
+    end
 
-      # We want to exit fast but only hit the database once per minute
-      60.times do
-        sleep 1 if @running
+    def start_missing
+      return unless @running
+
+      BeerTap.all.each do |tap|
+        tap_monitors[tap.id] ||= start(tap)
       end
     end
 
-    # We are done here. Tell all subprocess to quit
-    tap_monitors.each_value {|pid| Process.kill('TERM', pid) }
+    def monitor_loop
+      while @running
+        check_dead
+        start_missing
 
-    # Wait for the subprocesses to finish
-    begin
-      Process.waitpid2(-1)
-    rescue Errno::ECHILD
-      break
-    end while true
-  end
+        monitors = tap_monitors.values
+        if ios = IO.select(monitors.map {|mon| mon.io }, [], [], 1)
+          ios[0].each do |io|
+            monitor = monitors.detect {|mon| mon.io == io }
+            monitor.update
+          end
+        end
 
-  def self.start(tap)
-    # We don't want to share connections between processes
-    ActiveRecord::Base.connection_pool.disconnect!
-    fork { new(tap).monitor }
+        tap_monitors.each_value(&:finish_if_needed)
+      end
+    end
+
+    def start(tap)
+      new(tap)
+    end
   end
 
   def initialize(tap)
-    @tap     = tap
-    @running = true
-    @drop    = Raindrops.new(3)
+    @tap             = tap
+    @running         = true
+    @finished        = true
+    @last_started_at = Time.now
 
-    @drop[TICKS] = 0
+    @io = IO.popen("ruby #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
+    @io.sync = true
   end
 
-  def monitor
-    trap(:INT)  { @running = false }
-    trap(:TERM) { @running = false }
-    trap(:QUIT) { @running = false }
-
-    pour_monitor = start_pour_monitor
-
-    continue = lambda { @drop[TICKS] > 0 }
-
-    @pin = GPIO::Pin.new(pin: @tap.gpio_pin, trigger: :both)
-    # Loop while we are running or a pour is in progress
-    while @running || @drop[TICKS] > 0
-      # Wait for a pour to start
-      @pin.wait_for_change(lambda { @running })
-      break if !@running && @drop[TICKS] == 0
-
-      # Prevent GC from running during the pour
-      GC.disable
-      # Rescue block so we always re-enable GC
-      begin
-        @drop[FIRST_TICK] = @drop[LAST_TICK] = Time.now.to_i
-
-        # This is a ruby do/while block
-        begin
-          @drop.incr(TICKS)
-
-          @pin.wait_for_change(continue)
-
-          @drop[LAST_TICK] = Time.now.to_i
-        # When ticks is 0 the pour timeout has occurred
-        end while @drop[TICKS] > 0
-      ensure
-        GC.enable
-        GC.start
-      end
-    end
-
-    pour_monitor.join
+  def close
+    finish_if_needed
+    @io.close
   end
 
-  def start_pour_monitor
-    Thread.new do
-      while @running || @drop[TICKS] > 0
-        begin
-          cpid, _ = Process.waitpid2(-1, Process::WNOHANG)
-          @sub_process_pid = PourMonitor.start(@tap, @drop) if cpid
-        rescue Errno::ECHILD
-          @sub_process_pid = PourMonitor.start(@tap, @drop)
-        end
+  def pid
+    @io.pid
+  end
 
-        # Wait at least 1 second.
-        sleep 1
+  def finish_if_needed
+    return if @finished
 
-        # I want to exit fast but only check for a
-        # dead subprocess every 10 seconds
-        9.times do
-          sleep 1 if @running
-        end
-      end
-
-      @pin.break_wait_for_change
-
-      Process.kill('TERM', @sub_process_pid)
-
-      begin
-        Process.waitpid2(-1)
-      rescue Errno::ECHILD
-      end
+    if @active_pour.finished_at.nil?
+      @active_pour.reload
+      @timeout = 2 if @active_pour.finished_at.present?
     end
+
+    if (@last_tick + @timeout) < Time.now
+      finish
+    end
+  end
+
+  def update
+    # Read update
+    _, @first_tick, @last_tick, @ticks = @io.readline.strip.split(",")
+    @last_tick = Time.at(@last_tick.to_f)
+
+    # Is this a new pour
+    if @last_started_at != @first_tick
+      @active_pour = nil
+      @last_started_at = @first_tick
+      @timeout = Setting.pour_timeout
+      @finished = false
+    end
+
+    # is there an active pour or keg
+    keg = @tap.active_keg(true) if @active_pour.nil?
+    return if @active_pour.nil? && keg.nil?
+
+    # reload, find, or create the active pour
+    @active_pour.reload if @active_pour
+    @active_pour ||= keg.active_pour(true) || keg.pours.new
+    @active_pour.started_at ||= Time.at(@first_tick.to_f)
+
+    # fast timeout as the user has said they are done
+    @timeout = 2 if @active_pour.finished_at.present?
+
+    # update the volume
+    @active_pour.sensor_ticks = @ticks
+    @active_pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
+
+    # is the pour done
+    if (@last_tick + @timeout) < Time.now
+      finish
+      @io.puts "reset"
+      @io.flush
+    else
+      @active_pour.save
+    end
+  rescue EOFError
+    finish_if_needed
+  end
+
+  def finish
+    @finished = true
+    if @active_pour.volume < 0.5
+      @active_pour.destroy
+    else
+      @active_pour.finished_at = @last_tick
+      @active_pour.save
+    end
+    keg.beer_tap.deactivate
   end
 end

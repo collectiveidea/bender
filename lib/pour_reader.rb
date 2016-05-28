@@ -1,6 +1,7 @@
 MESSAGE_DELAY = 0.5
 GC_DELAY = 5
 SELECT_DELAY = 0.5
+RESET_COMMAND = "reset"
 
 @pin = ARGV[0]
 @timeout = ARGV[1].to_i
@@ -19,7 +20,8 @@ Signal.trap(:QUIT) { @running = false }
 
 $stdout.sync = true
 
-@read_group = [@pin_file]
+@input_group = [$stdin]
+@pin_group = [@pin_file]
 
 def read
   @pin_file.rewind
@@ -29,8 +31,12 @@ end
 def wait_for_tick
   @prev_value = read
   begin
-    ready = IO.select(nil, nil, @read_group, SELECT_DELAY)
+    ready = IO.select(@input_group, nil, @pin_group, SELECT_DELAY)
     if ready
+      if ready[0][0]
+        @command = $stdin.readline.strip
+        return nil if @command == RESET_COMMAND
+      end
       val = read
       ready = nil if @prev_value == val || val == 0
       @prev_value = val
@@ -46,14 +52,14 @@ def send_message
 end
 
 GC.start
-$stdout.puts "ready"
-$stdout.flush
 # Loop while we are running or a pour is in progress
 while @running
+  @command = nil
   # Wait for a pour to start
   ticked = wait_for_tick
 
   break if !@running
+  next if ticked.nil?
 
   # Prevent GC from running during the pour
   # GC.disable
@@ -76,6 +82,11 @@ while @running
       if ticked
         @last_tick = @now.to_f
         @ticks += 1
+      end
+
+      if @command == RESET_COMMAND
+        send_message if @last_message.to_f < @last_tick
+        break
       end
 
       send_message if @now - @last_message > MESSAGE_DELAY
