@@ -75,8 +75,16 @@ class TapMonitor
     @finished        = true
     @last_started_at = Time.now.to_f.to_s
 
-    @io = IO.popen("ruby #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
+    @io = IO.popen("#{ruby_version} #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
     @io.sync = true
+  end
+
+  def ruby_version
+    if Setting.mruby_bin
+      File.join(Setting.mruby_bin, "mruby")
+    else
+      "ruby"
+    end
   end
 
   def close

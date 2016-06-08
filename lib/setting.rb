@@ -26,6 +26,13 @@ module Setting
     settings['dms_url']
   end
 
+  # This should be the path to the bin directory
+  # not the actual binary
+  # ex: /home/pi/mruby/bin
+  def self.mruby_bin
+    settings['mruby_bin']
+  end
+
   def self.settings
     @settings ||= YAML.load_file(Rails.root.join('config', 'settings.yml'))
   end
