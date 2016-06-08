@@ -18,10 +18,10 @@ class TapMonitor
       monitor_loop
 
       # We are done here. Tell all subprocess to quit
-      tap_monitors.each_value {|pid| Process.kill('TERM', pid) }
+      tap_monitors.each_value {|monitor| Process.kill('TERM', monitor.pid) }
 
       # Wait for the subprocesses to finish
-      Process.waitall
+      tap_monitors.each_value {|monitor| Process.wait(monitor.pid) }
     end
 
     def check_dead

@@ -34,7 +34,12 @@ def wait_for_tick
     ready = IO.select(@input_group, nil, @pin_group, SELECT_DELAY)
     if ready
       if ready[0][0]
-        @command = $stdin.readline.strip
+        begin
+          @command = $stdin.readline.strip
+        rescue EOFError
+          @running = false
+          return nil
+        end
         return nil if @command == RESET_COMMAND
       end
       val = read
@@ -97,4 +102,4 @@ while @running
   end
 end
 
-$stdout.puts "Done"
+$stdout.puts "Done" rescue nil
