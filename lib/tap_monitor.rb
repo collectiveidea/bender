@@ -8,6 +8,7 @@ class TapMonitor
     attr_accessor :running
 
     def monitor_taps
+      self.tap_monitors = {}
       @running = true
 
       trap(:INT)  { TapMonitor.running = false }
@@ -72,7 +73,7 @@ class TapMonitor
     @tap             = tap
     @running         = true
     @finished        = true
-    @last_started_at = Time.now
+    @last_started_at = Time.now.to_f.to_s
 
     @io = IO.popen("ruby #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
     @io.sync = true
@@ -127,7 +128,7 @@ class TapMonitor
 
     # update the volume
     @active_pour.sensor_ticks = @ticks
-    @active_pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
+    @active_pour.volume       = @active_pour.sensor_ticks * @tap.floz_per_tick
 
     # is the pour done
     if (@last_tick + @timeout) < Time.now
@@ -149,6 +150,6 @@ class TapMonitor
       @active_pour.finished_at = @last_tick
       @active_pour.save
     end
-    keg.beer_tap.deactivate
+    @active_pour.keg.beer_tap.deactivate
   end
 end
