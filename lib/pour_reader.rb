@@ -47,13 +47,14 @@ def wait_for_tick
       @prev_value = val
     end
   end while !ready && @running && (!block_given? || yield)
-  ready
+  !ready.nil?
 end
 
 def send_message
-  $stdout.puts "#{@pin},#{@first_tick},#{@last_tick},#{@ticks}"
+  $stdout.puts "#{@pin},#{@first_tick.to_f},#{@last_tick.to_f},#{@ticks}"
   $stdout.flush
   @last_message = Time.now
+  @next_message_after = @last_message + MESSAGE_DELAY
 end
 
 GC.start
@@ -61,40 +62,41 @@ GC.start
 while @running
   @command = nil
   # Wait for a pour to start
-  ticked = wait_for_tick
+  next unless wait_for_tick
 
   break if !@running
-  next if ticked.nil?
 
   # Prevent GC from running during the pour
   # GC.disable
   # Rescue block so we always re-enable GC
   begin
     @now = Time.now
-    @first_tick = @last_tick = @now.to_f
+    @first_tick = @last_tick = @now
+    @timeout_at = @now + @timeout
     @ticks = 1
 
     send_message
 
-    while (@now.to_f - @last_tick) < @timeout
+    while @now < @timeout_at
       ticked = wait_for_tick do
         now = Time.now
-        (now.to_f - @last_tick) < @timeout && (now - @last_message) < MESSAGE_DELAY
+        now < @next_message_after && now < @timeout_at
       end
 
       @now = Time.now
 
       if ticked
-        @last_tick = @now.to_f
+        @last_tick = @now
+        @timeout_at = @now + @timeout
         @ticks += 1
       end
 
       if @command == RESET_COMMAND
-        send_message if @last_message.to_f < @last_tick
+        send_message if @last_message < @last_tick
         break
       end
 
-      send_message if @now - @last_message > MESSAGE_DELAY
+      send_message if @next_message_after < @now
     end
   ensure
     # GC.enable
