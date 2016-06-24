@@ -14,6 +14,7 @@ class Pour < ActiveRecord::Base
   scope :finished, lambda { where('finished_at IS NOT NULL') }
   scope :non_guest, lambda { where('user_id > 0') }
   scope :for_listing, lambda { where('volume IS NOT NULL').includes(:keg, :user).order('created_at desc') }
+  scope :recent, lambda { where("created_at > ?", 30.days.ago) }
 
   def self.between_dates(start_time:, end_time:)
     start_time ||= 10.years.ago
