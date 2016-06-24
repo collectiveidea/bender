@@ -1,8 +1,8 @@
 module Api
   module V1
-    class UsersController < ApiController
-      def show
-        user = User.find params[:id]
+    class StatsController < ApiController
+      def index
+        user = User.find params[:user_id]
         render json: Oj.dump(user.stats, mode: :compat)
       end
     end

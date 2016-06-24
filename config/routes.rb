@@ -22,7 +22,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :pours, only: [:index, :show]
-      resources :users, only: [:show]
+      resources :users, only: [] do
+        resources :stats, only: [:index]
+      end
     end
   end
 
