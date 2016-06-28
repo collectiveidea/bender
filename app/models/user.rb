@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
     data["last_pour_at"] = last_pour_at
     data["recent_pour_count"] = pours.finished.recent.count
     data["pour_count_by_volume"] = pours.finished.recent.group("amount").order("amount").pluck("round(volume) AS amount", "count(id)")
+    data["recent_pours"] = pours.finished.recent.order(finished_at: :desc).pluck("volume", "started_at")
     data
   end
 
