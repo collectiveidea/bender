@@ -16,7 +16,7 @@
             <% end %>
           </div>
           <div class="column half beer-extra">
-            <div class="column half beer-glass">
+            <div class="column half beer-glass" data-srm="<%= keg.srm %>">
               <%= content_tag :div, "#{keg.poured.round} oz", class: 'poured', style: "height: #{keg.poured_percent.round}%" %>
               <%= content_tag :div, "#{keg.remaining.round} oz", class: 'remaining' %>
             </div>

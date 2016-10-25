@@ -27,6 +27,47 @@
     max-height: 80px;
     background-color: #f7f7f9;
   }
+
+  &[data-srm="1"] { background-color: #FFE699; }
+  &[data-srm="2"] { background-color: #FFD878; }
+  &[data-srm="3"] { background-color: #FFCA5A; }
+  &[data-srm="4"] { background-color: #FFBF42; }
+  &[data-srm="5"] { background-color: #FBB123; }
+  &[data-srm="6"] { background-color: #F8A600; }
+  &[data-srm="7"] { background-color: #F39C00; }
+  &[data-srm="8"] { background-color: #EA8F00; }
+  &[data-srm="9"] { background-color: #E58500; }
+  &[data-srm="10"] { background-color: #DE7C00; }
+  &[data-srm="11"] { background-color: #D77200; }
+  &[data-srm="12"] { background-color: #CF6900; }
+  &[data-srm="13"] { background-color: #CB6200; }
+  &[data-srm="14"] { background-color: #C35900; }
+  &[data-srm="15"] { background-color: #BB5100; }
+  &[data-srm="16"] { background-color: #B54C00; }
+  &[data-srm="17"] { background-color: #B04500; }
+  &[data-srm="18"] { background-color: #A63E00; }
+  &[data-srm="19"] { background-color: #A13700; }
+  &[data-srm="20"] { background-color: #9B3200; }
+  &[data-srm="21"] { background-color: #952D00; }
+  &[data-srm="22"] { background-color: #8E2900; }
+  &[data-srm="23"] { background-color: #882300; }
+  &[data-srm="24"] { background-color: #821E00; }
+  &[data-srm="25"] { background-color: #7B1A00; }
+  &[data-srm="26"] { background-color: #771900; }
+  &[data-srm="27"] { background-color: #701400; }
+  &[data-srm="28"] { background-color: #6A0E00; }
+  &[data-srm="29"] { background-color: #660D00; }
+  &[data-srm="30"] { background-color: #5E0B00; }
+  &[data-srm="31"] { background-color: #5A0A02; }
+  &[data-srm="32"] { background-color: #600903; }
+  &[data-srm="33"] { background-color: #520907; }
+  &[data-srm="34"] { background-color: #4C0505; }
+  &[data-srm="35"] { background-color: #470606; }
+  &[data-srm="36"] { background-color: #440607; }
+  &[data-srm="37"] { background-color: #3F0708; }
+  &[data-srm="38"] { background-color: #3B0607; }
+  &[data-srm="39"] { background-color: #3A070B; }
+  &[data-srm="40"] { background-color: #36080A; }
 }
 
 .beer-stats {

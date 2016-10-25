@@ -63,6 +63,6 @@ class Admin::KegsController < ApplicationController
   protected
 
   def keg_params
-    params.require(:keg).permit(:name, :description, :capacity, :brewery, :style, :abv)
+    params.require(:keg).permit(:name, :description, :capacity, :brewery, :style, :abv, :srm)
   end
 end

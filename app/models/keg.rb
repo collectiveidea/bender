@@ -12,6 +12,8 @@ class Keg < ActiveRecord::Base
   has_many :pours, inverse_of: :keg
   has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour', inverse_of: :keg
 
+  validates :srm, numericality: {greater_than: 0, less_than: 41, allow_blank: true}
+
   def display_name
     [name, brewery].reject(&:blank?).join(" by ")
   end
@@ -30,6 +32,10 @@ class Keg < ActiveRecord::Base
 
   def remaining
     capacity - poured
+  end
+
+  def srm_rgb
+    I18n.t!("srm.#{srm.to_i}") rescue nil
   end
 
   def start_pour(user=nil)
