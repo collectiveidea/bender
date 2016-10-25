@@ -41,7 +41,7 @@ class Admin::KegsController < ApplicationController
 
   def list_taps
     @keg = Keg.find(params[:keg_id])
-    @beer_taps = BeerTap.for_select
+    @beer_taps = BeerTap.unused.order(:display_order).for_select
   end
 
   def tap_keg

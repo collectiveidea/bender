@@ -7,6 +7,8 @@ class BeerTap < ActiveRecord::Base
   has_many :kegs, inverse_of: :beer_tap
   has_one :active_keg, lambda { where(active: true) }, class_name: 'Keg', inverse_of: :beer_tap
 
+  scope :unused, -> { joins("LEFT JOIN kegs ON kegs.beer_tap_id = beer_taps.id AND kegs.active = true").where(kegs: {id: nil}) }
+
   def self.for_select
     all.map {|tap| [tap.name, tap.id] }
   end
