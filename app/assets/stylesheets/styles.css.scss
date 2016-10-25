@@ -184,6 +184,12 @@ textarea {
   .user-name {
     font-size: 24px;
   }
+
+  input[data-typeahead] {
+    width: 100%;
+    font-size: 1em;
+    margin-bottom: 0;
+  }
 }
 
 .mini-avatar {

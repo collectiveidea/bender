@@ -42,7 +42,7 @@
   -moz-border-radius: 4px;
   border-radius: 4px;
 
-  & > div {
+  & .entry, & .row {
     border-bottom: 1px solid #e1e1e8;
     padding: 10px;
   }
