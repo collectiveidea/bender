@@ -5,7 +5,7 @@ $(->
     searchClass = $this.data("typeahead-search")
     $($this.data("typeahead")).children().each (idx)->
       if $(this).find("#{searchClass}").text().toLowerCase().search(pattern) == -1
-        $(this).hide()
+        $(this).slideUp(200)
       else
-        $(this).show()
+        $(this).slideDown(200)
 )
