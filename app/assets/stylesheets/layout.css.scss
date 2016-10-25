@@ -71,3 +71,10 @@ body {
 @media (min-width: 769px) {
   .column.flow-opposite { float: right; }
 }
+
+@media (max-width: 380px) {
+  .column.two-thirds, .column.one-third {
+    width: 100%;
+    margin: 0;
+  }
+}
