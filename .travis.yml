@@ -14,3 +14,8 @@ branches:
   only:
     - master
 cache: bundler
+notifications:
+  webhooks:
+    urls:
+    - https://buildlight.collectiveidea.com/
+    on_start: always
