@@ -15,17 +15,33 @@ class BeerTap < ActiveRecord::Base
 
   def activate
     return true unless valve_pin.present?
-    GPIO::Pin.new(pin: valve_pin, direction: :out).on
+    valve_pin_gpio.on
     true
   end
 
   def deactivate
     return true unless valve_pin.present?
-    GPIO::Pin.new(pin: valve_pin, direction: :out).off
+    valve_pin_gpio.off
+    true
+  end
+
+  def toggle_cleaning
+    return true unless valve_pin.present?
+    if valve_pin_gpio.off?
+      valve_pin_gpio.on
+    else
+      valve_pin_gpio.off
+    end
     true
   end
 
   def floz_per_tick
     ml_per_tick * FLOZ_PER_ML
+  end
+
+  protected
+
+  def valve_pin_gpio
+    @_gpio_valve_pin ||= GPIO::Pin.new(pin: valve_pin, direction: :out)
   end
 end

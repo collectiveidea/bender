@@ -1,5 +1,6 @@
 <div class="page-header">
   <div class="pull-right">
+    <%= link_to 'Toggle Cleaning', [:admin, @beer_tap, :toggle_cleaning], method: 'put', :class => 'btn btn-default' %>
     <%= link_to 'Edit', [:edit, :admin, @beer_tap], :class => 'btn btn-default' %>
   </div>
   <h1><%= link_to "Admin Taps", [:admin, :beer_taps] %> > <%= @beer_tap.name %></h1>

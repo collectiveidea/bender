@@ -40,6 +40,12 @@ class Admin::BeerTapsController < ApplicationController
     end
   end
 
+  def toggle_cleaning
+    @beer_tap = BeerTap.find(params[:beer_tap_id])
+    @beer_tap.toggle_cleaning
+    redirect_to [:admin, @beer_tap]
+  end
+
   protected
 
   def beer_tap_params

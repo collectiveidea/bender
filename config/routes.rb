@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
   namespace :admin do
-    resources :beer_taps
+    resources :beer_taps do
+      put 'toggle-cleaning' => 'beer_taps#toggle_cleaning'
+    end
+
     resources :kegs do
       resources :pours, only: [:index, :destroy]
 
