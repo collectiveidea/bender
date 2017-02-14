@@ -82,7 +82,7 @@ module GPIO
 
     # If the pin has been initialized for output this method will set the logic level high.
     def on
-      File.open(value_file, 'w') {|f| f.write('1') } if direction == :out
+      File.open(value_file, 'w') {|f| f.write(@invert ? '0' : '1') } if direction == :out
     end
 
     # Tests if the logic level is high.
@@ -92,7 +92,7 @@ module GPIO
 
     # If the pin has been initialized for output this method will set the logic level low.
     def off
-      File.open(value_file, 'w') {|f| f.write('0') } if direction == :out
+      File.open(value_file, 'w') {|f| f.write(@invert ? '1' : '0') } if direction == :out
     end
 
     # Tests if the logic level is low.
