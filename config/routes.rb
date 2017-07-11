@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :taps, only: [:index], controller: "beer_taps"
       resources :pours, only: [:index, :show]
       resources :users, only: [] do
         resources :stats, only: [:index]
