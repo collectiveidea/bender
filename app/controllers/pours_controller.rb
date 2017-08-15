@@ -13,7 +13,7 @@ class PoursController < ApplicationController
 
   def create
     tap = BeerTap.find(params[:beer_tap_id])
-    user = User.find(params[:user_id]) if params[:user_id] != '0'
+    user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first if params[:user_id] != '0'
     pour = tap.active_keg.start_pour(user)
 
     respond_to do |format|
