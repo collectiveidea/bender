@@ -1,0 +1,17 @@
+<%= errors_for(@user) %>
+
+<%= form_for [@user] do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+
+  <%= f.label :rfid, "RFID" %>
+  <%= f.text_field :rfid %>
+
+  <div class="form-actions">
+    <%= f.submit 'Save', :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', :back, :cliass => 'btn btn-default' %>
+  </div>
+<% end %>
