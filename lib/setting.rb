@@ -33,6 +33,10 @@ module Setting
     settings['mruby_bin']
   end
 
+  def self.admin_password
+    settings['admin_password']
+  end
+
   def self.settings
     @settings ||= YAML.load_file(Rails.root.join('config', 'settings.yml'))
   end
