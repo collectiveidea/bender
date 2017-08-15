@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.where("id = ? OR rfid = ?", params[:id], params[:user_rfid]).first!
     respond_with @user
   end
 
