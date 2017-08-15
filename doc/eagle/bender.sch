@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.2.1">
+<eagle version="8.2.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -3402,6 +3402,10 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <part name="+3V5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="R4" library="adafruit" deviceset="R-US_" device="0204/7" value="1.5kΩ"/>
+<part name="DS18B20" library="con-molex-c-grid-sl" deviceset="HEADER_POS3_?" device="70543"/>
+<part name="+3V6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
+<part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
+<part name="R5" library="adafruit" deviceset="R-US_" device="0204/7"/>
 </parts>
 <sheets>
 <sheet>
@@ -3437,6 +3441,10 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <instance part="+3V5" gate="G$1" x="86.36" y="-7.62" rot="R90"/>
 <instance part="P+4" gate="1" x="86.36" y="0" rot="R90"/>
 <instance part="R4" gate="G$1" x="96.52" y="-7.62"/>
+<instance part="DS18B20" gate="G$1" x="5.08" y="5.08"/>
+<instance part="+3V6" gate="G$1" x="-20.32" y="12.7" rot="R90"/>
+<instance part="GND7" gate="1" x="-17.78" y="-2.54" rot="R270"/>
+<instance part="R5" gate="G$1" x="-12.7" y="7.62" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -3507,6 +3515,13 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="106.68" y1="-20.32" x2="88.9" y2="-20.32" width="0.1524" layer="91"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="DS18B20" gate="G$1" pin="3"/>
+<wire x1="0" y1="2.54" x2="-5.08" y2="2.54" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="-2.54" x2="-15.24" y2="-2.54" width="0.1524" layer="91"/>
+<pinref part="GND7" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="+5V" class="0">
 <segment>
@@ -3554,30 +3569,12 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="45.72" y1="71.12" x2="55.88" y2="71.12" width="0.1524" layer="91"/>
 <label x="55.88" y="71.12" size="0.8128" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="R1" gate="G$1" pin="2"/>
-<junction x="101.6" y="76.2"/>
-<pinref part="TAP1" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="76.2" x2="101.6" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="76.2" x2="101.6" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
-<label x="91.44" y="68.58" size="0.8128" layer="95" rot="R180" xref="yes"/>
-</segment>
 </net>
 <net name="GPIO15" class="0">
 <segment>
 <pinref part="RASBERRYPI3" gate="A" pin="10"/>
 <wire x1="45.72" y1="68.58" x2="55.88" y2="68.58" width="0.1524" layer="91"/>
 <label x="55.88" y="68.58" size="0.8128" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="R2" gate="G$1" pin="2"/>
-<junction x="101.6" y="48.26"/>
-<pinref part="TAP2" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="48.26" x2="101.6" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="48.26" x2="101.6" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="40.64" x2="91.44" y2="40.64" width="0.1524" layer="91"/>
-<label x="91.44" y="40.64" size="0.8128" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO18" class="0">
@@ -3586,30 +3583,12 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="45.72" y1="66.04" x2="55.88" y2="66.04" width="0.1524" layer="91"/>
 <label x="55.88" y="66.04" size="0.8128" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="R3" gate="G$1" pin="2"/>
-<junction x="101.6" y="20.32"/>
-<pinref part="TAP3" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="20.32" x2="101.6" y2="20.32" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="20.32" x2="101.6" y2="12.7" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="12.7" x2="91.44" y2="12.7" width="0.1524" layer="91"/>
-<label x="91.44" y="12.7" size="0.8128" layer="95" rot="R180" xref="yes"/>
-</segment>
 </net>
 <net name="GPIO23" class="0">
 <segment>
 <pinref part="RASBERRYPI3" gate="A" pin="16"/>
 <wire x1="45.72" y1="60.96" x2="55.88" y2="60.96" width="0.1524" layer="91"/>
 <label x="55.88" y="60.96" size="0.8128" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="R4" gate="G$1" pin="2"/>
-<junction x="101.6" y="-7.62"/>
-<pinref part="TAP4" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="-7.62" x2="101.6" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="-7.62" x2="101.6" y2="-15.24" width="0.1524" layer="91"/>
-<wire x1="101.6" y1="-15.24" x2="91.44" y2="-15.24" width="0.1524" layer="91"/>
-<label x="91.44" y="-15.24" size="0.8128" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO24" class="0">
@@ -3673,12 +3652,30 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="45.72" y1="40.64" x2="55.88" y2="40.64" width="0.1524" layer="91"/>
 <label x="55.88" y="40.64" size="0.8128" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="R1" gate="G$1" pin="2"/>
+<junction x="101.6" y="76.2"/>
+<pinref part="TAP1" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="76.2" x2="101.6" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="76.2" x2="101.6" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
+<label x="91.44" y="68.58" size="0.8128" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="GPIO16" class="0">
 <segment>
 <pinref part="RASBERRYPI3" gate="A" pin="36"/>
 <wire x1="45.72" y1="35.56" x2="55.88" y2="35.56" width="0.1524" layer="91"/>
 <label x="55.88" y="35.56" size="0.8128" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="R2" gate="G$1" pin="2"/>
+<junction x="101.6" y="48.26"/>
+<pinref part="TAP2" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="48.26" x2="101.6" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="48.26" x2="101.6" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="40.64" x2="91.44" y2="40.64" width="0.1524" layer="91"/>
+<label x="91.44" y="40.64" size="0.8128" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO20" class="0">
@@ -3687,12 +3684,30 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="45.72" y1="33.02" x2="55.88" y2="33.02" width="0.1524" layer="91"/>
 <label x="55.88" y="33.02" size="0.8128" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<junction x="101.6" y="20.32"/>
+<pinref part="TAP3" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="20.32" x2="101.6" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="20.32" x2="101.6" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="12.7" x2="91.44" y2="12.7" width="0.1524" layer="91"/>
+<label x="91.44" y="12.7" size="0.8128" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="GPIO21" class="0">
 <segment>
 <pinref part="RASBERRYPI3" gate="A" pin="40"/>
 <wire x1="45.72" y1="30.48" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
 <label x="55.88" y="30.48" size="0.8128" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<junction x="101.6" y="-7.62"/>
+<pinref part="TAP4" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="-7.62" x2="101.6" y2="-7.62" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="-7.62" x2="101.6" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="-15.24" x2="91.44" y2="-15.24" width="0.1524" layer="91"/>
+<label x="91.44" y="-15.24" size="0.8128" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -3726,6 +3741,16 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <wire x1="88.9" y1="-7.62" x2="91.44" y2="-7.62" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="1"/>
 </segment>
+<segment>
+<pinref part="DS18B20" gate="G$1" pin="1"/>
+<wire x1="0" y1="7.62" x2="-5.08" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="7.62" x2="-5.08" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="-5.08" y1="12.7" x2="-12.7" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="+3V6" gate="G$1" pin="+3V3"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="-12.7" y1="12.7" x2="-17.78" y2="12.7" width="0.1524" layer="91"/>
+<junction x="-12.7" y="12.7"/>
+</segment>
 </net>
 <net name="GPIO2" class="0">
 <segment>
@@ -3746,6 +3771,16 @@ Wire-to-Board 2.54 mm (0.100") pitch header, 3 positions.</description>
 <pinref part="RASBERRYPI3" gate="A" pin="GPIO4"/>
 <wire x1="38.1" y1="71.12" x2="27.94" y2="71.12" width="0.1524" layer="91"/>
 <label x="27.94" y="71.12" size="0.8128" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<junction x="-12.7" y="2.54"/>
+<pinref part="DS18B20" gate="G$1" pin="2"/>
+<wire x1="0" y1="5.08" x2="-7.62" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="-7.62" y1="5.08" x2="-7.62" y2="2.54" width="0.1524" layer="91"/>
+<wire x1="-7.62" y1="2.54" x2="-12.7" y2="2.54" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="2.54" x2="-20.32" y2="2.54" width="0.1524" layer="91"/>
+<label x="-20.32" y="2.54" size="0.8128" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO17" class="0">
