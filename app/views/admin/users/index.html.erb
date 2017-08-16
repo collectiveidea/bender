@@ -11,6 +11,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>RFID</th>
+      <th>Pints Remaining<th>
       <th></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
       <td><%= image_tag user.gravatar_url(size: 50), alt: "#{user.name} Avatar", class: 'mini-avatar' %> <%= user.name %></td>
       <td><%= user.email %></td>
       <td><%= user.rfid %></td>
+      <td><%= user.credits %></td>
       <td>
         <%= link_to 'Edit', edit_admin_user_path(user) %>
         <%= link_to 'Delete', admin_user_path(user), class: 'warning pull-right', method: 'delete', data: {confirm: 'Are you sure?'} %>
