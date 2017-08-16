@@ -54,7 +54,7 @@ class Admin::UsersController < ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:name, :email, :rfid)
+    params.require(:user).permit(:name, :email, :rfid, :credits)
   end
 
   private
