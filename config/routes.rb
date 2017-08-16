@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :users
+
     get 'settings' => 'settings#index'
     get 'achievements' => 'metrics#achievements'
   end

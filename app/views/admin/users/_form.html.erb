@@ -1,6 +1,6 @@
 <%= errors_for(@user) %>
 
-<%= form_for [@user] do |f| %>
+<%= form_for @user, url: admin_user_path(@user) do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
 

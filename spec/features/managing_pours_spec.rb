@@ -17,7 +17,7 @@ describe 'Managing pours' do
 
     fill_in 'Name', with: 'Johnny'
     fill_in 'Email', with: 'johnny@quest.com'
-    click_button 'Save'
+    click_button 'Create'
 
     expect(current_path).to eq('/')
 
