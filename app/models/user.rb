@@ -33,4 +33,10 @@ class User < ActiveRecord::Base
   def gravatar_base_url
     "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest((email || name).downcase.strip)}?d=retro"
   end
+
+  def decrement_credits(volume)
+    if credits.present?
+      update(credits: [self[:credits] - volume, 0].max)
+    end
+  end
 end
