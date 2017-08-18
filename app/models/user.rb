@@ -39,4 +39,8 @@ class User < ActiveRecord::Base
       update(credits: [self[:credits] - volume, 0].max)
     end
   end
+
+  def pours_remaining?
+    credits.nil? || credits > 0
+  end
 end

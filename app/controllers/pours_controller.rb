@@ -12,8 +12,13 @@ class PoursController < ApplicationController
   end
 
   def create
-    tap = BeerTap.find(params[:beer_tap_id])
     user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first! if params[:user_id] != '0'
+    unless user.pours_remaining?
+      render status: :forbidden, text: "Insufficient credits remaining"
+      return
+    end
+
+    tap = BeerTap.find(params[:beer_tap_id])
     pour = tap.active_keg.start_pour(user)
 
     respond_to do |format|
