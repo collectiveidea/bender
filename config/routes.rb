@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      post "/auth", controller: "users", action: "show"
+      resources :auth, only: [:create]
       resources :taps, only: [:index], controller: "beer_taps"
       resources :pours, only: [:index, :show]
       resources :users, only: [] do
