@@ -21,7 +21,7 @@ The default password for this user is `raspbian`.
 ## Update/Upgrade the System
 ```
 $ sudo apt-get update
-$ sudo apt-get upgrade
+$ sudo apt-get dist-upgrade
 ```
 
 ## Setting up Wi-Fi
@@ -75,6 +75,12 @@ psql -U postgres
 git clone https://github.com/mruby/mruby.git
 cd mruby/
 git checkout 1.2.0
+
+# Edit the build_config.rb file and add the following gems:
+# 
+#   conf.gem :github => 'iij/mruby-io'
+#   conf.gem :github => 'ksss/mruby-signal'
+
 ./minirake
 ./bin/mruby -v
 
@@ -82,19 +88,10 @@ git checkout 1.2.0
 bunzip2 -c bender_production_2016-07-07.sql.bz2 | psql -U postgres bender_production
 
 
-# Set up Rails app
-cd /app
-bundle install
-sudo gem i passenger
-
+# Nginx
+sudo gem install passenger
 sudo passenger-install-nginx-module
 wget http://downloads.sourceforge.net/project/pcre/pcre/8.32/pcre-8.32.tar.gz
-
-# Is this needed?
-sha256sum pcre-8.32.tar.gz 
-mv pcre-8.32.tar.gz pcre.tar.gz
-cd /usr/local/lib/ruby/gems/2.2.0/gems/passenger-5.1.7
-
 
 sudo wget -O /etc/init.d/nginx https://github.com/Fleshgrinder/nginx-sysvinit-script/raw/master/init
 sudo vi /etc/init.d/nginx
