@@ -44,6 +44,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'timecop'
   gem 'rubocop', require: false
+  gem 'pry'
 end
 
 group :no_require do
