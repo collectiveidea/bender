@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   end
 
   def stats
-    data = attributes.slice("name", "created_at", "email")
+    data = attributes.slice("name", "created_at", "email", "id")
     data["gravatar"] = gravatar_base_url
     data["first_pour_at"] = first_pour_at
     data["last_pour_at"] = last_pour_at
