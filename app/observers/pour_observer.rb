@@ -38,6 +38,9 @@ class PourObserver < ActiveRecord::Observer
     Rails.logger.info "-- pour changes #{pour.changes}"
 
     if pour.changes.keys.include?("finished_at") && pour.user.present?
+      Rails.logger.info "--- Pour updated user credits:"
+      Rails.logger.info pour.inspect
+
       pour.user.decrement_credits(pour.volume)
     end
   end
