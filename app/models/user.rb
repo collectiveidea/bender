@@ -36,7 +36,13 @@ class User < ActiveRecord::Base
 
   def decrement_credits(volume)
     if credits.present?
-      update(credits: [self[:credits] - volume, 0].max)
+      update(credits: [credits - volume, 0].max)
+    end
+  end
+
+  def increment_credits(volume)
+    if credits.present?
+      update(credits: credits + volume)
     end
   end
 

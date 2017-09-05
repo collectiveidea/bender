@@ -35,13 +35,12 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def decrement_user_credits(pour)
-    Rails.logger.info "-- pour changes #{pour.changes}"
-
-    if pour.changes.keys.include?("finished_at") && pour.user.present?
-      Rails.logger.info "--- Pour updated user credits:"
-      Rails.logger.info pour.inspect
-
-      pour.user.decrement_credits(pour.volume)
+    if pour.user_id_changed?
+      User.find(pour.user_id_was).increment_credits(pour.volume_was)
+      pour.user.decrement_credits(pour.volume_was)
+    end
+    if pour.volume_changed?
+      pour.user.decrement_credits(pour.volume - pour.volume_was)
     end
   end
 end
