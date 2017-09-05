@@ -35,7 +35,7 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def decrement_user_credits(pour)
-    if pour.user_id_changed?
+    if pour.user_id_changed? && pour.volume_was && pour.volume_was > 0
       User.find(pour.user_id_was).increment_credits(pour.volume_was)
       pour.user.decrement_credits(pour.volume_was)
     end
