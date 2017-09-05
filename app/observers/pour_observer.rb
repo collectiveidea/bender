@@ -40,7 +40,9 @@ class PourObserver < ActiveRecord::Observer
       pour.user.decrement_credits(pour.volume_was)
     end
     if pour.volume_changed?
-      pour.user.decrement_credits(pour.volume - pour.volume_was)
+      change = pour.volume
+      change -= pour.volume_was if pour.volume_was
+      pour.user.decrement_credits(change)
     end
   end
 end
