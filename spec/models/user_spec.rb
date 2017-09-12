@@ -44,7 +44,7 @@ describe User do
   end
 
   describe "#stats" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:user, credits: 55.67) }
     subject { user.stats }
 
     it "has values model attributes" do
@@ -53,6 +53,7 @@ describe User do
         "name" => user.name,
         "email" => user.email,
         "id" => user.id,
+        "credits" => 55.67
       )
     end
 
