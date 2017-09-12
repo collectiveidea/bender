@@ -20,9 +20,9 @@ class User < ActiveRecord::Base
     data["gravatar"] = gravatar_base_url
     data["first_pour_at"] = first_pour_at
     data["last_pour_at"] = last_pour_at
-    data["recent_pour_count"] = pours.finished.recent.count
-    data["pour_count_by_volume"] = pours.finished.recent.group("amount").order("amount").pluck("round(volume) AS amount", "count(id)")
-    data["recent_pours"] = pours.finished.recent.order(finished_at: :desc).pluck("volume", "started_at")
+    data["recent_pour_count"] = recent_pour_count
+    data["pour_count_by_volume"] = pour_count_by_volume
+    data["recent_pours"] = recent_pours
     data
   end
 
@@ -48,5 +48,17 @@ class User < ActiveRecord::Base
 
   def pours_remaining?
     credits.nil? || credits > 0
+  end
+
+  def recent_pour_count
+    pours.finished.recent.count
+  end
+
+  def recent_pours
+    pours.finished.recent.order(finished_at: :desc).pluck("volume", "started_at")
+  end
+
+  def pour_count_by_volume
+    pours.finished.recent.group("amount").order("amount").pluck("round(volume) AS amount", "count(id)")
   end
 end

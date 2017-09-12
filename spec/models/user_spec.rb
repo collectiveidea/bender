@@ -42,4 +42,29 @@ describe User do
       expect(user.pours_remaining?).to eq(false)
     end
   end
+
+  describe "#stats" do
+    let(:user) { FactoryGirl.create(:user) }
+    subject { user.stats }
+
+    it "has values model attributes" do
+      is_expected.to have_key("created_at")
+      is_expected.to include(
+        "name" => user.name,
+        "email" => user.email,
+        "id" => user.id,
+      )
+    end
+
+    it "has values from model methods" do
+      is_expected.to include(
+        "gravatar" => user.gravatar_base_url,
+        "first_pour_at" => user.first_pour_at,
+        "last_pour_at" => user.last_pour_at,
+        "recent_pour_count" => user.recent_pour_count,
+        "pour_count_by_volume" => user.pour_count_by_volume,
+        "recent_pours" => user.recent_pours,
+      )
+    end
+  end
 end
