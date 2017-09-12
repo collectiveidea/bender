@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   end
 
   def stats
-    data = attributes.slice("name", "created_at", "email")
+    data = attributes.slice("name", "created_at", "email", "id")
     data["gravatar"] = gravatar_base_url
     data["first_pour_at"] = first_pour_at
     data["last_pour_at"] = last_pour_at
@@ -32,5 +32,21 @@ class User < ActiveRecord::Base
 
   def gravatar_base_url
     "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest((email || name).downcase.strip)}?d=retro"
+  end
+
+  def decrement_credits(volume)
+    if credits.present?
+      update(credits: [credits - volume, 0].max)
+    end
+  end
+
+  def increment_credits(volume)
+    if credits.present?
+      update(credits: credits + volume)
+    end
+  end
+
+  def pours_remaining?
+    credits.nil? || credits > 0
   end
 end

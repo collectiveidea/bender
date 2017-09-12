@@ -52,4 +52,14 @@ describe 'Managing pours' do
 
     expect(page.current_url).to eq(source)
   end
+
+  it "prevents a user with zero credits from starting a pour" do
+    user = FactoryGirl.create(:user, name: 'Johnny', credits: 0)
+
+    visit '/'
+    click_link 'Start Pour'
+    click_link 'Johnny'
+
+    page.status_code.should == 403
+  end
 end
