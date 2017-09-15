@@ -25,6 +25,19 @@ A kegerator monitoring application built to run on a RaspberryPi or BeagleBone B
 5. `rake db:setup`
 6. `rails server`
 
+## Hardware
+
+![Raspberry Pi 3](http://www.mcmelectronics.com/product/83-17300)
+
+Flow sensing
+![Swissflow SF800](http://www.swissflow.com/sf800.html)
+![John Guest Fitting, 3/8" Stem OD x 1/4" Hose ID (Pack of 10)](https://www.amazon.com/gp/product/B005XU0V2E/)
+
+Flow control
+![4 channel relay board](https://www.amazon.com/dp/B0057OC5O8/)
+![Solenoid Valve, 24V DC, 1/4" Tube OD, 40 Maximum PSI](https://www.mcmaster.com/#5489T653)
+![John Guest Fitting, 1/4" Stem OD x 1/4" Hose ID (Pack of 10)](https://www.amazon.com/gp/product/B005XU0SK4/)
+
 ## Contributing
 
 1. Clone repository. `git clone git@github.com:collectiveidea/localorbit.git`
