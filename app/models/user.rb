@@ -11,10 +11,6 @@ class User < ActiveRecord::Base
     pours.finished.minimum(:created_at).try(:in_time_zone)
   end
 
-  def last_pour_at
-    pours.finished.maximum(:created_at).try(:in_time_zone)
-  end
-
   def stats
     data = attributes.slice("name", "created_at", "email", "id")
     data["gravatar"] = gravatar_base_url
