@@ -37,6 +37,10 @@ module Setting
     settings['admin_password']
   end
 
+  def self.invert_tap_logic
+    settings['invert_tap_logic'] == true
+  end
+
   def self.settings
     @settings ||= YAML.load_file(Rails.root.join('config', 'settings.yml'))
   end
