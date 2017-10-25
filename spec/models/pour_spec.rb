@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Pour do
+  let!(:guest) { User.create(id: 0, name: "Guest") }
   describe "#complete?" do
     before :each do
       Timecop.freeze(Time.current)
@@ -36,7 +37,6 @@ describe Pour do
       end
 
       it 'sends a hubot message on claiming an anonymous pour' do
-        User.create(id: 0, name: "Guest")
         pour = FactoryGirl.create(:pour, user_id: 0, finished_at: Time.current, volume: "12")
         user = FactoryGirl.create(:user, name: 'Jim')
 

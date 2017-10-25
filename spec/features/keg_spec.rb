@@ -28,6 +28,7 @@ describe "View Keg" do
 
   context "after pours" do
     it "shows pours and leaderboard correctly" do
+      User.create(id: 0, name: "Guest")
       john = FactoryGirl.create(:user, name: "John")
       jane = FactoryGirl.create(:user, name: "Jane")
       johns_pour = FactoryGirl.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)

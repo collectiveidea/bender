@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Keg do
   it 'calculates the total poured volume against the keg' do
+    User.create(id: 0, name: "Guest")
     keg = FactoryGirl.create(:keg)
     FactoryGirl.create_list(:pour, 3, {keg_id: keg.id})
     FactoryGirl.create(:pour)
@@ -11,6 +12,7 @@ describe Keg do
   end
 
   it 'calculates the remaining volume in the keg' do
+    User.create(id: 0, name: "Guest")
     keg = FactoryGirl.create(:keg, capacity: 100)
     FactoryGirl.create_list(:pour, 3, {keg_id: keg.id})
     FactoryGirl.create(:pour)

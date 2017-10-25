@@ -10,6 +10,7 @@ class Pour < ActiveRecord::Base
   belongs_to :user
 
   before_save :calculate_duration
+  after_save :set_last_pour_at
 
   scope :finished, lambda { where('finished_at IS NOT NULL') }
   scope :non_guest, lambda { where('user_id > 0') }
@@ -41,5 +42,13 @@ class Pour < ActiveRecord::Base
 
   def calculate_duration
     self.duration = finished_at - started_at if finished_at && started_at
+  end
+
+  def set_last_pour_at
+    return unless finished_at && (user_id_changed? || finished_at_changed?)
+    User.find(changes["user_id"] || [user_id]).each do |user|
+      user.last_pour_at = user.pours.finished.maximum(:created_at)
+      user.save
+    end
   end
 end
