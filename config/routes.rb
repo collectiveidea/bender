@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       get    'tap' => 'kegs#list_taps'
       put    'tap' => 'kegs#tap_keg'
       delete 'tap' => 'kegs#untap_keg'
+
+      get :clone
     end
     resources :temperature_sensors, except: [:new, :create] do
       collection do

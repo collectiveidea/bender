@@ -51,4 +51,15 @@ describe 'Managing kegs' do
 
     expect(page).to have_content("Tap Keg")
   end
+
+  it 'allows a user to clone a keg' do
+    FactoryGirl.create(:keg, name: 'Better Beer')
+    visit '/admin/kegs'
+    click_link 'Better Beer'
+    click_link 'Clone'
+
+    click_button 'Create'
+
+    expect(page).to have_content('Admin Kegs > Better Beer')
+  end
 end

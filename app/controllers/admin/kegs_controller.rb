@@ -39,6 +39,11 @@ class Admin::KegsController < ApplicationController
     end
   end
 
+  def clone
+    @keg = Keg.find(params[:keg_id]).dup
+    render :new
+  end
+
   def list_taps
     @keg = Keg.find(params[:keg_id])
     @beer_taps = BeerTap.unused.order(:display_order).for_select
