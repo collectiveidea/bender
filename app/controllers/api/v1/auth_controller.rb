@@ -7,7 +7,7 @@ module Api
         if user && user.pours_remaining?
           render json: Oj.dump(user.stats, mode: :compat)
         else
-          render status: :forbidden, text: "Insufficient credits remaining"
+          render status: :forbidden, plain: "Insufficient credits remaining"
         end
       end
 

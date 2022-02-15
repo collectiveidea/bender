@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Keg do
   it 'calculates the total poured volume against the keg' do

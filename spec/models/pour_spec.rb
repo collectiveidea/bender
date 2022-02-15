@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Pour do
   let!(:guest) { User.create(id: 0, name: "Guest") }
@@ -24,13 +24,13 @@ describe Pour do
 
     describe 'hubot communication' do
       before(:each) do
-        Setting.stub(:hubot_url).and_return('Not Blank')
+        allow(Setting).to receive(:hubot_url).and_return('Not Blank')
       end
 
       it 'sends a hubot message on completing an anonymous pour' do
         pour = FactoryGirl.create(:pour, user_id: 0, finished_at: nil, volume: "12")
 
-        Hubot.should_receive(:send_message).with("Someone just poured a 12.0oz #{pour.keg.name}.")
+        expect(Hubot).to receive(:send_message).with("Someone just poured a 12.0oz #{pour.keg.name}.")
 
         pour.finished_at = Time.now
         pour.save
@@ -40,7 +40,7 @@ describe Pour do
         pour = FactoryGirl.create(:pour, user_id: 0, finished_at: Time.current, volume: "12")
         user = FactoryGirl.create(:user, name: 'Jim')
 
-        Hubot.should_receive(:send_message).with("Jim has claimed the 12.0oz pour.")
+        expect(Hubot).to receive(:send_message).with("Jim has claimed the 12.0oz pour.")
 
         pour.user = user
         pour.save

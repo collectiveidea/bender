@@ -1,5 +1,5 @@
 class BeerTap < ActiveRecord::Base
-  FLOZ_PER_ML = BigDecimal.new('0.033814')
+  FLOZ_PER_ML = BigDecimal('0.033814')
 
   belongs_to :temperature_sensor
   belongs_to :kegerator

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe 'Managing pours' do
   let(:beer_tap) { FactoryGirl.create(:beer_tap, name: 'Main Tap') }
@@ -60,6 +60,6 @@ describe 'Managing pours' do
     click_link 'Start Pour'
     click_link 'Johnny'
 
-    page.status_code.should == 403
+    expect(page.status_code).to eq(403)
   end
 end

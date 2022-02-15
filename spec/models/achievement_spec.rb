@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Achievement do
   before :all do
@@ -50,7 +50,6 @@ describe Achievement do
       expect(Achievement.calculate({ metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
-                                    reverse: true,
                                     reverse: true }).value.to_d).to eq(68.to_d)
     end
 

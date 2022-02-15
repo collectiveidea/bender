@@ -33,7 +33,7 @@ class Admin::BeerTapsController < ApplicationController
 
   def update
     @beer_tap = BeerTap.find(params[:id])
-    if @beer_tap.update_attributes(beer_tap_params)
+    if @beer_tap.update(beer_tap_params)
       redirect_to [:admin, @beer_tap]
     else
       render :edit

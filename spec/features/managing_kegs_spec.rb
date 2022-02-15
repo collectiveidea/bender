@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe 'Managing kegs' do
   it 'allows a user to add a keg' do

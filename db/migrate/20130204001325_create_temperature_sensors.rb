@@ -1,4 +1,4 @@
-class CreateTemperatureSensors < ActiveRecord::Migration
+class CreateTemperatureSensors < ActiveRecord::Migration[4.2]
   def change
     create_table :temperature_sensors do |t|
       t.string :name

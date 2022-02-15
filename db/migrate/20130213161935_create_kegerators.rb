@@ -1,4 +1,4 @@
-class CreateKegerators < ActiveRecord::Migration
+class CreateKegerators < ActiveRecord::Migration[4.2]
   def change
     create_table :kegerators do |t|
       t.string   :name
