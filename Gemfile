@@ -10,7 +10,9 @@ gem 'pg'
 gem 'cssbundling-rails'
 gem 'propshaft'
 
-gem 'font-awesome-rails'
+# This gem is EOL. It installs fine, but css doesn't play nice anymore.
+# Let's remove it.
+# gem 'font-awesome-rails'
 
 gem 'actionpack-page_caching'
 gem 'active_model_serializers'
