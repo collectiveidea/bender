@@ -7,7 +7,7 @@ class Keg < ActiveRecord::Base
     ['Home Brew', 635]
   ]
 
-  belongs_to :beer_tap
+  belongs_to :beer_tap, optional: true
 
   has_many :pours, inverse_of: :keg
   has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour', inverse_of: :keg

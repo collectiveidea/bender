@@ -4,5 +4,6 @@ FactoryGirl.define do
     min_temp 44
     max_temp 46
     alarm_temp 48
+    temperature_sensor
   end
 end
