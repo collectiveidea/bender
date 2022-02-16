@@ -7,19 +7,8 @@ gem 'rails', '~> 7.0.1'
 gem 'pg'
 
 # Assets
-# group :assets do
-#   gem 'sass-rails',   '~> 4.0.4'
-#   gem 'uglifier',     '>= 1.3.0'
-#   gem 'coffee-rails', '~> 4.0.0'
-#
-#   gem 'jquery-rails'
-#   gem 'compass-rails'
-#   gem 'd3js-rails'
-#   gem 'rickshaw_rails'
-#   gem 'momentjs-rails'
-#   gem 'underscore-rails'
+gem 'cssbundling-rails'
 gem 'propshaft'
-# end
 
 gem 'font-awesome-rails'
 

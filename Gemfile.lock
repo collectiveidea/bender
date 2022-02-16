@@ -101,6 +101,8 @@ GEM
     concurrent-ruby (1.1.9)
     cookiejar (0.3.3)
     crass (1.0.6)
+    cssbundling-rails (1.0.0)
+      railties (>= 6.0.0)
     daemons (1.4.1)
     dead_end (3.1.1)
     derailed (0.1.0)
@@ -329,6 +331,7 @@ DEPENDENCIES
   bigdecimal
   capistrano (< 3.0)
   capybara
+  cssbundling-rails
   derailed
   domino
   factory_bot_rails
