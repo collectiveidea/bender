@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :beer_tap do
     sequence(:name) {|n| "Tap #{n}" }
   end

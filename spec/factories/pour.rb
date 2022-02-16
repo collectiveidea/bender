@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pour do
     volume      { rand * 16 }
     started_at  { 5.seconds.ago }

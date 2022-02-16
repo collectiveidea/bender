@@ -45,7 +45,7 @@ group :test, :development do
   gem 'nokogiri', require: false
   gem 'poltergeist'
   gem 'domino'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'timecop'
   gem 'rubocop', require: false
   gem 'pry'

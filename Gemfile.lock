@@ -102,12 +102,6 @@ GEM
     cookiejar (0.3.3)
     crass (1.0.6)
     daemons (1.4.1)
-    database_cleaner (2.0.1)
-      database_cleaner-active_record (~> 2.0.0)
-    database_cleaner-active_record (2.0.1)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     dead_end (3.1.1)
     derailed (0.1.0)
       derailed_benchmarks
@@ -137,11 +131,11 @@ GEM
       eventmachine (>= 1.0.0.beta.4)
     erubi (1.10.0)
     eventmachine (1.2.7)
-    factory_girl (4.9.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
-      railties (>= 3.0.0)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faye (1.4.0)
       cookiejar (>= 0.3.0)
       em-http-request (>= 1.1.6)
@@ -335,10 +329,9 @@ DEPENDENCIES
   bigdecimal
   capistrano (< 3.0)
   capybara
-  database_cleaner
   derailed
   domino
-  factory_girl_rails
+  factory_bot_rails
   faye
   font-awesome-rails
   god
