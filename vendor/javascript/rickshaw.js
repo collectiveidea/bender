@@ -1,3 +1,4 @@
+d3 = window.d3;
 var Rickshaw = {
 
 	namespace: function(namespace, obj) {
@@ -32,6 +33,7 @@ var Rickshaw = {
 		return JSON.parse(JSON.stringify(obj));
 	}
 };
+window.Rickshaw = Rickshaw;
 
 if (typeof module !== 'undefined' && module.exports) {
 	var d3 = require('d3');

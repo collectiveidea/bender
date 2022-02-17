@@ -2573,7 +2573,8 @@
       d3_style_setProperty.call(this, name, value + "", priority);
     };
   }
-  d3 = {
+  // modified to add window. to avoid errors
+  window.d3 = {
     version: "2.10.3"
   };
   var d3_array = d3_arraySlice;

@@ -8,6 +8,7 @@ gem 'pg'
 
 # Assets
 gem 'cssbundling-rails'
+gem 'importmap-rails'
 gem 'propshaft'
 
 # This gem is EOL. It installs fine, but css doesn't play nice anymore.

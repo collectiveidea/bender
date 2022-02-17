@@ -32,5 +32,5 @@
       var fayeClient = new Faye.Client('<%= Setting.faye_url(request.host) %>');
     </script>
   <% end %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_importmap_tags %>
 </html>

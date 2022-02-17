@@ -161,6 +161,9 @@ GEM
     http_parser.rb (0.8.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    importmap-rails (1.0.2)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     io-wait (0.2.1)
     jsonapi-renderer (0.2.2)
     kaminari (1.2.2)
@@ -335,6 +338,7 @@ DEPENDENCIES
   factory_bot_rails
   faye
   god
+  importmap-rails
   kaminari
   nokogiri
   oj

@@ -19,7 +19,7 @@
       if ((this.container.data('graph-end') != null) && this.container.data('graph-end') !== "") {
         this.graphEnd = parseFloat(this.container.data('graph-end'));
       } else {
-        this.graphEnd = moment().valueOf() / 1e3;
+        this.graphEnd = (new Date()).valueOf() / 1e3;
       }
       this.graphStart = this.graphEnd - this.duration;
       this.frozen = false;
@@ -32,9 +32,7 @@
               _this.data.push(message);
               _this.graphEnd = message[1];
               _this.graphStart = _this.graphEnd - _this.duration;
-              data = _.reject(_this.data, function(obj) {
-                return obj[1] < _this.graphStart;
-              });
+              data = _this.data.filter(obj => obj[1] >= _this.graphStart);
               return _this.prepData(data, 200);
             }
           };
@@ -48,7 +46,7 @@
           el.blur();
           if (!el.hasClass("inactive")) {
             _this.graphEnd = _this.graphEnd + _this.duration;
-            _this.now = moment().valueOf() / 1e3;
+            _this.now = (new Date()).valueOf() / 1e3;
             if (_this.now < _this.graphEnd) {
               _this.graphEnd = _this.now;
               _this.deactivateNext();
@@ -75,7 +73,7 @@
           el = $(e.currentTarget);
           el.blur();
           if (!el.hasClass("inactive")) {
-            _this.graphEnd = moment().valueOf() / 1e3;
+            _this.graphEnd = (new Date()).valueOf() / 1e3;
             _this.graphStart = _this.graphEnd - _this.duration;
             _this.deactivateNext();
             return _this.draw();
@@ -112,7 +110,7 @@
     TempChart.prototype.prepData = function(data, status) {
       this.data = data;
       this.data.forEach(function(d) {
-        d.x = d[1] + moment(d[1] * 1e3).utcOffset() * 60;
+        d.x = d[1] + (new Date(d[1] * 1e3)).getTimezoneOffset() * 60;
         return d.y = parseFloat(d[0]);
       });
       if (this.rickshaw != null) {
@@ -123,8 +121,8 @@
     };
 
     TempChart.prototype.updateGraph = function() {
-      this.rickshaw.end = this.graphEnd + moment(this.graphEnd * 1e3).utcOffset() * 60;
-      this.rickshaw.start = this.graphStart + moment(this.graphStart * 1e3).utcOffset() * 60;
+      this.rickshaw.end = this.graphEnd + (new Date(this.graphEnd * 1e3)).getTimezoneOffset() * 60;
+      this.rickshaw.start = this.graphStart + (new Date(this.graphStart * 1e3)).getTimezoneOffset() * 60;
       this.rickshaw.series[0].data = this.data;
       this.rickshaw.update();
       this.container.find('.loading').hide();
@@ -142,8 +140,8 @@
           width: this.graphContainer.width(),
           height: this.graphContainer.height(),
           renderer: "line",
-          start: this.graphStart + moment(this.graphStart * 1e3).utcOffset() * 60,
-          end: this.graphEnd + moment(this.graphEnd * 1e3).utcOffset() * 60,
+          start: this.graphStart + (new Date(this.graphStart * 1e3)).getTimezoneOffset() * 60,
+          end: this.graphEnd + (new Date(this.graphEnd * 1e3)).getTimezoneOffset() * 60,
           min: "auto",
           interpolation: "linear",
           series: [
@@ -166,7 +164,7 @@
             return e;
           },
           xFormatter: function(e) {
-            return moment(e * 1e3).utc().format("llll");
+            return (new Date(e * 1e3)).toUTCString();
           },
           formatter: function(e, t, n, r, i, s) {
             return i + "&nbsp;" + e.name;
