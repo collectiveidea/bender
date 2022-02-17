@@ -13,17 +13,16 @@ A kegerator monitoring application built to run on a RaspberryPi or BeagleBone B
 
 ### Requirements
 
-* Ruby 2.1.1
+* Ruby 3.1.0
 * PostgreSQL
+* Foreman (`gem install foreman`) or another Procfile runner
 
 ### Setup
 
 1. Clone the repo
 2. `bundle`
-3. `cp config/settings.yml{.example,}` and modify if needed
-4. `cp config/database.yml{.example,}` and modify if needed
-5. `rake db:setup`
-6. `rails server`
+3. `bin/setup`
+6. `foreman start -f Procfile.dev`
 
 ## Contributing
 
