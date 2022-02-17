@@ -19,7 +19,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Copying sample files =="
   unless File.exist?("config/settings.yml")
-    FileUtils.cp "config/settings.yml.example", "config/database.yml"
+    FileUtils.cp "config/settings.yml.example", "config/settings.yml"
   end
 
   unless File.exist?("config/database.yml")
