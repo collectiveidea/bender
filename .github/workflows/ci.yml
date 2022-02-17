@@ -53,5 +53,8 @@ jobs:
     - name: Zeitwerk Check
       run: bundle exec rake zeitwerk:check
 
+    - name: Build CSS
+      run: yarn build:css
+
     - name: Run Tests
       run: bundle exec rspec --format progress --color
