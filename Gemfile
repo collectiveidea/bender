@@ -11,10 +11,6 @@ gem 'cssbundling-rails'
 gem 'importmap-rails'
 gem 'propshaft'
 
-# This gem is EOL. It installs fine, but css doesn't play nice anymore.
-# Let's remove it.
-# gem 'font-awesome-rails'
-
 gem 'actionpack-page_caching'
 gem 'active_model_serializers'
 gem 'bigdecimal'
@@ -23,7 +19,6 @@ gem 'rails-observers'
 gem 'responders'
 
 gem 'oj'
-
 
 group :development do
   gem 'capistrano', '< 3.0'
