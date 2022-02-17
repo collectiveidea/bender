@@ -38,7 +38,6 @@ group :test, :development do
   gem 'poltergeist'
   gem 'domino'
   gem 'factory_bot_rails'
-  gem 'timecop'
   gem 'rubocop', require: false
   gem 'pry'
 end

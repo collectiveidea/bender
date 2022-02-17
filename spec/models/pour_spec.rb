@@ -1,19 +1,21 @@
 require "rails_helper"
 
 describe Pour do
+  include ActiveSupport::Testing::TimeHelpers
+
   let!(:guest) { User.create(id: 0, name: "Guest") }
   describe "#complete?" do
     before :each do
-      Timecop.freeze(Time.current)
+      freeze_time
     end
 
     after do
-      Timecop.return
+      travel_back
     end
 
     it 'returns true if the pour is completed and the current time is after the pour timeout' do
       pour = FactoryBot.create(:pour, finished_at: Time.current)
-      Timecop.travel(Time.current + Setting.pour_timeout + 1)
+      travel_to(Time.current + Setting.pour_timeout + 1)
       expect(pour.complete?).to eq(true)
     end
 
