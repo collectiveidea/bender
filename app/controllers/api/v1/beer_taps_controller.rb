@@ -1,6 +1,6 @@
-module Api
+module API
   module V1
-    class BeerTapsController < ApiController
+    class BeerTapsController < APIController
       def index
         beer_taps = BeerTap.preload(:active_keg).order(:display_order)
 
