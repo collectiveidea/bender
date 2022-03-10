@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       resources :auth, only: [:create]
       resources :taps, only: [:index], controller: "beer_taps"
       resources :pours, only: [:index, :show]
-      resources :users, only: [] do
+      resources :users, only: [:index, :show] do
         resources :stats, only: [:index]
       end
     end
