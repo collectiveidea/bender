@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2017_10_03_222034) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_10_184627) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2017_10_03_222034) do
     t.string "rfid"
     t.decimal "credits"
     t.datetime "last_pour_at", precision: nil
+    t.boolean "hidden", default: false, null: false
+    t.index ["hidden"], name: "index_users_on_hidden"
   end
 
 end

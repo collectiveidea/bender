@@ -2,7 +2,7 @@ module API
   module V1
     class UsersController < ApplicationController
       def index
-        @users = User.all
+        @users = User.active
 
         render json: Oj.dump(@users.as_json, mode: :compat)
       end

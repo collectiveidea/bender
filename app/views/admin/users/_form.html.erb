@@ -13,6 +13,9 @@
   <%= f.label :credits, "Fluid oz" %>
   <%= f.number_field :credits, step: :any %>
 
+  <%= f.label :hidden, "Hide" %>
+  <%= f.checkbox :hidden %>
+
   <div class="form-actions">
     <%= f.submit 'Save', :class => 'btn btn-primary' %>
     <%= link_to 'Cancel', :back, :cliass => 'btn btn-default' %>
