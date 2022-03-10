@@ -1,6 +1,6 @@
 module API
   module V1
-    class PoursController < APIController
+    class PoursController < ApplicationController
       def index
         @pours = Pour.for_listing.except(:includes).
           between_dates(start_time: start_time, end_time: end_time)
