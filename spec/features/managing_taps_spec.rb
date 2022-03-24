@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe 'Managing taps' do
   it 'allows a user to add a tap' do
@@ -16,7 +16,7 @@ describe 'Managing taps' do
   end
 
   it 'allows a user to edit an existing tap' do
-    beer_tap = FactoryGirl.create(:beer_tap, name: 'Main Tap')
+    beer_tap = FactoryBot.create(:beer_tap, name: 'Main Tap')
 
     visit '/admin/beer_taps'
     click_link 'Main Tap'

@@ -29,19 +29,19 @@ class PourObserver < ActiveRecord::Observer
 
     if pour.user_id == 0
       Hubot.send_message('Someone just poured a %0.1foz %s.' % [pour.volume, pour.keg.name])
-    elsif pour.user_id_change && pour.user_id_change[0] == 0
+    elsif pour.previous_changes[:user_id] && pour.previous_changes[:user_id][0] == 0
       Hubot.send_message('%s has claimed the %0.1foz pour.' % [pour.user.name, pour.volume])
     end
   end
 
   def decrement_user_credits(pour)
-    if pour.user_id_changed? && pour.volume_was && pour.volume_was > 0
-      User.find(pour.user_id_was).increment_credits(pour.volume_was)
-      pour.user.decrement_credits(pour.volume_was)
+    if pour.previous_changes[:user_id] && pour.previous_changes[:volume]&.first && pour.previous_changes[:volume].first > 0
+      User.find(pour.previous_changes[:user_id].first).increment_credits(pour.previous_changes[:volume].first)
+      pour.user.decrement_credits(pour.previous_changes[:volume].first)
     end
-    if pour.volume_changed?
+    if pour.previous_changes[:volume]
       change = pour.volume
-      change -= pour.volume_was if pour.volume_was
+      change -= pour.previous_changes[:volume].first if pour.previous_changes[:volume].first
       pour.user.decrement_credits(change)
     end
   end

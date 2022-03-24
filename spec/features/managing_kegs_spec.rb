@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe 'Managing kegs' do
   it 'allows a user to add a keg' do
@@ -15,7 +15,7 @@ describe 'Managing kegs' do
   end
 
   it 'allows a user to edit a keg' do
-    FactoryGirl.create(:keg, name: 'Better Beer')
+    FactoryBot.create(:keg, name: 'Better Beer')
     visit '/admin/kegs'
     click_link 'Better Beer'
     click_link 'Edit'
@@ -28,8 +28,8 @@ describe 'Managing kegs' do
   end
 
   it 'allows a user to tap a keg' do
-    FactoryGirl.create(:keg, name: 'Better Beer')
-    FactoryGirl.create(:beer_tap, name: 'Main Tap')
+    FactoryBot.create(:keg, name: 'Better Beer')
+    FactoryBot.create(:beer_tap, name: 'Main Tap')
 
     visit '/admin/kegs'
     click_link 'Better Beer'
@@ -41,8 +41,8 @@ describe 'Managing kegs' do
   end
 
   it 'allows a user to untap a keg' do
-    keg = FactoryGirl.create(:keg, name: 'Better Beer')
-    beer_tap = FactoryGirl.create(:beer_tap, name: 'Main Tap')
+    keg = FactoryBot.create(:keg, name: 'Better Beer')
+    beer_tap = FactoryBot.create(:beer_tap, name: 'Main Tap')
     keg.tap_it(beer_tap.id)
 
     visit '/admin/kegs'
@@ -53,7 +53,7 @@ describe 'Managing kegs' do
   end
 
   it 'allows a user to clone a keg' do
-    FactoryGirl.create(:keg, name: 'Better Beer')
+    FactoryBot.create(:keg, name: 'Better Beer')
     visit '/admin/kegs'
     click_link 'Better Beer'
     click_link 'Clone'

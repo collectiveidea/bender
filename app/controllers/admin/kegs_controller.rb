@@ -32,7 +32,7 @@ class Admin::KegsController < ApplicationController
 
   def update
     @keg = Keg.find(params[:id])
-    if @keg.update_attributes(keg_params)
+    if @keg.update(keg_params)
       redirect_to [:admin, @keg]
     else
       render :edit

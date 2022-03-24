@@ -14,7 +14,7 @@ class PoursController < ApplicationController
   def create
     user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first! if params[:user_id] != '0'
     unless user.pours_remaining?
-      render status: :forbidden, text: "Insufficient credits remaining"
+      render status: :forbidden, plain: "Insufficient credits remaining"
       return
     end
 
@@ -43,7 +43,7 @@ class PoursController < ApplicationController
     if params.require(:pour).keys == ["finished_at"]
       pour.finish_pour(params[:pour][:finished_at])
     else
-      pour.update_attributes(pour_params)
+      pour.update(pour_params)
     end
     respond_to do |format|
       format.json { respond_with pour }

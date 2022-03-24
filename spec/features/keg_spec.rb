@@ -1,8 +1,8 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe "View Keg" do
-  let(:tap) { FactoryGirl.create(:beer_tap) }
-  let(:keg) { FactoryGirl.create(:keg, name: "Better Beer") }
+  let(:tap) { FactoryBot.create(:beer_tap) }
+  let(:keg) { FactoryBot.create(:keg, name: "Better Beer") }
 
   before do
     keg.tap_it(tap.id)
@@ -12,52 +12,52 @@ describe "View Keg" do
     visit keg_path(keg)
 
     within(".page-header h1") do
-      page.should have_content("Better Beer")
+      expect(page).to have_content("Better Beer")
     end
 
-    page.should have_content "Leaderboard"
-    page.should have_content "Stats"
-    page.should have_content "Beer Temperature"
+    expect(page).to have_content "Leaderboard"
+    expect(page).to have_content "Stats"
+    expect(page).to have_content "Beer Temperature"
 
     stats = Dom::KegStats.first
-    stats.poured.should eq(0)
-    stats.remaining.should eq(keg.capacity)
-    stats.pours.should eq(0)
-    stats.average_pour_volume.should eq(0.0)
+    expect(stats.poured).to eq(0)
+    expect(stats.remaining).to eq(keg.capacity)
+    expect(stats.pours).to eq(0)
+    expect(stats.average_pour_volume).to eq(0.0)
   end
 
   context "after pours" do
     it "shows pours and leaderboard correctly" do
       User.create(id: 0, name: "Guest")
-      john = FactoryGirl.create(:user, name: "John")
-      jane = FactoryGirl.create(:user, name: "Jane")
-      johns_pour = FactoryGirl.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)
+      john = FactoryBot.create(:user, name: "John")
+      jane = FactoryBot.create(:user, name: "Jane")
+      johns_pour = FactoryBot.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)
 
       # if faye was running in test env this could be in the before
       visit keg_path(keg)
 
       leader = Dom::LeaderBoardConsumer.first
-      leader.name.should eq("John")
-      leader.total.should eq(6.2)
-      leader.pours.should eq(1)
+      expect(leader.name).to eq("John")
+      expect(leader.total).to eq(6.2)
+      expect(leader.pours).to eq(1)
 
-      janes_pour = FactoryGirl.create(:pour, keg_id: keg.id, user_id: jane.id, volume: 7.9)
+      janes_pour = FactoryBot.create(:pour, keg_id: keg.id, user_id: jane.id, volume: 7.9)
 
       # if faye was running in test env this could be in the before
       visit keg_path(keg)
 
       new_leader = Dom::LeaderBoardConsumer.first
-      new_leader.name.should eq("Jane")
-      new_leader.total.should eq(7.9)
-      new_leader.pours.should eq(1)
+      expect(new_leader.name).to eq("Jane")
+      expect(new_leader.total).to eq(7.9)
+      expect(new_leader.pours).to eq(1)
 
-      Dom::LeaderBoardConsumer.all[1].name.should eq("John")
+      expect(Dom::LeaderBoardConsumer.all[1].name).to eq("John")
 
       stats = Dom::KegStats.first
-      stats.poured.should eq(14)
-      stats.remaining.should eq(keg.remaining.round)
-      stats.pours.should eq(2)
-      stats.average_pour_volume.should eq(7.0)
+      expect(stats.poured).to eq(14)
+      expect(stats.remaining).to eq(keg.remaining.round)
+      expect(stats.pours).to eq(2)
+      expect(stats.average_pour_volume).to eq(7.0)
     end
   end
 end

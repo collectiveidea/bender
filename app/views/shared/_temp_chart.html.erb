@@ -1,11 +1,11 @@
 <div class="temp-chart" data-sensor-id="<%= sensor_id %>" data-graph-end="<%= end_at.to_f if local_assigns[:end_at] %>">
   <div class="graph-wrapper">
-    <div class="message loading" style="display: none;"><%= fa_icon "spinner", class: "fa-pulse" %> Loading</div>
-    <div class="message no-data" style="display: none;"><%= fa_icon "exclamation-triangle" %> No data for this period</div>
+    <div class="message loading" style="display: none;">⏳ Loading</div>
+    <div class="message no-data" style="display: none;">⚠️ No data for this period</div>
   </div>
   <div class="controls">
-    <%= link_to fa_icon("angle-double-right"), "#", class: "pull-right current inactive" %>
-    <%= link_to fa_icon("chevron-right"), "#", class: "pull-right next inactive" %>
-    <%= link_to fa_icon("chevron-left"), "#", class: "prev" %>
+    <%= link_to "⏩", "#", class: "pull-right current inactive" %>
+    <%= link_to "▶️", "#", class: "pull-right next inactive" %>
+    <%= link_to "⬅️", "#", class: "prev" %>
   </div>
 </div>

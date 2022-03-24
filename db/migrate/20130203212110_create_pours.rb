@@ -1,4 +1,4 @@
-class CreatePours < ActiveRecord::Migration
+class CreatePours < ActiveRecord::Migration[4.2]
   def change
     create_table :pours do |t|
       t.integer  :keg_id

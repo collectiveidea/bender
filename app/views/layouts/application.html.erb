@@ -22,8 +22,8 @@
   </div>
 
   <footer>
-    <span class="stateface stateface-replace stateface-mi">Michigan</span>
-    <span>Lovingly crafted in Michigan.<br>&copy; <%= Time.now.year %> <%= link_to '[i] Collecitve Idea', 'http://collectiveidea.com/' %>.</span>
+    <%= image_tag "MI.svg", alt: "" %>
+    <span>Lovingly crafted in Michigan.<br>&copy; <%= Time.now.year %> <%= link_to '[i] Collecitve Idea', 'https://collectiveidea.com/' %>.</span>
   </footer>
 
   <% if Setting.faye_url.present? %>
@@ -32,5 +32,5 @@
       var fayeClient = new Faye.Client('<%= Setting.faye_url(request.host) %>');
     </script>
   <% end %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_importmap_tags %>
 </html>

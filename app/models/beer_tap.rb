@@ -1,8 +1,8 @@
 class BeerTap < ActiveRecord::Base
-  FLOZ_PER_ML = BigDecimal.new('0.033814')
+  FLOZ_PER_ML = BigDecimal('0.033814')
 
-  belongs_to :temperature_sensor
-  belongs_to :kegerator
+  belongs_to :temperature_sensor, optional: true
+  belongs_to :kegerator, optional: true
 
   has_many :kegs, inverse_of: :beer_tap
   has_one :active_keg, lambda { where(active: true) }, class_name: 'Keg', inverse_of: :beer_tap

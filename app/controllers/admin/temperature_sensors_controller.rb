@@ -17,7 +17,7 @@ class Admin::TemperatureSensorsController < ApplicationController
 
   def update
     @temperature_sensor = TemperatureSensor.find(params[:id])
-    if @temperature_sensor.update_attributes(temperature_sensor_params)
+    if @temperature_sensor.update(temperature_sensor_params)
       redirect_to [:admin, @temperature_sensor]
     else
       render :edit

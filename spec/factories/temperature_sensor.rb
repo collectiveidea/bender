@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :temperature_sensor do
-    name "Kegerator"
+    name { "Kegerator" }
   end
 end

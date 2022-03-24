@@ -1,4 +1,4 @@
-class CreateKegs < ActiveRecord::Migration
+class CreateKegs < ActiveRecord::Migration[4.2]
   def change
     create_table :kegs do |t|
       t.integer :beer_tap_id

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Achievement do
   before :all do
@@ -7,12 +7,12 @@ describe Achievement do
     Pour.delete_all
 
 
-    FactoryGirl.create(:keg, id: 1, name: "Keg1")
-    FactoryGirl.create(:keg, id: 2, name: "Keg2")
+    FactoryBot.create(:keg, id: 1, name: "Keg1")
+    FactoryBot.create(:keg, id: 2, name: "Keg2")
 
-    FactoryGirl.create(:user, id: 0, name: "Guest")
-    FactoryGirl.create(:user, id: 1, name: "Foo")
-    FactoryGirl.create(:user, id: 2, name: "Bar")
+    FactoryBot.create(:user, id: 0, name: "Guest")
+    FactoryBot.create(:user, id: 1, name: "Foo")
+    FactoryBot.create(:user, id: 2, name: "Bar")
   end
 
   before :each do
@@ -21,13 +21,13 @@ describe Achievement do
 
   describe 'calculates metrics with appropriate options' do
     before do
-      FactoryGirl.create(:pour, user_id: 0, keg_id: 1, volume: 0)
-      FactoryGirl.create(:pour, user_id: 1, keg_id: 1, volume: 12)
-      FactoryGirl.create(:pour, user_id: 2, keg_id: 1, volume: 23, created_at: 31.days.ago, finished_at: 31.days.ago)
-      FactoryGirl.create(:pour, user_id: 1, keg_id: 1, volume: 999, created_at: 5.seconds.ago, finished_at: nil)
-      FactoryGirl.create(:pour, user_id: 0, keg_id: 2, volume: 999)
-      FactoryGirl.create(:pour, user_id: 1, keg_id: 2, volume: 34)
-      FactoryGirl.create(:pour, user_id: 2, keg_id: 2, volume: 45, created_at: 31.days.ago, finished_at: 31.days.ago)
+      FactoryBot.create(:pour, user_id: 0, keg_id: 1, volume: 0)
+      FactoryBot.create(:pour, user_id: 1, keg_id: 1, volume: 12)
+      FactoryBot.create(:pour, user_id: 2, keg_id: 1, volume: 23, created_at: 31.days.ago, finished_at: 31.days.ago)
+      FactoryBot.create(:pour, user_id: 1, keg_id: 1, volume: 999, created_at: 5.seconds.ago, finished_at: nil)
+      FactoryBot.create(:pour, user_id: 0, keg_id: 2, volume: 999)
+      FactoryBot.create(:pour, user_id: 1, keg_id: 2, volume: 34)
+      FactoryBot.create(:pour, user_id: 2, keg_id: 2, volume: 45, created_at: 31.days.ago, finished_at: 31.days.ago)
     end
 
     it 'ignores pours for Guests' do
@@ -50,7 +50,6 @@ describe Achievement do
       expect(Achievement.calculate({ metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
-                                    reverse: true,
                                     reverse: true }).value.to_d).to eq(68.to_d)
     end
 
@@ -82,10 +81,10 @@ describe Achievement do
 
   describe 'calculates total ounces poured' do
     before do
-      FactoryGirl.create(:pour, user_id: 1, volume: 12)
-      FactoryGirl.create(:pour, user_id: 1, volume: 34)
-      FactoryGirl.create(:pour, user_id: 2, volume: 23)
-      FactoryGirl.create(:pour, user_id: 2, volume: 45)
+      FactoryBot.create(:pour, user_id: 1, volume: 12)
+      FactoryBot.create(:pour, user_id: 1, volume: 34)
+      FactoryBot.create(:pour, user_id: 2, volume: 23)
+      FactoryBot.create(:pour, user_id: 2, volume: 45)
     end
 
     it 'calculates maximum volume by user' do
@@ -107,10 +106,10 @@ describe Achievement do
 
   describe 'calculates single pour volume' do
     before do
-      FactoryGirl.create(:pour, user_id: 1, volume: 12)
-      FactoryGirl.create(:pour, user_id: 1, volume: 34)
-      FactoryGirl.create(:pour, user_id: 2, volume: 23)
-      FactoryGirl.create(:pour, user_id: 2, volume: 45)
+      FactoryBot.create(:pour, user_id: 1, volume: 12)
+      FactoryBot.create(:pour, user_id: 1, volume: 34)
+      FactoryBot.create(:pour, user_id: 2, volume: 23)
+      FactoryBot.create(:pour, user_id: 2, volume: 45)
     end
 
     it 'calculates maximum pour by user' do
@@ -132,8 +131,8 @@ describe Achievement do
 
   describe 'calculates number of pours' do
     before do
-      FactoryGirl.create_list(:pour, 3, { user_id: 1 })
-      FactoryGirl.create_list(:pour, 2, { user_id: 2 })
+      FactoryBot.create_list(:pour, 3, { user_id: 1 })
+      FactoryBot.create_list(:pour, 2, { user_id: 2 })
     end
 
     it 'calculates maximum pour count by user' do
@@ -155,8 +154,8 @@ describe Achievement do
 
   describe 'calculates pour duration' do
     before do
-      FactoryGirl.create(:pour, user_id: 1, started_at: 10.seconds.ago, finished_at: Time.current)
-      FactoryGirl.create(:pour, user_id: 2, started_at: 10.minutes.ago, finished_at: Time.current)
+      FactoryBot.create(:pour, user_id: 1, started_at: 10.seconds.ago, finished_at: Time.current)
+      FactoryBot.create(:pour, user_id: 2, started_at: 10.minutes.ago, finished_at: Time.current)
     end
 
     it 'calculates maximum pour duration by user' do

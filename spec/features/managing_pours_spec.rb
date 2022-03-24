@@ -1,8 +1,8 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe 'Managing pours' do
-  let(:beer_tap) { FactoryGirl.create(:beer_tap, name: 'Main Tap') }
-  let(:keg) { FactoryGirl.create(:keg, name: 'Better Beer') }
+  let(:beer_tap) { FactoryBot.create(:beer_tap, name: 'Main Tap') }
+  let(:keg) { FactoryBot.create(:keg, name: 'Better Beer') }
 
   before do
     User.create(id: 0, name: 'Guest')
@@ -28,8 +28,8 @@ describe 'Managing pours' do
   end
 
   it 'allows an existing user to claim a pour' do
-    user = FactoryGirl.create(:user, name: 'Johnny')
-    pour = FactoryGirl.create(:pour, keg: keg, volume: 4.0, user_id: 0)
+    user = FactoryBot.create(:user, name: 'Johnny')
+    pour = FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
 
     visit '/'
 
@@ -40,8 +40,8 @@ describe 'Managing pours' do
   end
 
   it 'redirects to the appropriate place after claiming a pour' do
-    user = FactoryGirl.create(:user, name: 'Johnny')
-    pour = FactoryGirl.create(:pour, keg: keg, volume: 4.0, user_id: 0)
+    user = FactoryBot.create(:user, name: 'Johnny')
+    pour = FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
 
     source = url_for([:admin, keg])
 
@@ -54,12 +54,12 @@ describe 'Managing pours' do
   end
 
   it "prevents a user with zero credits from starting a pour" do
-    user = FactoryGirl.create(:user, name: 'Johnny', credits: 0)
+    user = FactoryBot.create(:user, name: 'Johnny', credits: 0)
 
     visit '/'
     click_link 'Start Pour'
     click_link 'Johnny'
 
-    page.status_code.should == 403
+    expect(page.status_code).to eq(403)
   end
 end
