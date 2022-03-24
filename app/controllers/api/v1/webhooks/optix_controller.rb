@@ -2,6 +2,7 @@ module API
   module V1
     module Webhooks
       class OptixController < ApplicationController
+        # https://developer.optixapp.com/using-webhooks/webhooks-list/
         def create
           json = JSON.parse(request.raw_post)
 
