@@ -1,6 +1,6 @@
 # Bender
 
-[![Build Status](https://travis-ci.org/collectiveidea/bender.png?branch=master)](https://travis-ci.org/collectiveidea/bender)
+[![CI](https://github.com/collectiveidea/bender/actions/workflows/ci.yml/badge.svg)](https://github.com/collectiveidea/bender/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/collectiveidea/bender.png)](https://codeclimate.com/github/collectiveidea/bender)
 
 A kegerator monitoring application built to run on a RaspberryPi or BeagleBone Black.
