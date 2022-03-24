@@ -1,7 +1,5 @@
 class Admin::MetricsController < ApplicationController
-  respond_to :json
-
   def achievements
-    respond_with Achievement.all
+    render json: Achievement.all.to_json
   end
 end

@@ -1,15 +1,10 @@
 class UsersController < ApplicationController
-  respond_to :html, :json
-
   def index
-    @users = User.all
-
-    respond_with @users
+    @users = User.active
   end
 
   def show
     @user = User.where("id = ? OR rfid = ?", params[:id], params[:user_rfid]).first!
-    respond_with @user
   end
 
   def new
@@ -19,13 +14,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      respond_to do |format|
-        format.json { respond_with @user }
-        format.html do
-          flash[:success] = 'User created'
-          redirect_to root_path
-        end
-      end
+      flash[:success] = 'User created'
+      redirect_to root_path
     else
       render :new
     end

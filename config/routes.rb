@@ -30,8 +30,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :auth, only: [:create]
       resources :taps, only: [:index], controller: "beer_taps"
+      resources :kegs, only: [:index, :show]
       resources :pours, only: [:index, :show]
-      resources :users, only: [] do
+      resources :users, only: [:index, :show, :create] do
         resources :stats, only: [:index]
       end
     end

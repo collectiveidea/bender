@@ -1,6 +1,6 @@
-module Api
+module API
   module V1
-    class AuthController < ApiController
+    class AuthController < ApplicationController
       def create
         user = User.find_by(rfid: auth_params)
 

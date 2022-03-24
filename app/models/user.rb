@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   has_many :pours
 
+  scope :active, -> { where(hidden: false) }
+
   def self.guest
     find_by(id: 0) || new(id: 0, name: 'Guest')
   end

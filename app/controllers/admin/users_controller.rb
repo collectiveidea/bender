@@ -14,13 +14,8 @@ class Admin::UsersController < ApplicationController
     @user.attributes = user_params
 
     if @user.save
-      respond_to do |format|
-        format.json { respond_with @user }
-        format.html do
-          flash[:success] = 'User updated'
-          redirect_to admin_users_path
-        end
-      end
+      flash[:success] = 'User updated'
+      redirect_to admin_users_path
     else
       render :edit
     end
@@ -39,13 +34,8 @@ class Admin::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      respond_to do |format|
-        format.json { respond_with @user }
-        format.html do
-          flash[:success] = 'User created'
-          redirect_to admin_users_path
-        end
-      end
+      flash[:success] = 'User created'
+      redirect_to admin_users_path
     else
       render :new
     end
