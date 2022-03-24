@@ -35,6 +35,10 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show, :create] do
         resources :stats, only: [:index]
       end
+
+      namespace :webhooks do
+        resource :optix, only: :create
+      end
     end
   end
 

@@ -5,7 +5,7 @@ God.pid_file_directory = File.join(working_dir, "tmp/pids")
 
 God.watch do |w|
   w.name  = "temp_monitor"
-  w.env   = {"RAILS_ENV" => "production", "NO_SPROCKETS" => "true"}
+  w.env   = {"RAILS_ENV" => "production"}
   w.log   = File.join(working_dir, "log/temp_monitor.log")
   w.dir   = working_dir
   w.group = "bender"
@@ -16,7 +16,7 @@ end
 
 God.watch do |w|
   w.name  = "tap_monitor"
-  w.env   = {"RAILS_ENV" => "production", "NO_SPROCKETS" => "true"}
+  w.env   = {"RAILS_ENV" => "production"}
   w.log   = File.join(working_dir, "log/tap_monitor.log")
   w.dir   = working_dir
   w.group = "bender"
