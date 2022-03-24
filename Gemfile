@@ -16,7 +16,6 @@ gem 'active_model_serializers'
 gem 'bigdecimal'
 gem 'kaminari'
 gem 'rails-observers'
-gem 'responders'
 
 gem 'oj'
 

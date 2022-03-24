@@ -1,17 +1,10 @@
 class Admin::BeerTapsController < ApplicationController
-  respond_to :html, :json
-
   def index
     @beer_taps = BeerTap.order(:display_order)
-    respond_to do |wants|
-      wants.html
-      wants.json { render json: @beer_taps.preload(:active_keg) }
-    end
   end
 
   def show
     @beer_tap = BeerTap.find(params[:id])
-    respond_with @beer_tap
   end
 
   def new
