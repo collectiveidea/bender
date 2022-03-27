@@ -1,0 +1,12 @@
+name: Buildlight
+
+on:
+  workflow_run:
+    workflows: [CI]
+    branches: [master]
+
+jobs:
+  buildlight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: collectiveidea/buildlight@main
