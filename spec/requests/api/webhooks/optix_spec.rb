@@ -46,7 +46,7 @@ RSpec.describe "Optix Webhooks" do
       end
 
       it "does not overwrite a user's name if they already exist" do
-        user = User.create!(email: "member@example.com", name: "Original Name")
+        User.create!(email: "member@example.com", name: "Original Name")
 
         headers = {"CONTENT_TYPE" => "application/json"}
         post "/api/v1/webhooks/optix", params: '{"city": "", "email": "member@example.com", "first_name": "", "full_name": " ", "last_name": "", "member_id": "161128", "phone": "", "venue_id": "24263", "venue_name": "BizCo"}', headers: headers

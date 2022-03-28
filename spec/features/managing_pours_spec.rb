@@ -28,8 +28,8 @@ describe "Managing pours" do
   end
 
   it "allows an existing user to claim a pour" do
-    user = FactoryBot.create(:user, name: "Johnny")
-    pour = FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
+    FactoryBot.create(:user, name: "Johnny")
+    FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
 
     visit "/"
 
@@ -40,8 +40,8 @@ describe "Managing pours" do
   end
 
   it "redirects to the appropriate place after claiming a pour" do
-    user = FactoryBot.create(:user, name: "Johnny")
-    pour = FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
+    FactoryBot.create(:user, name: "Johnny")
+    FactoryBot.create(:pour, keg: keg, volume: 4.0, user_id: 0)
 
     source = url_for([:admin, keg])
 
@@ -54,7 +54,7 @@ describe "Managing pours" do
   end
 
   it "prevents a user with zero credits from starting a pour" do
-    user = FactoryBot.create(:user, name: "Johnny", credits: 0)
+    FactoryBot.create(:user, name: "Johnny", credits: 0)
 
     visit "/"
     click_link "Start Pour"

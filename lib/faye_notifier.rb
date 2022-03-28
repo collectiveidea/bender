@@ -6,8 +6,6 @@ module FayeNotifier
   def self.send_message(channel, data)
     return unless configured?
 
-    message = {channel: channel, data: data}
-
     begin
       Net::HTTP.post_form(
         URI.parse(Setting.faye_url),

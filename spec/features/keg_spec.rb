@@ -31,7 +31,7 @@ describe "View Keg" do
       User.create(id: 0, name: "Guest")
       john = FactoryBot.create(:user, name: "John")
       jane = FactoryBot.create(:user, name: "Jane")
-      johns_pour = FactoryBot.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)
+      FactoryBot.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)
 
       # if faye was running in test env this could be in the before
       visit keg_path(keg)
@@ -41,7 +41,7 @@ describe "View Keg" do
       expect(leader.total).to eq(6.2)
       expect(leader.pours).to eq(1)
 
-      janes_pour = FactoryBot.create(:pour, keg_id: keg.id, user_id: jane.id, volume: 7.9)
+      FactoryBot.create(:pour, keg_id: keg.id, user_id: jane.id, volume: 7.9)
 
       # if faye was running in test env this could be in the before
       visit keg_path(keg)
