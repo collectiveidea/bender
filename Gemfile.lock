@@ -173,18 +173,6 @@ GEM
       railties (>= 6.0.0)
     io-wait (0.2.1)
     jsonapi-renderer (0.2.2)
-    kaminari (1.2.2)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.2)
-      kaminari-activerecord (= 1.2.2)
-      kaminari-core (= 1.2.2)
-    kaminari-actionview (1.2.2)
-      actionview
-      kaminari-core (= 1.2.2)
-    kaminari-activerecord (1.2.2)
-      activerecord
-      kaminari-core (= 1.2.2)
-    kaminari-core (1.2.2)
     loofah (2.15.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -226,6 +214,8 @@ GEM
     nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     oj (3.13.11)
+    pagy (5.10.1)
+      activesupport
     parallel (1.22.0)
     parser (3.1.1.0)
       ast (~> 2.4.1)
@@ -343,9 +333,9 @@ DEPENDENCIES
   faye
   god
   importmap-rails
-  kaminari
   nokogiri
   oj
+  pagy
   pg
   poltergeist
   propshaft
