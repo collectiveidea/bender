@@ -1,6 +1,6 @@
 class PoursController < ApplicationController
   def index
-    @pours = Pour.for_listing.page(params[:page])
+    @pagy, @pours = pagy(Pour.for_listing)
   end
 
   def new
