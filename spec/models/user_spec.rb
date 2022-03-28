@@ -64,7 +64,7 @@ describe User do
         "last_pour_at" => user.last_pour_at,
         "recent_pour_count" => user.recent_pour_count,
         "pour_count_by_volume" => user.pour_count_by_volume,
-        "recent_pours" => user.recent_pours,
+        "recent_pours" => user.recent_pours
       )
     end
   end

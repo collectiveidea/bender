@@ -2,8 +2,8 @@ module API
   module V1
     class KegsController < ApplicationController
       def index
-        @kegs = Keg.order('started_at DESC NULLS FIRST')
-        @kegs = @kegs.where(active: true) if params[:active] == 'true'
+        @kegs = Keg.order("started_at DESC NULLS FIRST")
+        @kegs = @kegs.where(active: true) if params[:active] == "true"
         render json: @kegs.preload(:beer_tap).as_json(include: :beer_tap)
       end
 

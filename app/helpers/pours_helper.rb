@@ -3,7 +3,7 @@ module PoursHelper
     if pour_at = user.last_pour_at
       "Last activity: #{I18n.l(pour_at, format: :norm)}"
     else
-      'No activity yet'
+      "No activity yet"
     end
   end
 end

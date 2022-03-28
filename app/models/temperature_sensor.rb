@@ -1,10 +1,10 @@
 class TemperatureSensor < ActiveRecord::Base
   has_many :temperature_readings
-  has_one :latest_reading, lambda { order('created_at DESC') }, class_name: 'TemperatureReading'
+  has_one :latest_reading, lambda { order("created_at DESC") }, class_name: "TemperatureReading"
   has_one :kegerator
 
   def self.for_select
-    all.map {|tap| [tap.name, tap.id] }
+    all.map { |tap| [tap.name, tap.id] }
   end
 
   def self.monitor
@@ -26,10 +26,10 @@ class TemperatureSensor < ActiveRecord::Base
     @sensor ||= Temp::Sensor.from_id(code)
   end
 
-  def temp_data(start_time=24.hours.ago, end_time=Time.now)
-    temperature_readings.
-      where(created_at: (start_time...end_time)).
-      order(:created_at).
-      pluck(:temp_f, Arel.sql("extract(epoch from created_at)"))
+  def temp_data(start_time = 24.hours.ago, end_time = Time.now)
+    temperature_readings
+      .where(created_at: (start_time...end_time))
+      .order(:created_at)
+      .pluck(:temp_f, Arel.sql("extract(epoch from created_at)"))
   end
 end

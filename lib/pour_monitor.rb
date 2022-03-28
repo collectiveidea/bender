@@ -1,7 +1,7 @@
 class PourMonitor
-  TICKS      = TapMonitor::TICKS
+  TICKS = TapMonitor::TICKS
   FIRST_TICK = TapMonitor::FIRST_TICK
-  LAST_TICK  = TapMonitor::LAST_TICK
+  LAST_TICK = TapMonitor::LAST_TICK
 
   def self.start(tap, drop)
     ActiveRecord::Base.connection_pool.disconnect!
@@ -9,13 +9,13 @@ class PourMonitor
   end
 
   def initialize(tap, drop)
-    @tap     = tap
-    @drop    = drop
+    @tap = tap
+    @drop = drop
     @running = true
   end
 
   def monitor
-    trap(:INT)  { @running = false }
+    trap(:INT) { @running = false }
     trap(:TERM) { @running = false }
     trap(:QUIT) { @running = false }
 
@@ -34,8 +34,8 @@ class PourMonitor
 
       pour = keg.active_pour(true) || keg.pours.new
       pour.sensor_ticks = @drop[TICKS]
-      pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
-      pour.started_at   = Time.at(@drop[FIRST_TICK])
+      pour.volume = pour.sensor_ticks * @tap.floz_per_tick
+      pour.started_at = Time.at(@drop[FIRST_TICK])
       pour.save
 
       @timeout = Setting.pour_timeout
@@ -45,19 +45,19 @@ class PourMonitor
         sleep 1
         pour.reload
         pour.sensor_ticks = @drop[TICKS]
-        pour.volume       = pour.sensor_ticks * @tap.floz_per_tick
+        pour.volume = pour.sensor_ticks * @tap.floz_per_tick
         pour.save
         @timeout = 2 if pour.finished_at.present?
       end
 
-      ticks     = @drop[TICKS]
+      ticks = @drop[TICKS]
       last_tick = Time.at(@drop[LAST_TICK])
       @drop[TICKS] = 0
 
       pour.reload
       pour.sensor_ticks = ticks
-      pour.volume       = ticks * @tap.floz_per_tick
-      pour.finished_at  = last_tick
+      pour.volume = ticks * @tap.floz_per_tick
+      pour.finished_at = last_tick
       if pour.volume < 0.5
         pour.destroy
       else

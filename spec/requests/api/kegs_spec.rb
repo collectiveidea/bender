@@ -9,8 +9,8 @@ RSpec.describe "Kegs API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map{|u| u["name"]}).to include("PBR")
-      tap_names = json_response.map{|u| u["beer_tap"]}.flatten.map{|t| t["name"] }
+      expect(json_response.map { |u| u["name"] }).to include("PBR")
+      tap_names = json_response.map { |u| u["beer_tap"] }.flatten.map { |t| t["name"] }
       expect(tap_names).to include(keg.beer_tap.name)
     end
   end

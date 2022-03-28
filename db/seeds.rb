@@ -7,5 +7,5 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create(name: "Guest") do |u|
-	u.id = 0
+  u.id = 0
 end

@@ -1,6 +1,6 @@
 class Admin::KegsController < ApplicationController
   def index
-    @kegs = Keg.order('started_at DESC NULLS FIRST')
+    @kegs = Keg.order("started_at DESC NULLS FIRST")
   end
 
   def show

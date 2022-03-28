@@ -13,7 +13,7 @@ module FayeNotifier
         URI.parse(Setting.faye_url),
         message: {channel: channel, data: data}.to_json
       )
-    rescue StandardError => e
+    rescue => e
       puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye"
     end
   end

@@ -1,11 +1,10 @@
 class Temp
-  DEVICE_DIR = '/sys/bus/w1/devices/'
+  DEVICE_DIR = "/sys/bus/w1/devices/"
 
   def self.discover
-    Dir["#{DEVICE_DIR}28-*/w1_slave"].inject({}) do |hsh, path|
+    Dir["#{DEVICE_DIR}28-*/w1_slave"].each_with_object({}) do |path, hsh|
       sensor = Sensor.new(path)
       hsh[sensor.id] = sensor
-      hsh
     end
   end
 
@@ -24,7 +23,7 @@ class Temp
   class ReadingFailed < StandardError; end
 
   class Sensor
-    TEMP_REGEX = /^t=(\-?[0-9]+)$/
+    TEMP_REGEX = /^t=(-?[0-9]+)$/
     ID_REGEX = %r{/28-([^/]+)}
     attr_reader :id
 
@@ -33,8 +32,8 @@ class Temp
     end
 
     def initialize(path)
-      @path  = path
-      @id    = ID_REGEX.match(path)[1]
+      @path = path
+      @id = ID_REGEX.match(path)[1]
       @value = -100.0
     end
 
@@ -53,8 +52,8 @@ class Temp
       begin
         output = File.read(@path)
         parts = output.split
-        if parts.include?('YES')
-          if parts.detect {|p| TEMP_REGEX =~ p }
+        if parts.include?("YES")
+          if parts.detect { |p| TEMP_REGEX =~ p }
             @value = $1.to_i / 1000.0
           else
             raise ReadingFailed, "No temp found #{Time.now} #{@id}\n#{output}\n\n"

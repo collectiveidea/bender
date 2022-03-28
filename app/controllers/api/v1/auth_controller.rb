@@ -16,7 +16,6 @@ module API
       def auth_params
         params.require(:rfid)
       end
-
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'net/http'
+require "net/http"
 
 class PourObserver < ActiveRecord::Observer
   observe :pour
@@ -19,7 +19,7 @@ class PourObserver < ActiveRecord::Observer
     update_type ||= (pour.finished_at ? :complete : :update)
 
     data = pour.attributes
-    data['beer_tap_id'] = pour.keg.beer_tap_id.to_s
+    data["beer_tap_id"] = pour.keg.beer_tap_id.to_s
 
     FayeNotifier.send_message("/pour/#{update_type}", data)
   end
@@ -28,9 +28,9 @@ class PourObserver < ActiveRecord::Observer
     return true if Setting.hubot_url.blank? || pour.finished_at.blank?
 
     if pour.user_id == 0
-      Hubot.send_message('Someone just poured a %0.1foz %s.' % [pour.volume, pour.keg.name])
+      Hubot.send_message("Someone just poured a %0.1foz %s." % [pour.volume, pour.keg.name])
     elsif pour.previous_changes[:user_id] && pour.previous_changes[:user_id][0] == 0
-      Hubot.send_message('%s has claimed the %0.1foz pour.' % [pour.user.name, pour.volume])
+      Hubot.send_message("%s has claimed the %0.1foz pour." % [pour.user.name, pour.volume])
     end
   end
 

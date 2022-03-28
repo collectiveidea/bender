@@ -13,23 +13,23 @@ describe Pour do
       travel_back
     end
 
-    it 'returns true if the pour is completed and the current time is after the pour timeout' do
+    it "returns true if the pour is completed and the current time is after the pour timeout" do
       pour = FactoryBot.create(:pour, finished_at: Time.current)
       travel_to(Time.current + Setting.pour_timeout + 1)
       expect(pour.complete?).to eq(true)
     end
 
-    it 'returns false if the pour is completed and the current time is within the pour timeout' do
+    it "returns false if the pour is completed and the current time is within the pour timeout" do
       pour = FactoryBot.create(:pour, finished_at: Time.current)
       expect(pour.complete?).to eq(false)
     end
 
-    describe 'hubot communication' do
+    describe "hubot communication" do
       before(:each) do
-        allow(Setting).to receive(:hubot_url).and_return('Not Blank')
+        allow(Setting).to receive(:hubot_url).and_return("Not Blank")
       end
 
-      it 'sends a hubot message on completing an anonymous pour' do
+      it "sends a hubot message on completing an anonymous pour" do
         pour = FactoryBot.create(:pour, user_id: 0, finished_at: nil, volume: "12")
 
         expect(Hubot).to receive(:send_message).with("Someone just poured a 12.0oz #{pour.keg.name}.")
@@ -38,9 +38,9 @@ describe Pour do
         pour.save
       end
 
-      it 'sends a hubot message on claiming an anonymous pour' do
+      it "sends a hubot message on claiming an anonymous pour" do
         pour = FactoryBot.create(:pour, user_id: 0, finished_at: Time.current, volume: "12")
-        user = FactoryBot.create(:user, name: 'Jim')
+        user = FactoryBot.create(:user, name: "Jim")
 
         expect(Hubot).to receive(:send_message).with("Jim has claimed the 12.0oz pour.")
 

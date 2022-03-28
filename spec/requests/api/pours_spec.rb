@@ -9,7 +9,7 @@ RSpec.describe "Pours API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map{|u| u["volume"]}).to include(pour.volume.to_s)
+      expect(json_response.map { |u| u["volume"] }).to include(pour.volume.to_s)
     end
 
     it "returns pours for a date range as json" do
@@ -20,8 +20,8 @@ RSpec.describe "Pours API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map{|u| u["volume"]}).to include(pour_in.volume.to_s)
-      expect(json_response.map{|u| u["volume"]}).not_to include(pour_out.volume.to_s)
+      expect(json_response.map { |u| u["volume"] }).to include(pour_in.volume.to_s)
+      expect(json_response.map { |u| u["volume"] }).not_to include(pour_out.volume.to_s)
     end
   end
 
@@ -30,14 +30,13 @@ RSpec.describe "Pours API" do
     let!(:pour_out) { FactoryBot.create(:pour, created_at: 5.minutes.ago) }
 
     describe "GET /api/vi/pours/by_beer" do
-
       it "returns pours by beer as json" do
         get "/api/v1/pours/by_beer", params: {start_time: 20.minutes.ago, end_time: 10.minutes.ago}
 
         expect(response.status).to eq(200)
         json_response = JSON.parse(response.body)
-        expect(json_response.map{|u| u.first}).to include(pour_in.keg.name)
-        expect(json_response.map{|u| u.first}).not_to include(pour_out.keg.name)
+        expect(json_response.map { |u| u.first }).to include(pour_in.keg.name)
+        expect(json_response.map { |u| u.first }).not_to include(pour_out.keg.name)
       end
     end
 
@@ -47,8 +46,8 @@ RSpec.describe "Pours API" do
 
         expect(response.status).to eq(200)
         json_response = JSON.parse(response.body)
-        expect(json_response.map{|u| u["email"]}).to include(pour_in.user.email)
-        expect(json_response.map{|u| u["email"]}).not_to include(pour_out.user.email)
+        expect(json_response.map { |u| u["email"] }).to include(pour_in.user.email)
+        expect(json_response.map { |u| u["email"] }).not_to include(pour_out.user.email)
       end
     end
   end

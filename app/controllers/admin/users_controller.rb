@@ -14,7 +14,7 @@ class Admin::UsersController < ApplicationController
     @user.attributes = user_params
 
     if @user.save
-      flash[:success] = 'User updated'
+      flash[:success] = "User updated"
       redirect_to admin_users_path
     else
       render :edit
@@ -34,7 +34,7 @@ class Admin::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'User created'
+      flash[:success] = "User created"
       redirect_to admin_users_path
     else
       render :new

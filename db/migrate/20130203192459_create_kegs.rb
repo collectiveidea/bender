@@ -2,8 +2,8 @@ class CreateKegs < ActiveRecord::Migration[4.2]
   def change
     create_table :kegs do |t|
       t.integer :beer_tap_id
-      t.string  :name
-      t.text    :description
+      t.string :name
+      t.text :description
       t.boolean :active
       t.integer :capacity
       t.timestamps
