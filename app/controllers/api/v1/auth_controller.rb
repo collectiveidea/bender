@@ -4,7 +4,7 @@ module API
       def create
         user = User.find_by(rfid: auth_params)
 
-        if user && user.pours_remaining?
+        if user&.pours_remaining?
           render json: Oj.dump(user.stats, mode: :compat)
         else
           render status: :forbidden, plain: "Insufficient credits remaining"

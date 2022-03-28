@@ -68,7 +68,8 @@ class Keg < ActiveRecord::Base
   end
 
   def temp_data
-    if sensor = beer_tap.temperature_sensor
+    sensor = beer_tap.temperature_sensor
+    if sensor
       sensor.temp_data
     else
       []

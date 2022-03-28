@@ -56,7 +56,8 @@ class TapMonitor
         start_missing
 
         monitors = tap_monitors.values
-        if ios = IO.select(monitors.map { |mon| mon.io }, [], [], 1)
+        ios = IO.select(monitors.map { |mon| mon.io }, [], [], 1)
+        if ios
           ios[0].each do |io|
             monitor = monitors.detect { |mon| mon.io == io }
             monitor.update
@@ -130,7 +131,7 @@ class TapMonitor
     return if @active_pour.nil? && keg.nil?
 
     # reload, find, or create the active pour
-    @active_pour.reload if @active_pour
+    @active_pour&.reload
     @active_pour ||= keg.active_pour(true) || keg.pours.new
     @active_pour.started_at ||= Time.at(@first_tick.to_f)
 
