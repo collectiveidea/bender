@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/collectiveidea/bender/actions/workflows/ci.yml/badge.svg)](https://github.com/collectiveidea/bender/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/collectiveidea/bender.png)](https://codeclimate.com/github/collectiveidea/bender)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
 
 A kegerator monitoring application built to run on a RaspberryPi or BeagleBone Black.
 
