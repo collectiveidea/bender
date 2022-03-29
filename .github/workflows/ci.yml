@@ -56,5 +56,8 @@ jobs:
     - name: Build CSS
       run: yarn build:css
 
+    - name: Standard
+      run: bundle exec standardrb
+
     - name: Run Tests
       run: bundle exec rspec --format progress --color
