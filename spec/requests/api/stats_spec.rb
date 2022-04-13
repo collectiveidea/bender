@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.describe "User Stats API" do
+  before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
+  end
+
   describe "GET /api/vi/users/:id/stats" do
     let!(:user) { FactoryBot.create(:user) }
     let!(:pour) { FactoryBot.create(:pour, user: user) }

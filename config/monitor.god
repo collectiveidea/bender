@@ -24,13 +24,3 @@ God.watch do |w|
 
   w.start = "bundle exec rake bender:monitor_taps"
 end
-
-God.watch do |w|
-  w.name = "faye"
-  w.pid_file = File.join(working_dir, "tmp/pids/faye.pid")
-  w.dir = working_dir
-  w.group = "bender"
-  w.keepalive
-
-  w.start = "bundle exec rackup faye.ru -s thin -E production -D --pid #{w.pid_file}"
-end

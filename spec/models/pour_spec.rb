@@ -3,6 +3,10 @@ require "rails_helper"
 describe Pour do
   include ActiveSupport::Testing::TimeHelpers
 
+  before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
+  end
+
   let!(:guest) { User.create(id: 0, name: "Guest") }
   describe "#complete?" do
     before :each do

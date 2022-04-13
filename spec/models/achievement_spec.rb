@@ -15,6 +15,7 @@ describe Achievement do
   end
 
   before :each do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
     Pour.delete_all
   end
 

@@ -3,5 +3,5 @@ kegerator_name: '[i] Kegerator'
 hubot_url: http://hubot.example.com/hubot/kegbot/API_KEY
 pour_timeout: 10
 user_timeout: 15
-faye_url: http://localhost:9292/faye
+faye_url: http://localhost:3000/faye
 api_url: http://bender.dev

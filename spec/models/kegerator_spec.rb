@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe Kegerator do
-  before(:each) do
+  before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
     @temp_sensor = FactoryBot.create(:temperature_sensor, name: "Kegerator", code: "43212")
     @kegerator = FactoryBot.create(:kegerator, temperature_sensor: @temp_sensor)
   end

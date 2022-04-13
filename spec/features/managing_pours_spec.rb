@@ -5,6 +5,8 @@ describe "Managing pours" do
   let(:keg) { FactoryBot.create(:keg, name: "Better Beer") }
 
   before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
+    allow(Hubot).to receive(:send_message).and_return(true)
     User.create(id: 0, name: "Guest")
     keg.tap_it(beer_tap.id)
   end

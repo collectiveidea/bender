@@ -1,6 +1,10 @@
 require "rails_helper"
 
 describe Keg do
+  before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
+  end
+
   it "calculates the total poured volume against the keg" do
     User.create(id: 0, name: "Guest")
     keg = FactoryBot.create(:keg)

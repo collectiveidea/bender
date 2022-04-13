@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.describe "Pours API" do
+  before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
+  end
+
   describe "GET /api/vi/pours" do
     let!(:pour) { FactoryBot.create(:pour) }
 

@@ -15,6 +15,7 @@ gem "actionpack-page_caching"
 gem "active_model_serializers"
 gem "bigdecimal"
 gem "pagy"
+gem "puma"
 gem "rails-observers"
 
 gem "oj"
@@ -42,7 +43,6 @@ group :no_require do
   # breaks with --enable=frozen-string-literal so remove when version > 0.7.5
   # https://github.com/faye/websocket-driver-ruby/pull/85
   gem "websocket-driver", github: "faye/websocket-driver-ruby"
-  gem "thin"
   gem "raindrops"
   gem "god"
 end

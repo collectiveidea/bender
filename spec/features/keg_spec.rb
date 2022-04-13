@@ -5,6 +5,7 @@ describe "View Keg" do
   let(:keg) { FactoryBot.create(:keg, name: "Better Beer") }
 
   before do
+    allow(FayeNotifier).to receive(:send_message).and_return(true)
     keg.tap_it(tap.id)
   end
 

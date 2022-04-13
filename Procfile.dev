@@ -1,3 +1,2 @@
 web: bin/rails server -p 3000
 css: yarn build:css --watch
-faye: bundle exec rackup faye.ru -s thin -E production

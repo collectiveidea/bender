@@ -110,7 +110,6 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.1.0)
       railties (>= 6.0.0)
-    daemons (1.4.1)
     dead_end (3.1.1)
     derailed (0.1.0)
       derailed_benchmarks
@@ -207,6 +206,8 @@ GEM
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
     nio4r (2.5.8)
+    nokogiri (1.13.3-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.13.3-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.13.3-x86_64-linux)
@@ -231,6 +232,8 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
+    puma (5.6.4)
+      nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -306,10 +309,6 @@ GEM
       rubocop (= 1.26.1)
       rubocop-performance (= 1.13.3)
     strscan (3.0.1)
-    thin (1.8.1)
-      daemons (~> 1.0, >= 1.0.9)
-      eventmachine (~> 1.0, >= 1.0.4)
-      rack (>= 1, < 3)
     thor (1.2.1)
     timeout (0.2.0)
     tzinfo (2.0.4)
@@ -321,6 +320,7 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin-21
   x86_64-linux
 
@@ -344,13 +344,13 @@ DEPENDENCIES
   poltergeist
   propshaft
   pry
+  puma
   rails (~> 7.0.1)
   rails-observers
   raindrops
   rspec-rails
   stackprof
   standard
-  thin
   websocket-driver!
 
 RUBY VERSION
