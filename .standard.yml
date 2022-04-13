@@ -1,0 +1,4 @@
+ignore:
+  - 'lib/gpio.rb':
+    - Lint/Loop
+  - 'lib/pour_reader.rb' # Used by mruby

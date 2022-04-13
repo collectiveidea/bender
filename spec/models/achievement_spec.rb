@@ -6,7 +6,6 @@ describe Achievement do
     User.delete_all
     Pour.delete_all
 
-
     FactoryBot.create(:keg, id: 1, name: "Keg1")
     FactoryBot.create(:keg, id: 2, name: "Keg2")
 
@@ -19,7 +18,7 @@ describe Achievement do
     Pour.delete_all
   end
 
-  describe 'calculates metrics with appropriate options' do
+  describe "calculates metrics with appropriate options" do
     before do
       FactoryBot.create(:pour, user_id: 0, keg_id: 1, volume: 0)
       FactoryBot.create(:pour, user_id: 1, keg_id: 1, volume: 12)
@@ -30,56 +29,56 @@ describe Achievement do
       FactoryBot.create(:pour, user_id: 2, keg_id: 2, volume: 45, created_at: 31.days.ago, finished_at: 31.days.ago)
     end
 
-    it 'ignores pours for Guests' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
+    it "ignores pours for Guests" do
+      expect(Achievement.calculate({metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
                                     reverse: true, # needed to reverse results to get max value since first result is always used
-                                     keg_id: 2 }).value.to_d).to eq(45.to_d)
+                                     keg_id: 2}).value.to_d).to eq(BigDecimal("45"))
     end
 
-    it 'ignores pours that haven\'t finished' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
+    it "ignores pours that haven't finished" do
+      expect(Achievement.calculate({metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
                                     reverse: true,
-                                     keg_id: 1 }).value.to_d).to eq(23.to_d)
+                                     keg_id: 1}).value.to_d).to eq(BigDecimal("23"))
     end
 
-    it 'calculates metrics for all pours' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
+    it "calculates metrics for all pours" do
+      expect(Achievement.calculate({metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
-                                    reverse: true }).value.to_d).to eq(68.to_d)
+                                    reverse: true}).value.to_d).to eq(BigDecimal("68"))
     end
 
-    it 'limits calculation by a keg' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
-                                       name: "Foo",
-                                description: "Bar",
-                                    reverse: true,
-                                     keg_id: 1}).value.to_d).to eq(23.to_d)
-    end
-
-    it 'limits calculation by a time period' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
+    it "limits calculation by a keg" do
+      expect(Achievement.calculate({metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
                                     reverse: true,
-                                    time_gt: Time.now - 30.days }).value.to_d).to eq(46.to_d)
+                                     keg_id: 1}).value.to_d).to eq(BigDecimal("23"))
     end
 
-    it 'limits calculation by multiple options' do
-      expect(Achievement.calculate({ metric: "sum(volume)",
+    it "limits calculation by a time period" do
+      expect(Achievement.calculate({metric: "sum(volume)",
+                                       name: "Foo",
+                                description: "Bar",
+                                    reverse: true,
+                                    time_gt: Time.now - 30.days}).value.to_d).to eq(BigDecimal("46"))
+    end
+
+    it "limits calculation by multiple options" do
+      expect(Achievement.calculate({metric: "sum(volume)",
                                        name: "Foo",
                                 description: "Bar",
                                     reverse: true,
                                      keg_id: 1,
-                                    time_gt: Time.now - 30.days }).value.to_d).to eq(12.to_d)
+                                    time_gt: Time.now - 30.days}).value.to_d).to eq(BigDecimal("12"))
     end
   end
 
-  describe 'calculates total ounces poured' do
+  describe "calculates total ounces poured" do
     before do
       FactoryBot.create(:pour, user_id: 1, volume: 12)
       FactoryBot.create(:pour, user_id: 1, volume: 34)
@@ -87,24 +86,24 @@ describe Achievement do
       FactoryBot.create(:pour, user_id: 2, volume: 45)
     end
 
-    it 'calculates maximum volume by user' do
-      expect(Achievement.total_poured_max.value.to_d).to eq(68.to_d)
+    it "calculates maximum volume by user" do
+      expect(Achievement.total_poured_max.value.to_d).to eq(BigDecimal("68"))
     end
 
-    it 'identifies user for maximum volume' do
+    it "identifies user for maximum volume" do
       expect(Achievement.total_poured_max.user_name).to eq("Bar")
     end
 
-    it 'calculates minimum volume by user' do
-      expect(Achievement.total_poured_min.value.to_d).to eq(46.to_d)
+    it "calculates minimum volume by user" do
+      expect(Achievement.total_poured_min.value.to_d).to eq(BigDecimal("46"))
     end
 
-    it 'identifies user for minimum volume' do
+    it "identifies user for minimum volume" do
       expect(Achievement.total_poured_min.user_name).to eq("Foo")
     end
   end
 
-  describe 'calculates single pour volume' do
+  describe "calculates single pour volume" do
     before do
       FactoryBot.create(:pour, user_id: 1, volume: 12)
       FactoryBot.create(:pour, user_id: 1, volume: 34)
@@ -112,65 +111,65 @@ describe Achievement do
       FactoryBot.create(:pour, user_id: 2, volume: 45)
     end
 
-    it 'calculates maximum pour by user' do
-      expect(Achievement.single_pour_max.value.to_d).to eq(45.to_d)
+    it "calculates maximum pour by user" do
+      expect(Achievement.single_pour_max.value.to_d).to eq(BigDecimal("45"))
     end
 
-    it 'identifies user for maximum pour' do
+    it "identifies user for maximum pour" do
       expect(Achievement.single_pour_max.user_name).to eq("Bar")
     end
 
-    it 'calculates minimum pour by user' do
-      expect(Achievement.single_pour_min.value.to_d).to eq(12.to_d)
+    it "calculates minimum pour by user" do
+      expect(Achievement.single_pour_min.value.to_d).to eq(BigDecimal("12"))
     end
 
-    it 'identifies user for minimum pour' do
+    it "identifies user for minimum pour" do
       expect(Achievement.single_pour_min.user_name).to eq("Foo")
     end
   end
 
-  describe 'calculates number of pours' do
+  describe "calculates number of pours" do
     before do
-      FactoryBot.create_list(:pour, 3, { user_id: 1 })
-      FactoryBot.create_list(:pour, 2, { user_id: 2 })
+      FactoryBot.create_list(:pour, 3, {user_id: 1})
+      FactoryBot.create_list(:pour, 2, {user_id: 2})
     end
 
-    it 'calculates maximum pour count by user' do
+    it "calculates maximum pour count by user" do
       expect(Achievement.total_pours_max.value.to_i).to eq(3)
     end
 
-    it 'identifies user for maximum pour count' do
+    it "identifies user for maximum pour count" do
       expect(Achievement.total_pours_max.user_name).to eq("Foo")
     end
 
-    it 'calculates minimum pour count by user' do
+    it "calculates minimum pour count by user" do
       expect(Achievement.total_pours_min.value.to_i).to eq(2)
     end
 
-    it 'identifies user for minimum pour count' do
+    it "identifies user for minimum pour count" do
       expect(Achievement.total_pours_min.user_name).to eq("Bar")
     end
   end
 
-  describe 'calculates pour duration' do
+  describe "calculates pour duration" do
     before do
       FactoryBot.create(:pour, user_id: 1, started_at: 10.seconds.ago, finished_at: Time.current)
       FactoryBot.create(:pour, user_id: 2, started_at: 10.minutes.ago, finished_at: Time.current)
     end
 
-    it 'calculates maximum pour duration by user' do
+    it "calculates maximum pour duration by user" do
       expect(Achievement.pour_time_max.value.to_f).to be_within(1.second).of(10.minutes)
     end
 
-    it 'identifies user for maximum pour duration' do
+    it "identifies user for maximum pour duration" do
       expect(Achievement.pour_time_max.user_name).to eq("Bar")
     end
 
-    it 'calculates minimum pour duration by user' do
+    it "calculates minimum pour duration by user" do
       expect(Achievement.pour_time_min.value.to_f).to be_within(1.second).of(10.seconds)
     end
 
-    it 'identifies user for minimum pour duration' do
+    it "identifies user for minimum pour duration" do
       expect(Achievement.pour_time_min.user_name).to eq("Foo")
     end
   end

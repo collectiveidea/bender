@@ -5,15 +5,12 @@ class TemperatureReading < ActiveRecord::Base
   after_create :notify_faye
 
   def temp_c=(val)
-    super
-    self.temp_f = (temp_c * 9 / 5) + 32
-    val
+    self.temp_f = (val * 9 / 5) + 32
+    self[:temp_c] = val
   end
 
   def check_kegerator
-    if kegerator = temperature_sensor.kegerator
-      kegerator.check(self)
-    end
+    temperature_sensor&.kegerator&.check(self)
     true
   end
 

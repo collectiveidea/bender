@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-
   namespace :admin do
     resources :beer_taps do
-      put 'toggle-cleaning' => 'beer_taps#toggle_cleaning'
+      put "toggle-cleaning" => "beer_taps#toggle_cleaning"
     end
 
     resources :kegs do
       resources :pours, only: [:index, :destroy]
 
-      get    'tap' => 'kegs#list_taps'
-      put    'tap' => 'kegs#tap_keg'
-      delete 'tap' => 'kegs#untap_keg'
+      get "tap" => "kegs#list_taps"
+      put "tap" => "kegs#tap_keg"
+      delete "tap" => "kegs#untap_keg"
 
       get :clone
     end
@@ -22,8 +21,8 @@ Rails.application.routes.draw do
 
     resources :users
 
-    get 'settings' => 'settings#index'
-    get 'achievements' => 'metrics#achievements'
+    get "settings" => "settings#index"
+    get "achievements" => "metrics#achievements"
   end
 
   namespace :api do
@@ -42,19 +41,18 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'admin' => 'admin#dashboard'
+  get "admin" => "admin#dashboard"
 
   resources :kegs
   resources :pours do
-    get 'volume' => 'pours#volume'
+    get "volume" => "pours#volume"
   end
   resources :users
 
-  get "activity/recent(/:limit)(.:format)" => "activity#recent", as: "recent_activity"
-  get "activity/user/:user_id(/:limit)(.:format)" => "activity#user_recent", as: "user_activity"
+  get "activity/recent(/:limit)(.:format)" => "activity#recent", :as => "recent_activity"
+  get "activity/user/:user_id(/:limit)(.:format)" => "activity#user_recent", :as => "user_activity"
 
-  get "temperature_sensors/:sensor_id/:duration/:start_timestamp.:format" => "temperature_sensors#readings", as: "temperature_sensor_readings"
+  get "temperature_sensors/:sensor_id/:duration/:start_timestamp.:format" => "temperature_sensors#readings", :as => "temperature_sensor_readings"
 
-  root :to => 'homepage#index'
-
+  root to: "homepage#index"
 end

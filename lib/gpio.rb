@@ -37,7 +37,7 @@ module GPIO
         if block.arity > 0
           block.call pin
         else
-          pin.instance_exec &block
+          pin.instance_exec(&block)
         end
       end
     end.abort_on_exception = true
@@ -61,20 +61,20 @@ module GPIO
       @invert = options[:invert]
       @trigger = options[:trigger]
 
-      raise 'Invalid direction. Options are :in or :out' unless [:in, :out].include? @direction
-      raise 'Invalid trigger. Options are :rising, :falling, or :both' unless [:rising, :falling, :both].include? @trigger
+      raise "Invalid direction. Options are :in or :out" unless [:in, :out].include? @direction
+      raise "Invalid trigger. Options are :rising, :falling, or :both" unless [:rising, :falling, :both].include? @trigger
 
       if !File.exist?(direction_file)
-        File.open('/sys/class/gpio/export', 'w') {|f| f.write(@pin.to_s) }
+        File.write("/sys/class/gpio/export", @pin.to_s)
       end
 
       curr_direction = File.read(direction_file).strip
-      if (@direction == :out && curr_direction == 'in') || (@direction == :in && curr_direction == 'out')
-        File.open(direction_file, 'w') {|f| f.write(@direction == :out ? 'out' : 'in') }
+      if (@direction == :out && curr_direction == "in") || (@direction == :in && curr_direction == "out")
+        File.write(direction_file, @direction == :out ? "out" : "in")
       end
 
       if @direction == :in
-        File.open(edge_file, 'w') {|f| f.write(@trigger.to_s) }
+        File.write(edge_file, @trigger.to_s)
       end
 
       read
@@ -82,7 +82,7 @@ module GPIO
 
     # If the pin has been initialized for output this method will set the logic level high.
     def on
-      File.open(value_file, 'w') {|f| f.write(@invert ? '0' : '1') } if direction == :out
+      File.write(value_file, @invert ? "0" : "1") if direction == :out
     end
 
     # Tests if the logic level is high.
@@ -92,7 +92,7 @@ module GPIO
 
     # If the pin has been initialized for output this method will set the logic level low.
     def off
-      File.open(value_file, 'w') {|f| f.write(@invert ? '1' : '0') } if direction == :out
+      File.write(value_file, @invert ? "1" : "0") if direction == :out
     end
 
     # Tests if the logic level is low.
@@ -113,8 +113,8 @@ module GPIO
 
     # blocks until a logic level change occurs. The initializer option `:trigger` modifies what edge this method will release on.
     # continue is a lambda used to determine whether we should continue waiting after the 1 second IO timeout
-    def wait_for_change(continue=nil)
-      @fd ||= File.open(value_file, 'r')
+    def wait_for_change(continue = nil)
+      @fd ||= File.open(value_file, "r")
       @waiting = true
       read
       begin

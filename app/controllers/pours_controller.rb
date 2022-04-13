@@ -4,11 +4,11 @@ class PoursController < ApplicationController
   end
 
   def new
-    @users = User.where(['name != ?', 'Guest']).order(:name)
+    @users = User.where(["name != ?", "Guest"]).order(:name)
   end
 
   def create
-    user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first! if params[:user_id] != '0'
+    user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first! if params[:user_id] != "0"
     unless user.pours_remaining?
       render status: :forbidden, plain: "Insufficient credits remaining"
       return
@@ -27,7 +27,7 @@ class PoursController < ApplicationController
 
   def edit
     @pour = Pour.find(params[:id])
-    @users = User.where(['name != ?', 'Guest']).order(:name)
+    @users = User.where(["name != ?", "Guest"]).order(:name)
   end
 
   def update
@@ -42,7 +42,7 @@ class PoursController < ApplicationController
 
   def volume
     @pour = Pour.find(params[:pour_id])
-    output = @pour.volume ? "You have poured <span>#{'%0.2f' % @pour.volume} oz." : ''
+    output = @pour.volume ? "You have poured <span>#{"%0.2f" % @pour.volume} oz." : ""
     render text: output, layout: false
   end
 

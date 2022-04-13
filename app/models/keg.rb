@@ -1,16 +1,16 @@
 class Keg < ActiveRecord::Base
   # Capacity is stored in fluid ounces
   KEG_CAPACITIES = [
-    ['1/2 Barrel', 1980],
-    ['1/4 Barrel', 984],
-    ['1/6 Barrel', 636],
-    ['Home Brew', 635]
+    ["1/2 Barrel", 1980],
+    ["1/4 Barrel", 984],
+    ["1/6 Barrel", 636],
+    ["Home Brew", 635]
   ]
 
   belongs_to :beer_tap, optional: true
 
   has_many :pours, inverse_of: :keg
-  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: 'Pour', inverse_of: :keg
+  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: "Pour", inverse_of: :keg
 
   validates :srm, numericality: {greater_than: 0, less_than: 41, allow_blank: true}
 
@@ -19,7 +19,7 @@ class Keg < ActiveRecord::Base
   end
 
   def completed_pours
-    pours.where('finished_at IS NOT NULL')
+    pours.where("finished_at IS NOT NULL")
   end
 
   def poured
@@ -35,10 +35,12 @@ class Keg < ActiveRecord::Base
   end
 
   def srm_rgb
-    I18n.t!("srm.#{srm.to_i}") rescue nil
+    I18n.t!("srm.#{srm.to_i}")
+  rescue
+    nil
   end
 
-  def start_pour(user=nil)
+  def start_pour(user = nil)
     pour = active_pour || pours.new
     pour.user = user if user
     pour.save
@@ -48,7 +50,7 @@ class Keg < ActiveRecord::Base
 
   def tap_it(tap_id)
     if tap_id.blank?
-      errors.add(:beer_tap_id, 'needs to be seleced')
+      errors.add(:beer_tap_id, "needs to be seleced")
       return
     end
 
@@ -66,7 +68,8 @@ class Keg < ActiveRecord::Base
   end
 
   def temp_data
-    if sensor = beer_tap.temperature_sensor
+    sensor = beer_tap.temperature_sensor
+    if sensor
       sensor.temp_data
     else
       []
@@ -74,12 +77,12 @@ class Keg < ActiveRecord::Base
   end
 
   def top_consumers
-    pours.select('name, sum(volume) as total, count(pours.id) as count, avg(volume) as average, max(volume) as max').group('users.name').order('total desc').joins(:user)
+    pours.select("name, sum(volume) as total, count(pours.id) as count, avg(volume) as average, max(volume) as max").group("users.name").order("total desc").joins(:user)
   end
 
   def projected_empty
     if poured == 0 || remaining == 0
-      'No projection available'
+      "No projection available"
     else
       Time.now + (Time.now - started_at) / poured * remaining
     end

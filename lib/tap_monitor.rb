@@ -1,4 +1,4 @@
-require 'gpio'
+require "gpio"
 
 class TapMonitor
   attr_reader :io
@@ -11,18 +11,21 @@ class TapMonitor
       self.tap_monitors = {}
       @running = true
 
-      trap(:INT)  { TapMonitor.running = false }
+      trap(:INT) { TapMonitor.running = false }
       trap(:TERM) { TapMonitor.running = false }
       trap(:QUIT) { TapMonitor.running = false }
-      trap(:CLD)  { TapMonitor.check_dead; TapMonitor.start_missing }
+      trap(:CLD) {
+        TapMonitor.check_dead
+        TapMonitor.start_missing
+      }
 
       monitor_loop
 
       # We are done here. Tell all subprocess to quit
-      tap_monitors.each_value {|monitor| Process.kill('TERM', monitor.pid) }
+      tap_monitors.each_value { |monitor| Process.kill("TERM", monitor.pid) }
 
       # Wait for the subprocesses to finish
-      tap_monitors.each_value {|monitor| Process.wait(monitor.pid) }
+      tap_monitors.each_value { |monitor| Process.wait(monitor.pid) }
     end
 
     def check_dead
@@ -53,9 +56,10 @@ class TapMonitor
         start_missing
 
         monitors = tap_monitors.values
-        if ios = IO.select(monitors.map {|mon| mon.io }, [], [], 1)
+        ios = IO.select(monitors.map { |mon| mon.io }, [], [], 1)
+        if ios
           ios[0].each do |io|
-            monitor = monitors.detect {|mon| mon.io == io }
+            monitor = monitors.detect { |mon| mon.io == io }
             monitor.update
           end
         end
@@ -70,9 +74,9 @@ class TapMonitor
   end
 
   def initialize(tap)
-    @tap             = tap
-    @running         = true
-    @finished        = true
+    @tap = tap
+    @running = true
+    @finished = true
     @last_started_at = Time.now.to_f.to_s
 
     @io = IO.popen("#{ruby_version} #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
@@ -127,7 +131,7 @@ class TapMonitor
     return if @active_pour.nil? && keg.nil?
 
     # reload, find, or create the active pour
-    @active_pour.reload if @active_pour
+    @active_pour&.reload
     @active_pour ||= keg.active_pour(true) || keg.pours.new
     @active_pour.started_at ||= Time.at(@first_tick.to_f)
 
@@ -136,7 +140,7 @@ class TapMonitor
 
     # update the volume
     @active_pour.sensor_ticks = @ticks
-    @active_pour.volume       = @active_pour.sensor_ticks * @tap.floz_per_tick
+    @active_pour.volume = @active_pour.sensor_ticks * @tap.floz_per_tick
 
     # is the pour done
     if (@last_tick + @timeout) < Time.now

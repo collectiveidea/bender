@@ -10,8 +10,8 @@ RSpec.describe "User API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map{|u| u["id"]}).to include(user.id)
-      expect(json_response.map{|u| u["id"]}).not_to include(hidden_user.id)
+      expect(json_response.map { |u| u["id"] }).to include(user.id)
+      expect(json_response.map { |u| u["id"] }).not_to include(hidden_user.id)
     end
   end
 

@@ -7,4 +7,3 @@ pin "jquery.min"
 pin "jquery.dataTables"
 pin "rickshaw"
 pin_all_from "app/javascript"
-

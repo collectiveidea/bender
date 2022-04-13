@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   scope :active, -> { where(hidden: false) }
 
   def self.guest
-    find_by(id: 0) || new(id: 0, name: 'Guest')
+    find_by(id: 0) || new(id: 0, name: "Guest")
   end
 
   def first_pour_at
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
     data
   end
 
-  def gravatar_url(opts={})
+  def gravatar_url(opts = {})
     "#{gravatar_base_url}&s=#{opts[:size] || 50}"
   end
 
