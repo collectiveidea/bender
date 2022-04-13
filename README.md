@@ -28,7 +28,7 @@ A kegerator monitoring application built to run on a RaspberryPi or BeagleBone B
 ## Contributing
 
 1. Clone repository. `git clone git@github.com:collectiveidea/bender.git`
-2. Create a branch for your feature. `git checkout -b my-awesome-feature-name master`
+2. Create a branch for your feature. `git checkout -b my-awesome-feature-name main`
 3. Make changes and commit.
 4. Run the tests. `rake`
 5. Push to remote branch. `git push origin my-awesome-feature-name`

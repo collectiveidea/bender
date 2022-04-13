@@ -3,7 +3,7 @@ name: Buildlight
 on:
   workflow_run:
     workflows: [CI]
-    branches: [master]
+    branches: [main]
 
 jobs:
   buildlight:
