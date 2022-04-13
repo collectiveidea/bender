@@ -16,7 +16,7 @@ A kegerator monitoring application built to run on a RaspberryPi or BeagleBone B
 
 * Ruby 3.1.1
 * PostgreSQL
-* Foreman (`gem install foreman`) or another Procfile runner
+* Foreman (`gem install foreman`) or another Procfile runner (Overmind)
 
 ### Setup
 

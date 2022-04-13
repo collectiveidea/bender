@@ -1,0 +1,75 @@
+services:
+
+  postgres:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432
+    networks:
+      - postgres
+    restart: unless-stopped
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 5s
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+      - /sys:/sys
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+    # devices:
+    #   - /dev/gpiomem:/dev/gpiomem
+    networks:
+      - caddy
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432
+      RAILS_ENV: ${RAILS_ENV:-development}
+      url: ${BASE_URL}
+    labels:
+      caddy: bender-dev.collectiveidea.com
+      caddy.encode: zstd gzip
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+      caddy.tls.dns: "cloudflare ${CF_API_TOKEN}"
+
+  caddy:
+    image: dedene/caddy-docker-proxy-cloudflare:latest
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CADDY_INGRESS_NETWORKS=caddy
+    networks:
+      - caddy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy_data:/data
+    restart: unless-stopped
+
+  # https://docs.webhookrelay.com/installation-options/containerized/docker-compose
+  relay:
+    container_name: webhookrelay
+    image: webhookrelay/webhookrelayd-aarch64:latest
+    network_mode: host # required if you want to access other services running on localhost (otherwise localhost would be inside this container)
+    restart: always
+    environment:
+      - RELAY_KEY=${RELAY_KEY}
+      - RELAY_SECRET=${RELAY_SECRET}
+      - BUCKETS=${BUCKETS}
+
+networks:
+  caddy:
+    external: true
+  postgres:
+
+
+volumes:
+  caddy_data: {}
