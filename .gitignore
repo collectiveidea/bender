@@ -19,6 +19,7 @@
 
 .DS_Store
 
+/public/assets
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
