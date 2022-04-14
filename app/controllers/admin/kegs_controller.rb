@@ -1,4 +1,4 @@
-class Admin::KegsController < ApplicationController
+class Admin::KegsController < Admin::ApplicationController
   def index
     @kegs = Keg.order("started_at DESC NULLS FIRST")
   end

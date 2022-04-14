@@ -1,6 +1,4 @@
-class Admin::UsersController < ApplicationController
-  http_basic_authenticate_with name: "bender", password: Setting.admin_password, if: :needs_authetication?
-
+class Admin::UsersController < Admin::ApplicationController
   def index
     @users = User.all
   end
@@ -45,11 +43,5 @@ class Admin::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :rfid, :credits)
-  end
-
-  private
-
-  def needs_authetication?
-    Setting.admin_password.present?
   end
 end

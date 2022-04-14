@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get "admin" => "admin#dashboard"
+  get "admin" => "admin/dashboards#show"
 
   resources :kegs
   resources :pours do

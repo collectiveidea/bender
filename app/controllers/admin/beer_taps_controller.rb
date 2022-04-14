@@ -1,4 +1,4 @@
-class Admin::BeerTapsController < ApplicationController
+class Admin::BeerTapsController < Admin::ApplicationController
   def index
     @beer_taps = BeerTap.order(:display_order)
   end

@@ -1,4 +1,4 @@
-class Admin::PoursController < ApplicationController
+class Admin::PoursController < Admin::ApplicationController
   def index
     @keg = Keg.find(params[:keg_id])
     @pagy, @pours = pagy(@keg.pours.for_listing)

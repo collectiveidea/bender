@@ -1,4 +1,4 @@
-class Admin::TemperatureSensorsController < ApplicationController
+class Admin::TemperatureSensorsController < Admin::ApplicationController
   def index
     @temperature_sensors = TemperatureSensor.order(:name)
   end
