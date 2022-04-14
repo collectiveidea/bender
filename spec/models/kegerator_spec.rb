@@ -85,7 +85,7 @@ describe Kegerator do
 
   describe "#report_dms" do
     before(:each) do
-      allow(Setting).to receive(:dms_url).and_return("https://nosnch.in/66860019c9")
+      allow(Kegerator).to receive(:dms_url).and_return("https://nosnch.in/66860019c9")
     end
 
     it "pings DMS if everything is good" do

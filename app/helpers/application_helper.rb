@@ -9,4 +9,8 @@ module ApplicationHelper
     end
     messages
   end
+
+  def kegerator_name
+    ENV.fetch("KEGERATOR_NAME", "[i] Kegerator")
+  end
 end

@@ -1,4 +1,0 @@
----
-pour_timeout: 10
-user_timeout: 15
-faye_url: http://localhost:9292/faye

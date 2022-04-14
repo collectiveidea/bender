@@ -42,6 +42,10 @@ class BeerTap < ActiveRecord::Base
   protected
 
   def valve_pin_gpio
-    @_gpio_valve_pin ||= GPIO::Pin.new(pin: valve_pin, direction: :out, invert: Setting.invert_tap_logic)
+    @_gpio_valve_pin ||= GPIO::Pin.new(pin: valve_pin, direction: :out, invert: invert?)
+  end
+
+  def invert?
+    ENV["INVERT_TAP_LOGIC"].present?
   end
 end

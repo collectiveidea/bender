@@ -51,9 +51,9 @@ class Kegerator < ActiveRecord::Base
 
   def report_dms(reading)
     # don't report to DMS if we are above the alarm temp
-    return if Setting.dms_url.blank? || (reading.temp_f > alarm_temp)
+    return if Kegerator.dms_url.blank? || (reading.temp_f > alarm_temp)
 
-    uri = URI(Setting.dms_url)
+    uri = URI(Kegerator.dms_url)
     begin
       Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.scheme == "https")) do |http|
         http.request(Net::HTTP::Get.new(uri.request_uri))
@@ -61,6 +61,10 @@ class Kegerator < ActiveRecord::Base
     rescue => e
       puts "Failed to connect to DMS with: #{e.inspect} (#{Time.now})"
     end
+  end
+
+  def self.dms_url
+    ENV["DMS_URL"]
   end
 
   protected

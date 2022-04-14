@@ -30,7 +30,7 @@ describe Pour do
 
     describe "hubot communication" do
       before(:each) do
-        allow(Setting).to receive(:hubot_url).and_return("Not Blank")
+        allow(Hubot).to receive(:hubot_url).and_return("Not Blank")
       end
 
       it "sends a hubot message on completing an anonymous pour" do

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <title><%= Setting.kegerator_name %></title>
+  <title><%= kegerator_name %></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="format-detection" content="telephone=no">
@@ -11,7 +11,7 @@
   <div class="navbar">
     <div class="container">
       <ul class="nav row">
-        <li class="logo"><%= link_to Setting.kegerator_name, root_path %></li>
+        <li class="logo"><%= link_to kegerator_name, root_path %></li>
         <li><%= link_to 'Kegs', kegs_path %></li>
         <li><%= link_to 'Admin', admin_path %></li>
       </ul>

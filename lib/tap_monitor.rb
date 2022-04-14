@@ -84,11 +84,7 @@ class TapMonitor
   end
 
   def ruby_version
-    if Setting.mruby_bin
-      File.join(Setting.mruby_bin, "mruby")
-    else
-      "ruby"
-    end
+    ENV.fetch("MRUBY_BIN", "ruby")
   end
 
   def close

@@ -25,7 +25,7 @@ class PourObserver < ActiveRecord::Observer
   end
 
   def send_to_campfire(pour)
-    return true if Setting.hubot_url.blank? || pour.finished_at.blank?
+    return true if pour.finished_at.blank?
 
     if pour.user_id == 0
       Hubot.send_message("Someone just poured a %0.1foz %s." % [pour.volume, pour.keg.name])

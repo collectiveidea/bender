@@ -1,6 +1,6 @@
 module Hubot
   def self.send_message(message)
-    return false if Setting.hubot_url.blank?
+    return false if hubot_url.blank?
 
     uri = URI.parse(Setting.hubot_url)
     req = Net::HTTP::Post.new(uri.path)
@@ -14,5 +14,9 @@ module Hubot
     rescue => e
       puts "Encountered #{e.message} (#{e.class}) while trying to report to rosie"
     end
+  end
+
+  def self.hubot_url
+    ENV["HUBOT_URL"]
   end
 end
