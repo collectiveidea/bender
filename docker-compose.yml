@@ -33,9 +33,9 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:password@postgres:5432
       RAILS_ENV: ${RAILS_ENV:-development}
-      url: ${BASE_URL}
+      url: http://${HOST}
     labels:
-      caddy: bender-dev.collectiveidea.com
+      caddy: ${HOST}
       caddy.encode: zstd gzip
       caddy.reverse_proxy: "{{upstreams 3000}}"
       caddy.tls.dns: "cloudflare ${CF_API_TOKEN}"
