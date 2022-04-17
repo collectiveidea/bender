@@ -45,5 +45,4 @@ group :no_require do
   # https://github.com/faye/websocket-driver-ruby/pull/85
   gem "websocket-driver", github: "faye/websocket-driver-ruby"
   gem "raindrops"
-  gem "god"
 end

@@ -164,7 +164,6 @@ GEM
       ffi (~> 1.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    god (0.13.7)
     heapy (0.2.0)
       thor
     highline (2.0.3)
@@ -340,7 +339,6 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faye
-  god
   importmap-rails
   nokogiri
   oj
