@@ -1,104 +1,102 @@
-# Raspberry Pi 3 setup
+# Production Pi Setup
 
-## Create the Rasbpian Boot Disk
-Use [Apple Pi Baker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) to create a boot disk from the [Raspbian Jessie Lite](https://downloads.raspberrypi.org/raspbian_lite_latest) image.
+We're currently trying out [Docker Compose](https://docs.docker.com/compose/) for installation and [Overmind](https://github.com/DarthSim/overmind) for running the Ruby processes.
 
-## Configuring SSH
+[Caddy](http://caddyserver.com) is the http server, which automatically sets up TLS certificates. It uses a self-signed cert for a local domain (like `bender.local`) and will get a real certification for a real domain. It uses DNS ACME validation, so the domain can point to a private IP address.
 
-Insert the SD card into your development machine and add a file named `ssh` to SD card's root directory.
+[Webhook Relay](http://webhookrelay.com) is set up so we can add users via external sources without needing to expose the pi to the internet.
 
-Plug the Pi into the ethernet and find its ip address.
+Is this a good setup? I dunno, but it was a good blend of simple config and low-dependency installation. There are probably better ways. Please update the instructions when you switch!
 
-You can then ssh into the machine:
+## Initial Install
 
-```
-$ ssh pi@<ip address>
-```
+### Setup the Pi
 
-The default password for this user is `raspbian`.
+1. Use Raspberry Pi Imager
+2. Choose OS: Raspberry Pi OS Lite (64bit)
+3. Advanced options: Set hostname to something like `bender.local`
+4. Enable ssh and pick a password.
+5. Set wifi settings (if desired)
 
 
-## Update/Upgrade the System
-```
-$ sudo apt-get update
-$ sudo apt-get dist-upgrade
-```
+### SSH into the Pi
 
-## Setting up Wi-Fi
-```
-$ echo "network={\n\tssid=\"<ssid>\" psk=\"<wifi password>\"}" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+```bash
+ssh pi@bender.local
 ```
 
+### Upgrade what's there:
 
-
-### System Setup
-
-```shell
-sudo apt-get update
-sudo apt-get dist-upgrade
-sudo reboot
-
-sudo raspi-config
-sudo reboot
-
-sudo apt-get install vim screen nodejs libcurl4-openssl-dev git libreadline6-dev libssl-dev libyaml-dev libxml2-dev libxslt-dev autoconf ncurses-dev automake libtool bison
-echo "startup_message off" > ~/.screenrc
-echo "gem: --no-document" >> ~/.gemrc
-
-echo "export RAILS_ENV=production" >> ~/.bashrc
-echo "export CDPATH=.:/app/bender" >> ~/.bashrc
-echo "export PATH=./bin:./.bin:$PATH" >> ~/.bashrc
-echo "export EDITOR=/usr/bin/vim" >> ~/.bashrc
-
-
-sudo mkdir /app
-sudo chown pi:pi /app
-
-wget https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.5.tar.gz
-tar xzf ruby-2.2.5.tar.gz 
-cd ruby-2.2.5/
-./configure --prefix=/usr/local --enable-shared --disable-install-doc
-make -j 4
-sudo make install
-
-cd
-sudo gem i bundler
-sudo apt-get install postgresql libpq-dev
-sudo vi /etc/postgresql/9.4/main/pg_hba.conf
-# change "peer" to "trust"
-
-sudo /etc/init.d/postgresql reload
-psql -U postgres
-# CREATE ROLE bender_production;
-# CREATE DATABASE bender_production;
-
-git clone https://github.com/mruby/mruby.git
-cd mruby/
-git checkout 1.2.0
-
-# Edit the build_config.rb file and add the following gems:
-# 
-#   conf.gem :github => 'iij/mruby-io'
-#   conf.gem :github => 'ksss/mruby-signal'
-
-./minirake
-./bin/mruby -v
-
-# Not sure where these are from
-bunzip2 -c bender_production_2016-07-07.sql.bz2 | psql -U postgres bender_production
-
-
-# Nginx
-sudo gem install passenger
-sudo passenger-install-nginx-module
-wget http://downloads.sourceforge.net/project/pcre/pcre/8.32/pcre-8.32.tar.gz
-
-sudo wget -O /etc/init.d/nginx https://github.com/Fleshgrinder/nginx-sysvinit-script/raw/master/init
-sudo vi /etc/init.d/nginx
-
-sudo chmod 755 /etc/init.d/nginx
-sudo update-rc.d nginx defaults
-sudo service nginx start
-
+```bash
+sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y
 ```
 
+### Install Docker and Compose
+
+```bash
+curl -sSL https://get.docker.com | sh
+```
+
+```bash
+sudo usermod -aG docker pi
+```
+
+```bash
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+```
+
+```bash
+mkdir -p $DOCKER_CONFIG/cli-plugins
+```
+
+```bash
+curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-aarch64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+```
+
+```bash
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+```
+
+### Install git to pull the repo:
+
+```bash
+sudo apt-get install -y git
+```
+
+```bash
+git clone https://github.com/collectiveidea/bender.git
+```
+
+```bash
+cd bender
+```
+
+### Configure Environment
+
+Create `~/bender/.env` on the Pi and copy over settings (see `.env.example`).
+
+### Run the app
+
+```bash
+docker network create caddy
+```
+
+```bash
+docker compose up -d
+```
+
+```bash
+docker compose run web bin/setup
+```
+
+```bash
+docker compose run web rake assets:precompile
+```
+
+## Updating Code
+
+Update code with `git pull` and then rebuild the container(s). For example, to rebuild just the Rails app (`web` container):
+
+```bash
+docker compose up -d --build web
+````

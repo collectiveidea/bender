@@ -27,8 +27,14 @@ Currently runs at Collective Idea on a Raspberry Pi 4. Previously it ran on a Pi
 3. `bin/setup`
 6. `foreman start -f Procfile.dev`
 
+### Production
+
+See `doc/pi_setup.md` for current instructions.
+
 ## Basic concepts
 
 The Rails app is pretty typical. There's a Faye process (running via Rack) to facilitate some realtime data updates.
 
-Pours and taps are controlled via the Pi's GPIO. Two rake tasks manage them.
+Many settings are controlled by environment variables. See the `.env.example` and copy to `.env` as needed.
+
+Pours and taps are controlled via the Pi's GPIO. Two rake tasks manage them. The pour monitoring runs a separate `mruby` process.
