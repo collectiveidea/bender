@@ -6,6 +6,8 @@
 
 A kegerator monitoring application built to run on a RaspberryPi or BeagleBone Black.
 
+Currently runs at Collective Idea on a Raspberry Pi 4. Previously it ran on a Pi 3 (see ruby2 tag). It is both simplistic and overkill at the same time. Why not?
+
 ![Home page](http://i.imgur.com/wBebZEB.png)
 
 ![Keg details page](http://i.imgur.com/oMi5kKF.png)
@@ -25,11 +27,8 @@ A kegerator monitoring application built to run on a RaspberryPi or BeagleBone B
 3. `bin/setup`
 6. `foreman start -f Procfile.dev`
 
-## Contributing
+## Basic concepts
 
-1. Clone repository. `git clone git@github.com:collectiveidea/bender.git`
-2. Create a branch for your feature. `git checkout -b my-awesome-feature-name main`
-3. Make changes and commit.
-4. Run the tests. `rake`
-5. Push to remote branch. `git push origin my-awesome-feature-name`
-6. Create a Pull Request.
+The Rails app is pretty typical. There's a Faye process (running via Rack) to facilitate some realtime data updates.
+
+Pours and taps are controlled via the Pi's GPIO. Two rake tasks manage them.
