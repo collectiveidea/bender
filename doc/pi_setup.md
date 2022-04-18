@@ -6,7 +6,9 @@ We're currently trying out [Docker Compose](https://docs.docker.com/compose/) fo
 
 [Webhook Relay](http://webhookrelay.com) is set up so we can add users via external sources without needing to expose the pi to the internet.
 
-Is this a good setup? I dunno, but it was a good blend of simple config and low-dependency installation. There are probably better ways. Please update the instructions when you switch!
+The database is regularly [backed up](https://github.com/codestation/go-s3-backup) to S3.
+
+Is this a good setup? I dunno, but it was a good blend of simple config and low-dependency installation. And easily testable on an ARM64 Mac. There are probably better ways. Please update the instructions when you switch!
 
 ## Initial Install
 
