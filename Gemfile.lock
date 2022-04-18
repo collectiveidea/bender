@@ -167,6 +167,7 @@ GEM
     heapy (0.2.0)
       thor
     highline (2.0.3)
+    honeybadger (4.12.1)
     http_parser.rb (0.8.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
@@ -339,6 +340,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faye
+  honeybadger
   importmap-rails
   nokogiri
   oj
