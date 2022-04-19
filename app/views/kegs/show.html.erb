@@ -58,9 +58,9 @@
         <% @keg.top_consumers.each do |leader| %>
         <tr>
           <td class="name"><%= leader.name %></td>
-          <td class="total center"><%= "%0.1f" % leader.total %></td>
-          <td class="average center"><%= "%0.1f" % leader.average %></td>
-          <td class="max center"><%= "%0.1f" % leader.max %></td>
+          <td class="total center"><%= "%0.1f" % leader.total.to_d %></td>
+          <td class="average center"><%= "%0.1f" % leader.average.to_d %></td>
+          <td class="max center"><%= "%0.1f" % leader.max.to_d %></td>
           <td class="pours center"><%= leader.count %></td>
         </tr>
         <% end %>
