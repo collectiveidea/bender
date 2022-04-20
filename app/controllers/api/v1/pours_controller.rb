@@ -27,6 +27,23 @@ module API
         end
       end
 
+      def create
+        user = User.where("id = ? OR rfid = ?", params[:user_id], params[:user_rfid]).first! if params[:user_id] != "0"
+        unless user.pours_remaining?
+          render status: :forbidden, plain: "Insufficient credits remaining"
+          return
+        end
+
+        tap = BeerTap.find(params[:beer_tap_id])
+        pour = tap.active_keg.start_pour(user)
+
+        if pour.persisted?
+          render json: Oj.dump(pour.as_json, mode: :compat), status: :created
+        else
+          render json: Oj.dump(pour.errors.to_json, mode: :compat), status: :unprocessible_entity
+        end
+      end
+
       private
 
       def start_time

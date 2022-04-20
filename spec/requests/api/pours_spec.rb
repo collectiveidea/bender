@@ -55,4 +55,19 @@ RSpec.describe "Pours API" do
       end
     end
   end
+
+  describe "POST /api/v1/pours" do
+    it "creates and returns pour as json" do
+      beer_tap = FactoryBot.create(:beer_tap)
+      beer_tap.active_keg = FactoryBot.create(:keg, active: true)
+      user = FactoryBot.create(:user)
+
+      post "/api/v1/pours", params: {beer_tap_id: beer_tap.id, user_id: user.id}
+
+      expect(response.status).to eq(201)
+      json_response = JSON.parse(response.body)
+      expect(json_response["id"]).not_to be(nil)
+      expect(json_response["user_id"]).to eq(user.id)
+    end
+  end
 end
