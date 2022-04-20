@@ -3,6 +3,7 @@
 require ::File.expand_path("../config/environment", __FILE__)
 
 require "faye"
+Faye.logger = Logger.new($stdout)
 Faye::WebSocket.load_adapter("puma")
 use Faye::RackAdapter, mount: "/faye", timeout: 30, ping: 1
 
