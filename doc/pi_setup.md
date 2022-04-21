@@ -102,3 +102,9 @@ Update code with `git pull` and then rebuild the container(s). For example, to r
 ```bash
 docker compose up -d --build web
 ````
+
+Then restart the processes as needed:
+
+```bash
+docker compose exec web overmind restart
+````
