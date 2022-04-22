@@ -257,7 +257,6 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
-    raindrops (0.20.0)
     rake (13.0.6)
     regexp_parser (2.3.0)
     rexml (3.2.5)
@@ -337,7 +336,6 @@ DEPENDENCIES
   puma
   rails (~> 7.0.1)
   rails-observers
-  raindrops
   rspec-rails
   stackprof
   standard
