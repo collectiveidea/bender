@@ -48,6 +48,8 @@ services:
     networks:
       - caddy
       - postgres
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgres://postgres:password@postgres:5432/bender_${RAILS_ENV}
       RAILS_ENV: ${RAILS_ENV:-development}
