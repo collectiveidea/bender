@@ -23,7 +23,6 @@ gem "rails-observers"
 gem "oj"
 
 group :development do
-  gem "capistrano", "< 3.0"
   gem "derailed"
   gem "stackprof"
 end
