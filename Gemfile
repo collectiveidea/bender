@@ -30,7 +30,6 @@ end
 group :test, :development do
   gem "domino"
   gem "factory_bot_rails"
-  gem "nokogiri", require: false
   gem "pry"
   gem "rspec-rails"
   gem "selenium-webdriver"
