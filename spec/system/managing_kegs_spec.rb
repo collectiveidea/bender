@@ -1,6 +1,10 @@
 require "rails_helper"
 
 describe "Managing kegs" do
+  before do
+    driven_by(:rack_test)
+  end
+
   it "allows a user to add a keg" do
     visit "/admin/kegs"
     click_link "New"

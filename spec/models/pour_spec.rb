@@ -7,7 +7,7 @@ describe Pour do
     allow(FayeNotifier).to receive(:send_message).and_return(true)
   end
 
-  let!(:guest) { User.create(id: 0, name: "Guest") }
+  let!(:guest) { FactoryBot.create(:user, :guest) }
   describe "#complete?" do
     before :each do
       freeze_time

@@ -1,6 +1,10 @@
 require "rails_helper"
 
 describe "Managing taps" do
+  before do
+    driven_by(:rack_test)
+  end
+
   it "allows a user to add a tap" do
     visit "/admin/beer_taps"
 

@@ -28,14 +28,13 @@ group :development do
 end
 
 group :test, :development do
-  gem "rspec-rails"
-  gem "capybara"
-  gem "nokogiri", require: false
-  gem "poltergeist"
   gem "domino"
   gem "factory_bot_rails"
-  gem "standard", require: false
+  gem "nokogiri", require: false
   gem "pry"
+  gem "rspec-rails"
+  gem "selenium-webdriver"
+  gem "standard", require: false
 end
 
 group :no_require do

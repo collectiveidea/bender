@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   scope :active, -> { where(hidden: false) }
 
   def self.guest
-    find_by(id: 0) || new(id: 0, name: "Guest")
+    find_by(id: 0) || create!(id: 0, name: "Guest")
   end
 
   def first_pour_at

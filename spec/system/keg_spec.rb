@@ -5,6 +5,7 @@ describe "View Keg" do
   let(:keg) { FactoryBot.create(:keg, name: "Better Beer") }
 
   before do
+    driven_by(:rack_test)
     allow(FayeNotifier).to receive(:send_message).and_return(true)
     keg.tap_it(tap.id)
   end
@@ -29,7 +30,7 @@ describe "View Keg" do
 
   context "after pours" do
     it "shows pours and leaderboard correctly" do
-      User.create(id: 0, name: "Guest")
+      FactoryBot.create(:user, :guest)
       john = FactoryBot.create(:user, name: "John")
       jane = FactoryBot.create(:user, name: "Jane")
       FactoryBot.create(:pour, keg_id: keg.id, user_id: john.id, volume: 6.2)

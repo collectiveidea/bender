@@ -6,7 +6,7 @@ describe Keg do
   end
 
   it "calculates the total poured volume against the keg" do
-    User.create(id: 0, name: "Guest")
+    FactoryBot.create(:user, :guest)
     keg = FactoryBot.create(:keg)
     FactoryBot.create_list(:pour, 3, {keg_id: keg.id})
     FactoryBot.create(:pour)
@@ -16,7 +16,7 @@ describe Keg do
   end
 
   it "calculates the remaining volume in the keg" do
-    User.create(id: 0, name: "Guest")
+    FactoryBot.create(:user, :guest)
     keg = FactoryBot.create(:keg, capacity: 100)
     FactoryBot.create_list(:pour, 3, {keg_id: keg.id})
     FactoryBot.create(:pour)

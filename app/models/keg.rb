@@ -40,7 +40,7 @@ class Keg < ActiveRecord::Base
     nil
   end
 
-  def start_pour(user = nil)
+  def start_pour(user = User.guest)
     pour = active_pour || pours.new
     pour.user = user if user
     pour.save
