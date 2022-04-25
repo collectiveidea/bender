@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def gravatar_base_url
-    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest((email || name).downcase.strip)}?d=retro"
+    "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest((email || name).downcase.strip)}?d=retro"
   end
 
   def decrement_credits(volume)
