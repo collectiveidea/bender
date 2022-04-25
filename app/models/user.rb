@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  validates :name, uniqueness: true
-
   has_many :pours
 
   scope :active, -> { where(hidden: false) }
