@@ -18,8 +18,11 @@ class PourObserver < ActiveRecord::Observer
 
     update_type ||= (pour.finished_at ? :complete : :update)
 
-    data = pour.attributes
-    data["beer_tap_id"] = pour.keg.beer_tap_id.to_s
+    data = {
+      id: pour.id,
+      volume: pour.volume,
+      beer_tap_id: pour.keg.beer_tap_id.to_s
+    }
 
     FayeNotifier.send_message("/pour/#{update_type}", data)
   end
