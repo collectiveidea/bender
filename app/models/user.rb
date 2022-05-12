@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :pours
 
-  scope :active, -> { where(hidden: false) }
+  scope :active, -> { where(hidden: false).where.not(name: nil) }
 
   def self.guest
     find_by(id: 0) || create!(id: 0, name: "Guest")
