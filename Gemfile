@@ -32,6 +32,7 @@ group :test, :development do
   gem "factory_bot_rails"
   gem "pry"
   gem "rspec-rails"
+  gem "rspec-tap-formatters", require: false
   gem "selenium-webdriver"
   gem "standard", require: false
 end

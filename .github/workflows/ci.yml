@@ -64,4 +64,10 @@ jobs:
       run: bundle exec standardrb
 
     - name: Run Tests
-      run: bundle exec rspec --format progress --color
+      run: bundle exec rspec --format RSpec::TAP::Formatters::Flat --out rspec.tap
+
+    - name: Test Summary
+      uses: test-summary/action@v1
+      with:
+       paths: "rspec.tap"
+      if: always()
