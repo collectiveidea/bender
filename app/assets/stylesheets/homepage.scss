@@ -28,6 +28,7 @@
     background-color: #f7f7f9;
   }
 
+  &[data-srm=""] { background-color: #74CCF4; }
   &[data-srm="1"] { background-color: #FFE699; }
   &[data-srm="2"] { background-color: #FFD878; }
   &[data-srm="3"] { background-color: #FFCA5A; }
