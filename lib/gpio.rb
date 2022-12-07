@@ -70,7 +70,7 @@ module GPIO
 
       curr_direction = File.read(direction_file).strip
       if (@direction == :out && curr_direction == "in") || (@direction == :in && curr_direction == "out")
-        File.write(direction_file, @direction == :out ? "out" : "in")
+        File.write(direction_file, (@direction == :out) ? "out" : "in")
       end
 
       if @direction == :in
@@ -103,7 +103,7 @@ module GPIO
     # If the pin has been initialized for output this method will either raise or lower the logic level depending on `new_value`.
     # @param [Object] new_value If false or 0 the pin will be set to off, otherwise on.
     def update_value(new_value)
-      !new_value || new_value == 0 ? off : on
+      (!new_value || new_value == 0) ? off : on
     end
 
     # Tests if the logic level has changed since the pin was last read.
