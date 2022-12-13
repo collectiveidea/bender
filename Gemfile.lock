@@ -168,7 +168,7 @@ GEM
     json (2.6.3)
     jsonapi-renderer (0.2.2)
     language_server-protocol (3.17.0.2)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.0)
