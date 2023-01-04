@@ -124,16 +124,12 @@ class TapMonitor
 
     # is there an active pour or keg
     if @active_pour.nil?
-      @tap.active_keg&.reload
-      keg = @tap.active_keg
-    end
-    return if @active_pour.nil? && keg.nil?
+      keg = @tap.reload_active_keg
+      return if keg.nil?
 
-    # reload, find, or create the active pour
-    @active_pour&.reload
-    if @active_pour.nil?
-      keg.active_pour&.reload
       @active_pour = keg.active_pour || keg.pours.new
+    else
+      @active_pour.reload
     end
     @active_pour.started_at ||= Time.at(@first_tick.to_f)
 
