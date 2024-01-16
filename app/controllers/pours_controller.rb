@@ -4,7 +4,7 @@ class PoursController < ApplicationController
   end
 
   def new
-    @users = User.where(["name != ?", "Guest"]).order(:name)
+    @users = User.where.not(name: "Guest").order(:name)
   end
 
   def create
@@ -27,7 +27,7 @@ class PoursController < ApplicationController
 
   def edit
     @pour = Pour.find(params[:id])
-    @users = User.where(["name != ?", "Guest"]).order(:name)
+    @users = User.where.not(name: "Guest").order(:name)
   end
 
   def update
@@ -35,7 +35,7 @@ class PoursController < ApplicationController
     if params.require(:pour).keys == ["finished_at"]
       pour.finish_pour(params[:pour][:finished_at])
     else
-      pour.update(pour_params)
+      pour.update!(pour_params)
     end
     redirect_to(params[:back_to] || root_path)
   end

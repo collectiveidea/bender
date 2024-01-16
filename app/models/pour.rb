@@ -5,16 +5,16 @@
 # Swissflow: between 5400 to 6100 pulses/L
 # ml * 0.033814 = fl oz
 
-class Pour < ActiveRecord::Base
+class Pour < ApplicationRecord
   belongs_to :keg
   belongs_to :user
 
   before_save :calculate_duration
   after_save :set_last_pour_at
 
-  scope :finished, lambda { where("finished_at IS NOT NULL") }
+  scope :finished, lambda { where.not(finished_at: nil) }
   scope :non_guest, lambda { where("user_id > 0") }
-  scope :for_listing, lambda { where("volume IS NOT NULL").includes(:keg, :user).order("created_at desc") }
+  scope :for_listing, lambda { where.not(volume: nil).includes(:keg, :user).order("created_at desc") }
   scope :recent, lambda { where("created_at > ?", 30.days.ago) }
 
   def self.between_dates(start_time:, end_time:)
@@ -28,14 +28,14 @@ class Pour < ActiveRecord::Base
     self.finished_at = time
     if sensor_ticks.to_i == 0
       keg.beer_tap.deactivate
-      destroy
+      destroy!
     else
-      save
+      save!
     end
   end
 
   def complete?
-    finished_at.nil? ? false : (Time.now - finished_at) > Setting.pour_timeout
+    finished_at.nil? ? false : (Time.current - finished_at) > Setting.pour_timeout
   end
 
   private
@@ -45,10 +45,11 @@ class Pour < ActiveRecord::Base
   end
 
   def set_last_pour_at
-    return unless finished_at && (user_id_changed? || finished_at_changed?)
-    User.find(changes["user_id"] || [user_id]).each do |user|
-      user.last_pour_at = user.pours.finished.maximum(:created_at)
-      user.save
+    if finished_at && (user_id_changed? || finished_at_changed?)
+      User.find(changes["user_id"] || [user_id]).each do |user|
+        user.last_pour_at = user.pours.finished.maximum(:created_at)
+        user.save!
+      end
     end
   end
 end

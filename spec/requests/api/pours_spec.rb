@@ -13,7 +13,7 @@ RSpec.describe "Pours API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map { |u| u["volume"] }).to include(pour.volume.to_s)
+      expect(json_response.pluck("volume")).to include(pour.volume.to_s)
     end
 
     it "returns pours for a date range as json" do
@@ -24,8 +24,8 @@ RSpec.describe "Pours API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map { |u| u["volume"] }).to include(pour_in.volume.to_s)
-      expect(json_response.map { |u| u["volume"] }).not_to include(pour_out.volume.to_s)
+      expect(json_response.pluck("volume")).to include(pour_in.volume.to_s)
+      expect(json_response.pluck("volume")).not_to include(pour_out.volume.to_s)
     end
   end
 
@@ -50,8 +50,8 @@ RSpec.describe "Pours API" do
 
         expect(response.status).to eq(200)
         json_response = JSON.parse(response.body)
-        expect(json_response.map { |u| u["email"] }).to include(pour_in.user.email)
-        expect(json_response.map { |u| u["email"] }).not_to include(pour_out.user.email)
+        expect(json_response.pluck("email")).to include(pour_in.user.email)
+        expect(json_response.pluck("email")).not_to include(pour_out.user.email)
       end
     end
   end

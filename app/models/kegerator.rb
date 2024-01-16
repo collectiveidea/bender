@@ -1,13 +1,13 @@
-class Kegerator < ActiveRecord::Base
+class Kegerator < ApplicationRecord
   belongs_to :temperature_sensor
-  has_many :beer_taps
+  has_many :beer_taps, dependent: :destroy
 
   def check(reading)
     return if control_pin.blank? || min_temp.blank? || max_temp.blank?
 
     if pin.on? && reading.temp_f < min_temp
-      self.last_shutdown = Time.now
-      save
+      self.last_shutdown = Time.current
+      save!
       pin.off
     elsif pin.off? && reading.temp_f > max_temp && (last_shutdown.nil? || last_shutdown < 5.minutes.ago)
       pin.on
@@ -35,7 +35,7 @@ class Kegerator < ActiveRecord::Base
   # This should send a message on the first alarm reading and every 30 minutes after that
   def send_alarm_message(reading)
     last_good = temperature_sensor.temperature_readings.where(["temp_f < ?", alarm_temp]).order("created_at DESC").first.try(:created_at)
-    return if last_good.nil? || (((Time.now - last_good) / 60).round % 30) != 1
+    return if last_good.nil? || (((Time.current - last_good) / 60).round % 30) != 1
 
     # Try to reset the GFCI
     pin.off
@@ -59,7 +59,7 @@ class Kegerator < ActiveRecord::Base
         http.request(Net::HTTP::Get.new(uri.request_uri))
       end
     rescue => e
-      puts "Failed to connect to DMS with: #{e.inspect} (#{Time.now})"
+      Rails.logger.debug { "Failed to connect to DMS with: #{e.inspect} (#{Time.current})" }
     end
   end
 

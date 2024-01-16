@@ -9,7 +9,7 @@ RSpec.describe "Taps API" do
 
       expect(response.status).to eq(200)
       json_response = JSON.parse(response.body)
-      expect(json_response.map { |u| u["name"] }).to include(keg.beer_tap.name)
+      expect(json_response.pluck("name")).to include(keg.beer_tap.name)
     end
   end
 end

@@ -56,10 +56,10 @@ class Temp
           if parts.detect { |p| TEMP_REGEX =~ p }
             @value = $1.to_i / 1000.0
           else
-            raise ReadingFailed, "No temp found #{Time.now} #{@id}\n#{output}\n\n"
+            raise ReadingFailed, "No temp found #{Time.current} #{@id}\n#{output}\n\n"
           end
         else
-          raise ReadingFailed, "CRC Failed #{Time.now} #{@id}"
+          raise ReadingFailed, "CRC Failed #{Time.current} #{@id}"
         end
       rescue ReadingFailed => error
         @tries += 1

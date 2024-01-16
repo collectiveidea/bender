@@ -135,7 +135,7 @@ class Achievement
 
   def initialize(attributes = {})
     attributes&.each do |name, value|
-      send("#{name}=", value) if respond_to? name.to_sym
+      send(:"#{name}=", value) if respond_to? name.to_sym
     end
   end
 

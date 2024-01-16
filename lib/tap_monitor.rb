@@ -45,7 +45,7 @@ class TapMonitor
     def start_missing
       return unless @running
 
-      BeerTap.all.each do |tap|
+      BeerTap.all.each do |tap| # standard:disable Rails/FindEach
         tap_monitors[tap.id] ||= start(tap)
       end
     end
@@ -60,7 +60,7 @@ class TapMonitor
         if ios
           ios[0].each do |io|
             monitor = monitors.detect { |mon| mon.io == io }
-            monitor.update
+            monitor.update # standard:disable Rails/SaveBang
           end
         end
 
@@ -77,9 +77,9 @@ class TapMonitor
     @tap = tap
     @running = true
     @finished = true
-    @last_started_at = Time.now.to_f.to_s
+    @last_started_at = Time.current.to_f.to_s
 
-    @io = IO.popen("#{ruby_version} #{Rails.root.join("lib", "pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
+    @io = IO.popen("#{ruby_version} #{Rails.root.join("lib/pour_reader.rb").to_s.inspect} #{@tap.gpio_pin} #{Setting.pour_timeout}", "r+")
     @io.sync = true
   end
 
@@ -104,7 +104,7 @@ class TapMonitor
       @timeout = 2 if @active_pour.finished_at.present?
     end
 
-    if (@last_tick + @timeout) < Time.now
+    if (@last_tick + @timeout) < Time.current
       finish
     end
   end
@@ -112,7 +112,7 @@ class TapMonitor
   def update
     # Read update
     _, @first_tick, @last_tick, @ticks = @io.readline.strip.split(",")
-    @last_tick = Time.at(@last_tick.to_f)
+    @last_tick = Time.at(@last_tick.to_f).utc
 
     # Is this a new pour
     if @last_started_at != @first_tick
@@ -131,7 +131,7 @@ class TapMonitor
     else
       @active_pour.reload
     end
-    @active_pour.started_at ||= Time.at(@first_tick.to_f)
+    @active_pour.started_at ||= Time.at(@first_tick.to_f).utc
 
     # fast timeout as the user has said they are done
     @timeout = 2 if @active_pour.finished_at.present?
@@ -141,12 +141,12 @@ class TapMonitor
     @active_pour.volume = @active_pour.sensor_ticks * @tap.floz_per_tick
 
     # is the pour done
-    if (@last_tick + @timeout) < Time.now
+    if (@last_tick + @timeout) < Time.current
       finish
       @io.puts "reset"
       @io.flush
     else
-      @active_pour.save
+      @active_pour.save!
     end
   rescue EOFError
     finish_if_needed
@@ -155,10 +155,10 @@ class TapMonitor
   def finish
     @finished = true
     if @active_pour.volume < 0.5
-      @active_pour.destroy
+      @active_pour.destroy!
     else
       @active_pour.finished_at = @last_tick
-      @active_pour.save
+      @active_pour.save!
     end
     @active_pour.keg.beer_tap.deactivate
   end
