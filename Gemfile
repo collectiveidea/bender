@@ -28,11 +28,11 @@ group :development do
 end
 
 group :test, :development do
+  gem "cuprite"
   gem "domino"
   gem "factory_bot_rails"
   gem "pry"
   gem "rspec-rails"
-  gem "selenium-webdriver"
   gem "standard"
   gem "standard-performance"
   gem "standard-rails"
