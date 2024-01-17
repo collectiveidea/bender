@@ -89,7 +89,7 @@ GEM
     benchmark-ips (2.10.0)
     bigdecimal (3.1.5)
     builder (3.2.4)
-    capybara (3.38.0)
+    capybara (3.39.2)
       addressable
       matrix
       mini_mime (>= 0.1.3)
