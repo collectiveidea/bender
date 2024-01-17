@@ -334,7 +334,7 @@ GEM
     ruby-progressbar (1.13.0)
     ruby-statistics (3.0.1)
     ruby2_keywords (0.0.5)
-    stackprof (0.2.23)
+    stackprof (0.2.26)
     standard (1.33.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
