@@ -40,8 +40,4 @@ end
 
 group :no_require do
   gem "faye"
-  # This gem is normally pulled in via faye, but cuurrent version
-  # breaks with --enable=frozen-string-literal so remove when version > 0.7.5
-  # https://github.com/faye/websocket-driver-ruby/pull/85
-  gem "websocket-driver", github: "faye/websocket-driver-ruby"
 end
