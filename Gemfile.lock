@@ -366,7 +366,7 @@ DEPENDENCIES
   websocket-driver!
 
 RUBY VERSION
-   ruby 3.1.3p185
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   2.3.15
+   2.4.20
