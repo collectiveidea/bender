@@ -1,6 +1,8 @@
 class AddStartedAtAndFinishedAtToKegs < ActiveRecord::Migration[4.2]
   def change
-    add_column :kegs, :started_at, :datetime
-    add_column :kegs, :finished_at, :datetime
+    change_table :kegs, bulk: true do |t|
+      t.datetime :started_at
+      t.datetime :finished_at
+    end
   end
 end

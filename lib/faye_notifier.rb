@@ -12,7 +12,7 @@ module FayeNotifier
         message: {channel: channel, data: data}.to_json
       )
     rescue => e
-      puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye"
+      puts "Encountered #{e.message} (#{e.class}) while trying to connect to faye" # standard:disable Rails/Output
     end
   end
 end

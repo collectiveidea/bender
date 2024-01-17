@@ -1,4 +1,4 @@
-class Keg < ActiveRecord::Base
+class Keg < ApplicationRecord
   # Capacity is stored in fluid ounces
   KEG_CAPACITIES = [
     ["1/2 Barrel", 1980],
@@ -9,17 +9,17 @@ class Keg < ActiveRecord::Base
 
   belongs_to :beer_tap, optional: true
 
-  has_many :pours, inverse_of: :keg
-  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: "Pour", inverse_of: :keg
+  has_many :pours, inverse_of: :keg, dependent: :nullify
+  has_one :active_pour, lambda { where(finished_at: nil) }, class_name: "Pour", inverse_of: :keg, dependent: nil
 
   validates :srm, numericality: {greater_than: 0, less_than: 41, allow_blank: true}
 
   def display_name
-    [name, brewery].reject(&:blank?).join(" by ")
+    [name, brewery].compact_blank.join(" by ")
   end
 
   def completed_pours
-    pours.where("finished_at IS NOT NULL")
+    pours.where.not(finished_at: nil)
   end
 
   def poured
@@ -43,7 +43,7 @@ class Keg < ActiveRecord::Base
   def start_pour(user = User.guest)
     pour = active_pour || pours.new
     pour.user = user if user
-    pour.save
+    pour.save!
     beer_tap.activate
     pour
   end
@@ -55,16 +55,16 @@ class Keg < ActiveRecord::Base
     end
 
     self.beer_tap_id = tap_id
-    self.started_at ||= Time.now
+    self.started_at ||= Time.current
     self.finished_at = nil
     self.active = true
-    save
+    save # standard:disable Rails/SaveBang
   end
 
   def untap_it
-    self.finished_at = Time.now
+    self.finished_at = Time.current
     self.active = false
-    save
+    save # standard:disable Rails/SaveBang
   end
 
   def temp_data
@@ -84,12 +84,13 @@ class Keg < ActiveRecord::Base
     if poured == 0 || remaining == 0
       "No projection available"
     else
-      Time.now + (Time.now - started_at) / poured * remaining
+      now = Time.current
+      now + (now - started_at) / poured * remaining
     end
   end
 
   def days_on_tap
     return 0 unless started_at
-    (((finished_at || Time.now) - started_at) / 1.day).round
+    (((finished_at || Time.current) - started_at) / 1.day).round
   end
 end

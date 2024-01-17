@@ -1,4 +1,10 @@
+plugins:
+  - standard-performance
+  - standard-rails
 ignore:
   - 'lib/gpio.rb':
     - Lint/Loop
   - 'lib/pour_reader.rb' # Used by mruby
+  - '**/*':
+    - Rails/EnvironmentVariableAccess
+

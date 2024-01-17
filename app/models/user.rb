@@ -1,5 +1,5 @@
-class User < ActiveRecord::Base
-  has_many :pours
+class User < ApplicationRecord
+  has_many :pours, dependent: :nullify
 
   scope :active, -> { where(hidden: false).where.not(name: nil) }
 
@@ -32,13 +32,13 @@ class User < ActiveRecord::Base
 
   def decrement_credits(volume)
     if credits.present?
-      update(credits: [credits - volume, 0].max)
+      update!(credits: [credits - volume, 0].max)
     end
   end
 
   def increment_credits(volume)
     if credits.present?
-      update(credits: credits + volume)
+      update!(credits: credits + volume)
     end
   end
 

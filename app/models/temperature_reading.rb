@@ -1,4 +1,4 @@
-class TemperatureReading < ActiveRecord::Base
+class TemperatureReading < ApplicationRecord
   belongs_to :temperature_sensor
 
   after_create :check_kegerator

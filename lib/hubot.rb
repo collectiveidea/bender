@@ -12,7 +12,7 @@ module Hubot
         http.request(req)
       end
     rescue => e
-      puts "Encountered #{e.message} (#{e.class}) while trying to report to rosie"
+      puts "Encountered #{e.message} (#{e.class}) while trying to report to rosie" # standard:disable Rails/Output
     end
   end
 

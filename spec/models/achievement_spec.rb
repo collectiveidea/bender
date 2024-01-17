@@ -59,7 +59,7 @@ describe Achievement do
                                        name: "Foo",
                                 description: "Bar",
                                     reverse: true,
-                                    time_gt: Time.now - 30.days}).value.to_d).to eq(BigDecimal("46"))
+                                    time_gt: 30.days.ago}).value.to_d).to eq(BigDecimal("46"))
     end
 
     it "limits calculation by multiple options" do
@@ -68,7 +68,7 @@ describe Achievement do
                                 description: "Bar",
                                     reverse: true,
                                      keg_id: keg1.id,
-                                    time_gt: Time.now - 30.days}).value.to_d).to eq(BigDecimal("12"))
+                                    time_gt: 30.days.ago}).value.to_d).to eq(BigDecimal("12"))
     end
   end
 

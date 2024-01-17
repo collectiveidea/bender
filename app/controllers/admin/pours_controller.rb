@@ -7,7 +7,7 @@ class Admin::PoursController < Admin::ApplicationController
   def destroy
     keg = Keg.find(params[:keg_id])
     pour = keg.pours.find(params[:id])
-    pour.destroy
+    pour.destroy!
     redirect_to :back
   end
 end

@@ -33,7 +33,9 @@ group :test, :development do
   gem "pry"
   gem "rspec-rails"
   gem "selenium-webdriver"
-  gem "standard", require: false
+  gem "standard"
+  gem "standard-performance"
+  gem "standard-rails"
 end
 
 group :no_require do

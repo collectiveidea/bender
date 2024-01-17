@@ -14,7 +14,6 @@ describe Pour do
     end
 
     after do
-      travel_back
     end
 
     it "returns true if the pour is completed and the current time is after the pour timeout" do
@@ -38,8 +37,8 @@ describe Pour do
 
         expect(Hubot).to receive(:send_message).with("Someone just poured a 12.0oz #{pour.keg.name}.")
 
-        pour.finished_at = Time.now
-        pour.save
+        pour.finished_at = Time.current
+        pour.save!
       end
 
       it "sends a hubot message on claiming an anonymous pour" do
@@ -49,7 +48,7 @@ describe Pour do
         expect(Hubot).to receive(:send_message).with("Jim has claimed the 12.0oz pour.")
 
         pour.user = user
-        pour.save
+        pour.save!
       end
     end
   end
