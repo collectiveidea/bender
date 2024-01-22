@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/faye/websocket-driver-ruby.git
-  revision: 3a2931751c6893e312ee24d9c6392bd096a798fd
+  revision: 58d4ed742749dfb3b4f568df36a5365088361220
   specs:
-    websocket-driver (0.7.5)
+    websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
 
 GEM
