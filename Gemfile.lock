@@ -159,7 +159,7 @@ GEM
       activesupport (>= 5.0)
     heapy (0.2.0)
       thor
-    honeybadger (5.0.2)
+    honeybadger (5.8.0)
     http_parser.rb (0.8.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
