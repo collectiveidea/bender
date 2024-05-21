@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ruby:3.1.2
+FROM ruby:3.3.1
 RUN apt-get update -qq && apt-get install -y postgresql-client
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
@@ -22,6 +22,7 @@ RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
 # Install Node.js version that will enable installation of yarn
 RUN apt-get install -y --no-install-recommends \
     nodejs \
+    npm \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN npm install -g yarn
 
