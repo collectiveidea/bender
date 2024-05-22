@@ -17,13 +17,13 @@ RUN curl -sL https://github.com/DarthSim/overmind/releases/download/v2.2.2/overm
     && mv overmind /usr/bin/overmind \
     && chmod +x /usr/bin/overmind
 
-# Add Node.js to sources list
-RUN curl -sL https://deb.nodesource.com/setup_17.x | bash -
-# Install Node.js version that will enable installation of yarn
-RUN apt-get install -y --no-install-recommends \
-    nodejs \
-    npm \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install JavaScript dependencies
+ARG NODE_VERSION=20.13.1
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    corepack enable && \
+    rm -rf /tmp/node-build-master
 
 COPY . /myapp/
 
