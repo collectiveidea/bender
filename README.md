@@ -16,7 +16,7 @@ Currently runs at Collective Idea on a Raspberry Pi 4. Previously it ran on a Pi
 
 ### Requirements
 
-* Ruby 3.2.2
+* Ruby 3.3.1
 * PostgreSQL
 * Foreman (`gem install foreman`) or another Procfile runner (Overmind)
 

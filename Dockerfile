@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
-FROM ruby:3.2.2
+ARG RUBY_VERSION=3.3.1
+
+FROM ruby:$RUBY_VERSION
 RUN apt-get update -qq && apt-get install -y postgresql-client
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
