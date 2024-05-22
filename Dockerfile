@@ -2,6 +2,7 @@
 ARG RUBY_VERSION=3.3.1
 
 FROM ruby:$RUBY_VERSION
+
 RUN apt-get update -qq && apt-get install -y postgresql-client
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
@@ -14,7 +15,9 @@ RUN git clone https://github.com/mruby/mruby.git && cd mruby && git checkout 3.0
 
 # Overmind
 RUN apt-get install -y tmux
-RUN curl -sL https://github.com/DarthSim/overmind/releases/download/v2.2.2/overmind-v2.2.2-linux-arm64.gz -o overmind.gz \
+
+ARG OVERMIND_VERSION=2.5.1
+RUN curl -sL "https://github.com/DarthSim/overmind/releases/download/v${OVERMIND_VERSION}/overmind-v${OVERMIND_VERSION}-linux-arm64.gz" -o overmind.gz \
     && gunzip overmind.gz \
     && mv overmind /usr/bin/overmind \
     && chmod +x /usr/bin/overmind
