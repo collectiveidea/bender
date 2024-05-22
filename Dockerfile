@@ -24,7 +24,12 @@ RUN apt-get install -y --no-install-recommends \
     nodejs \
     npm \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN npm install -g yarn
+
+COPY . /myapp/
+
+RUN \
+  npm install --package-lock-only && \
+  rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
