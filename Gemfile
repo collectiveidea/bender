@@ -14,6 +14,7 @@ gem "propshaft"
 gem "actionpack-page_caching"
 gem "active_model_serializers"
 gem "bigdecimal"
+gem "bootsnap", require: false
 gem "dotenv-rails"
 gem "honeybadger"
 gem "pagy"

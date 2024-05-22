@@ -88,6 +88,8 @@ GEM
     base64 (0.2.0)
     benchmark-ips (2.13.0)
     bigdecimal (3.1.5)
+    bootsnap (1.18.3)
+      msgpack (~> 1.2)
     builder (3.2.4)
     capybara (3.39.2)
       addressable
@@ -204,6 +206,7 @@ GEM
     mini_histogram (0.3.1)
     mini_mime (1.1.5)
     minitest (5.21.1)
+    msgpack (1.7.2)
     multi_json (1.15.0)
     mutex_m (0.2.0)
     net-imap (0.4.9.1)
@@ -375,6 +378,7 @@ DEPENDENCIES
   actionpack-page_caching
   active_model_serializers
   bigdecimal
+  bootsnap
   cssbundling-rails
   cuprite
   derailed
