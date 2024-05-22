@@ -12,7 +12,7 @@ RUN git clone https://github.com/mruby/mruby.git && cd mruby && git checkout 3.0
 
 # Overmind
 RUN apt-get install -y tmux
-RUN curl -sL https://github.com/DarthSim/overmind/releases/download/v2.2.2/overmind-v2.2.2-linux-arm64.gz -o overmind.gz \
+RUN curl -sL https://github.com/DarthSim/overmind/releases/download/v2.5.1/overmind-v2.5.1-linux-arm64.gz -o overmind.gz \
     && gunzip overmind.gz \
     && mv overmind /usr/bin/overmind \
     && chmod +x /usr/bin/overmind
