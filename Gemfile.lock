@@ -174,7 +174,8 @@ GEM
       activesupport (>= 6.1)
     heapy (0.2.0)
       thor
-    honeybadger (5.10.0)
+    honeybadger (5.16.0)
+      logger
     http_parser.rb (0.8.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
@@ -190,6 +191,7 @@ GEM
     jsonapi-renderer (0.2.2)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
